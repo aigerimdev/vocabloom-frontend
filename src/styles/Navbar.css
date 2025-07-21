@@ -1,0 +1,17 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #34365c;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav-links a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #00796b;
+}
+
+.main-title {
+    color: green;
+}
