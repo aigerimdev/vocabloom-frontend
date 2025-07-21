@@ -44,3 +44,21 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+# Vocabloom Front-End
+
+This is the mobile-first frontend for the Vocabloom project, built with React and TypeScript.
+
+## 🚀 Tech Stack
+- React
+- TypeScript
+- React Router
+- CSS (or Tailwind)???
+
+## 📁 Folder Structure
+src/
+├── components/ # Reusable UI (Navbar, Button)
+├── pages/ # Screens (Login, Signup, Welcome)
+├── styles/ # CSS files
+├── types/ # TypeScript types/interfaces
