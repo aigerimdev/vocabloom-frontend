@@ -1,8 +1,10 @@
 # 📘 Vocabloom Component Documentation
 
 ---
-
+![Search Word Feature Diagram](./assets/Search%20Word%20Feature%20Component%20Relationship.jpg)
 ## 🔍 `SearchBar.tsx`
+
+## 🔍 SearchBar.tsx
 
 **Purpose:**  
 Lets users type a word and trigger a search.
@@ -13,12 +15,12 @@ Lets users type a word and trigger a search.
 - `onSearch: () => void` – called when the search button is clicked
 
 **How it works:**
-1. User types a word
-2. On button click, `onSearch` is triggered
+- User types a word
+- On button click, `onSearch` is triggered
 
 ---
 
-## 📄 `WordResultCard.tsx`
+## 📄 WordResultCard.tsx
 
 **Purpose:**  
 Displays the result when a word is found.
@@ -28,24 +30,24 @@ Displays the result when a word is found.
 - `onSave: () => void` – triggered when “Save Word” is clicked
 
 **How it works:**
-1. Shows word, phonetic, audio (if available), and meanings  
-2. Includes a “Save Word” button
+- Shows word, phonetic, audio (if available), and meanings
+- Includes a “Save Word” button
 
 ---
 
-## ❗ `ErrorMessage` (inline or future component)
+## ❗ ErrorMessage (future component)
 
 **Purpose:**  
 Shows a message when a word isn’t found.
 
 **Example message:**  
-> Sorry! Word not found.
+`Sorry! Word not found.`
 
-*Note: Can be refactored into a reusable component later.*
+> *Note:* Can be refactored into a reusable component later.
 
 ---
 
-## 🏠 `HomePage.tsx`
+## 🏠 HomePage.tsx
 
 **Purpose:**  
 Main screen where users search for words.
@@ -57,3 +59,14 @@ Main screen where users search for words.
 - Uses `axios` to get word data from the API
 
 ---
+
+## 🧱 Component Tree
+
+```txt
+App
+├── Navbar
+└── Routes
+    ├── path="/" → HomePage
+    │   ├── SearchBar
+    │   └── WordResultCard (or ErrorMessage)
+    └── path="/logout" → Logout

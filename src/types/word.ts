@@ -1,11 +1,16 @@
 export interface Definition {
-    meaning: string;
+    definition: string;
     example?: string;
+}
+
+export interface Meaning {
+    partOfSpeech: string;
+    definitions: Definition[];
 }
 
 export interface WordData {
     word: string;
     phonetic?: string;
     audio?: string;
-    definitions: Definition[];
+    meanings: Meaning[];
 }

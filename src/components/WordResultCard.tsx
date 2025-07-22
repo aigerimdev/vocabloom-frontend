@@ -1,4 +1,3 @@
-import React from 'react';
 import { WordData } from '../types/word';
 import '../styles/WordResultCard.css';
 
@@ -11,6 +10,7 @@ const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
     return (
         <div className="word-card">
             <h2>{data.word}</h2>
+
             {data.phonetic && <p className="phonetic">/{data.phonetic}/</p>}
 
             {data.audio && (
@@ -20,14 +20,19 @@ const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
                 </audio>
             )}
 
-            <ol>
-                {data.definitions.map((def, index) => (
-                    <li key={index}>
-                        <p>{def.meaning}</p>
-                        {def.example && <em>{def.example}</em>}
-                    </li>
-                ))}
-            </ol>
+            {Array.isArray(data.meanings) && data.meanings.map((meaning, index) => (
+                <div key={index}>
+                    <h3>{meaning.partOfSpeech}</h3>
+                    <ul>
+                        {Array.isArray(meaning.definitions) && meaning.definitions.map((def, defIndex) => (
+                            <li key={defIndex}>
+                                <p>{def.definition}</p>
+                                {def.example && <em>{def.example}</em>}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
 
             <button onClick={onSave}>Save Word</button>
         </div>
