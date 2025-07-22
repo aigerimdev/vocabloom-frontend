@@ -7,7 +7,7 @@ const Navbar = () => {
             <h2 className="main-title">Vocabloom 🌱</h2>
             <div className="nav-links">
                 <Link to="/">Home</Link>
-                <Link to="/login">Login</Link>
+                <button className='logout_btn'><Link to="/login">Logout</Link></button>
             </div>
         </nav>
     );
