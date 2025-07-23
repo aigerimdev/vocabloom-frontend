@@ -3,8 +3,11 @@ import SearchBar from '../components/SearchBar';
 import WordResultCard from '../components/WordResultCard';
 import { WordData } from '../types/word';
 import { getWordData } from '../api/dictionary';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [wordData, setWordData] = useState<WordData | null>(null);
     const [notFound, setNotFound] = useState(false);
@@ -51,6 +54,12 @@ const HomePage = () => {
             )}
 
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
+            <div style={{ marginTop: '20px' }}>
+                <button onClick={() => navigate('/my-words')}>My Word List</button>
+                <button onClick={() => navigate('/tags')} style={{ marginLeft: '10px' }}>
+                    Browse Tags
+                </button>
+            </div>
         </div>
     );
 };
