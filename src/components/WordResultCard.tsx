@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { WordData } from '../types/word';
 import TagDropdown from './TagDropdown';
 import '../styles/WordResultCard.css';
@@ -8,7 +8,7 @@ interface WordResultCardProps {
     onSave: (tag: string) => void;
 }
 
-const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
+const WordResultCard = ({ data, onSave }: WordResultCardProps) => {
     const [selectedTag, setSelectedTag] = useState<string>('');
 
     const handleTagSelect = (tag: string) => {
@@ -19,6 +19,7 @@ const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
         onSave(selectedTag || ''); // allow save the word with or without tag
 
         // This is the optional part--> 
+        // Show user feedback based on tag selection
         if (!selectedTag) {
             alert("Your word is saved successfully to My Word List.");
         } else {
@@ -26,7 +27,6 @@ const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
         }
 
     };
-
 
     return (
         <div className="word-card">
