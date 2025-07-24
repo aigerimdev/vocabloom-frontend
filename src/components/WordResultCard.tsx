@@ -15,14 +15,18 @@ const WordResultCard: React.FC<WordResultCardProps> = ({ data, onSave }) => {
         setSelectedTag(tag);
     };
 
-    const handleSaveClick = () => {
-        if (!selectedTag) {
-            alert('Please select a tag before saving.');
-            return;
-        }
+    // const handleSaveClick = () => {
+    //     if (!selectedTag) {
+    //         alert('Please select a tag before saving.');
+    //         return;
+    //     }
 
-        onSave(selectedTag);
+    //     onSave(selectedTag);
+    // };
+    const handleSaveClick = () => {
+        onSave(selectedTag || ''); // allow save the word with or without tag
     };
+
 
     return (
         <div className="word-card">
