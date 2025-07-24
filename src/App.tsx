@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
 import Logout from './pages/Logout';
-import TagDropdown from './components/TagDropdown';
 import WordListPage from './pages/WordListPage';
 import TagBrowserPage from './pages/TagBrowserPage';
 
