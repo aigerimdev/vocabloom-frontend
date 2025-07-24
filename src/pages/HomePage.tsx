@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import WordResultCard from '../components/WordResultCard';
 import { WordData } from '../types/word';
@@ -12,6 +12,14 @@ const HomePage = () => {
     const [wordData, setWordData] = useState<WordData | null>(null);
     const [notFound, setNotFound] = useState(false);
     const [savedWords, setSavedWords] = useState<WordData[]>([]);
+
+
+    useEffect(() => {
+        const saved = localStorage.getItem('savedWords');
+        if (saved) {
+            setSavedWords(JSON.parse(saved));
+        }
+    }, []);
 
     const handleSearch = async () => {
         if (!searchTerm.trim()) return;
@@ -27,13 +35,22 @@ const HomePage = () => {
         }
     };
 
+    // const handleSaveWord = (tag: string) => {
+    //     if (wordData) {
+    //         const wordWithTag = { ...wordData, tag };
+    //         setSavedWords(prev => [...prev, wordWithTag]);
+    //         console.log("Saved words:", [...savedWords, wordWithTag]);
+    //     }
+    // };
     const handleSaveWord = (tag: string) => {
         if (wordData) {
-            const wordWithTag = { ...wordData, tag };
-            setSavedWords(prev => [...prev, wordWithTag]);
-            console.log("Saved words:", [...savedWords, wordWithTag]);
+            const wordWithTag = { ...wordData, tag: tag || 'Untagged' };
+            const updatedWords = [...savedWords, wordWithTag];
+            setSavedWords(updatedWords);
+            localStorage.setItem('savedWords', JSON.stringify(updatedWords));
         }
     };
+
 
     return (
         <div>
