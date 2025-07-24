@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/SearchBar.css';
 
 interface SearchBarProps {
@@ -7,7 +6,7 @@ interface SearchBarProps {
     onSearch: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, onSearch }) => {
+const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
     return (
         <div className="search-bar">
             <input
