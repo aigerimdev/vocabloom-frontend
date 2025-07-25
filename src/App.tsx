@@ -1,10 +1,12 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
 import Logout from './pages/Logout';
 import WordListPage from './pages/WordListPage';
 import TagBrowserPage from './pages/TagBrowserPage';
+import WordDetailPage from './pages/WordDetailPage';
+
+
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/my-words" element={<WordListPage />} />
         <Route path="/tags" element={<TagBrowserPage />} />
+        <Route path="/my-words/:word" element={<WordDetailPage />} />
       </Routes>
     </Router>
   );

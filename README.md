@@ -55,3 +55,26 @@ This is the mobile-first frontend for the Vocabloom project, built with React an
 - TypeScript
 - React Router
 - CSS (or Tailwind)???
+
+
+🔤 Core Features:
+Search Bar
+User types a word → fetches data from a dictionary API
+WordResultCard
+Displays word, phonetic, audio, and multiple definitions
+Includes a dropdown for tag selection
+TagDropdown
+Shows existing tags (hardcoded for now)
+Allows user to add a new tag manually
+Tag selection is optional
+Save Word Feature
+Word can be saved with or without a tag
+Saved words go into localStorage
+Console logs confirm save
+Navigation Buttons
+“My Word List” → shows all saved words
+“Browse Tags” → placeholder for future tag filtering
+My Word List Page
+Pulls saved words from localStorage
+Displays clean list with leaf icon (🌱)
+No tags shown in the list (per your design)

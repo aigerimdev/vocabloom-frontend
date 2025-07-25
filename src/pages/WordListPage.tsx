@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { WordData } from '../types/word';
+import { Link } from 'react-router-dom';
 import '../styles/WordListPage.css';
 
 const WordListPage = () => {
@@ -15,7 +16,6 @@ const WordListPage = () => {
     return (
         <div className="word-list-container">
             <h1 className="word-list-title">My Words List</h1>
-
             {words.length === 0 ? (
                 <p style={{ textAlign: 'center' }}>No words saved yet.</p>
             ) : (
@@ -23,7 +23,9 @@ const WordListPage = () => {
                     {words.map((word, index) => (
                         <li key={`${word.word}-${index}`} className="word-list-item">
                             <span className="word-list-icon">🌿</span>
-                            {word.word}
+                            <Link to={`/my-words/${word.word.toLowerCase()}`}>
+                                {word.word}
+                            </Link>
                         </li>
                     ))}
                 </ul>
