@@ -42,14 +42,33 @@ const HomePage = () => {
     //         console.log("Saved words:", [...savedWords, wordWithTag]);
     //     }
     // };
+    // const handleSaveWord = (tag: string) => {
+    //     if (wordData) {
+    //         const wordWithTag = { ...wordData, tag: tag || 'Untagged' };
+    //         const updatedWords = [...savedWords, wordWithTag];
+    //         setSavedWords(updatedWords);
+    //         localStorage.setItem('savedWords', JSON.stringify(updatedWords));
+    //     }
+    // };
     const handleSaveWord = (tag: string) => {
         if (wordData) {
-            const wordWithTag = { ...wordData, tag: tag || 'Untagged' };
+            const cleanedMeanings = wordData.meanings.map((m: any) => ({
+                partOfSpeech: m.partOfSpeech || m.partOfSpeech,  // handles both cases
+                definitions: m.definitions,
+            }));
+
+            const wordWithTag = {
+                ...wordData,
+                meanings: cleanedMeanings,
+                tag: tag || 'Untagged',
+            };
+
             const updatedWords = [...savedWords, wordWithTag];
             setSavedWords(updatedWords);
             localStorage.setItem('savedWords', JSON.stringify(updatedWords));
         }
     };
+
 
 
     return (
