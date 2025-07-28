@@ -169,15 +169,6 @@ const HomePage = () => {
             )}
 
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
-
-            <div style={{ marginTop: '20px' }}>
-                <TagDropdown
-                    onSelect={handleSaveWord}
-                    tags={tags}
-                    setTags={setTags}
-                />
-            </div>
-
             <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
                 <button onClick={() => navigate('/my-words')}>My Word List</button>
                 <button onClick={() => navigate('/tags')}>Browse All Tags</button>
