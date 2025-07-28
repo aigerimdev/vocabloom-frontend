@@ -8,12 +8,12 @@ const WordListPage = () => {
     const location = useLocation();
 
     // helper to get query params
-    const getQueryParam = (param: string) => {
-        const params = new URLSearchParams(location.search);
-        return params.get(param);
-    };
-
     useEffect(() => {
+        const getQueryParam = (param: string) => {
+            const params = new URLSearchParams(location.search);
+            return params.get(param);
+        };
+
         const saved = localStorage.getItem('savedWords');
         const selectedTag = getQueryParam('tag');
 
@@ -26,6 +26,12 @@ const WordListPage = () => {
             setWords(filtered);
         }
     }, [location.search]);
+
+    const getQueryParam = (param: string) => {
+        const params = new URLSearchParams(location.search);
+        return params.get(param);
+    };
+
 
     return (
         <div className="word-list-container">
