@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/TagDropdown.css';
 
 interface TagDropdownProps {
@@ -20,6 +20,15 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
         setIsAddingNew(false);
         setNewTag('');
     };
+    //Sync tags from localStorage
+    useEffect(() => {
+        const stored = localStorage.getItem('tags');
+        if (stored) {
+            const storedTags = JSON.parse(stored);
+            const mergedTags = Array.from(new Set([...tags, ...storedTags]));
+            setTags(mergedTags);
+        }
+    }, []);
 
     const handleAddTag = () => {
         if (!newTag.trim() || tags.includes(newTag)) return;

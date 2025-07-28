@@ -85,3 +85,13 @@
 .color-3 {
     border-left: 6px solid #b9f6ca;
 }
+
+.new-tag-input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 120px;
+    margin-right: 8px;
+    outline: none;
+}
