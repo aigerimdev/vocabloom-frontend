@@ -13,4 +13,5 @@ export interface WordData {
     phonetic?: string;
     audio?: string;
     meanings: Meaning[];
+    tag?: string;
 }

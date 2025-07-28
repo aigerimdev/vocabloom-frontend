@@ -5,6 +5,7 @@ import Logout from './pages/Logout';
 import WordListPage from './pages/WordListPage';
 import TagBrowserPage from './pages/TagBrowserPage';
 import WordDetailPage from './pages/WordDetailPage';
+import TagWordListPage from './pages/TagWordListPage';
 
 
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/my-words" element={<WordListPage />} />
         <Route path="/tags" element={<TagBrowserPage />} />
         <Route path="/my-words/:word" element={<WordDetailPage />} />
+        <Route path="/tags/:tagName" element={<TagWordListPage />} />
       </Routes>
     </Router>
   );

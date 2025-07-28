@@ -6,9 +6,11 @@ import '../styles/WordResultCard.css';
 interface WordResultCardProps {
     data: WordData;
     onSave: (tag: string) => void;
+    tags: string[];
+    setTags: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const WordResultCard = ({ data, onSave }: WordResultCardProps) => {
+const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) => {
     const [selectedTag, setSelectedTag] = useState<string>('');
 
     const handleTagSelect = (tag: string) => {
@@ -16,16 +18,12 @@ const WordResultCard = ({ data, onSave }: WordResultCardProps) => {
     };
 
     const handleSaveClick = () => {
-        onSave(selectedTag || ''); // allow save the word with or without tag
-
-        // This is the optional part--> 
-        // Show user feedback based on tag selection
-        if (!selectedTag) {
-            alert("Your word is saved successfully to My Word List.");
-        } else {
-            alert(`Your word is saved successfully to the "${selectedTag}" tag.`);
-        }
-
+        onSave(selectedTag || '');
+        alert(
+            selectedTag
+                ? `Your word is saved successfully to the "${selectedTag}" tag.`
+                : "Your word is saved successfully to My Word List."
+        );
     };
 
     return (
@@ -41,21 +39,26 @@ const WordResultCard = ({ data, onSave }: WordResultCardProps) => {
                 </audio>
             )}
 
-            {Array.isArray(data.meanings) && data.meanings.map((meaning, index) => (
-                <div key={index}>
-                    <h3>{meaning.partOfSpeech}</h3>
-                    <ul>
-                        {meaning.definitions.map((def, defIndex) => (
-                            <li key={defIndex}>
-                                <p>{def.definition}</p>
-                                {def.example && <em>{def.example}</em>}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
+            {Array.isArray(data.meanings) &&
+                data.meanings.map((meaning, index) => (
+                    <div key={index}>
+                        <h3>{meaning.partOfSpeech}</h3>
+                        <ul>
+                            {meaning.definitions.map((def, defIndex) => (
+                                <li key={defIndex}>
+                                    <p>{def.definition}</p>
+                                    {def.example && <em>{def.example}</em>}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
 
-            <TagDropdown onSelect={handleTagSelect} />
+            <TagDropdown
+                onSelect={handleTagSelect}
+                tags={tags}
+                setTags={setTags}
+            />
 
             <button onClick={handleSaveClick}>Save Word</button>
         </div>
