@@ -28,8 +28,7 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
             const mergedTags = Array.from(new Set([...tags, ...storedTags]));
             setTags(mergedTags);
         }
-    }, [tags, setTags]);
-
+    }, []);
 
     const handleAddTag = () => {
         if (!newTag.trim() || tags.includes(newTag)) return;
