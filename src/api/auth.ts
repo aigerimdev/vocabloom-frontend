@@ -1,7 +1,9 @@
+import axios from "axios";
+
 // Backend base URL
 const BASE_URL = "https://vocabloom-backend.onrender.com/api";
 
-// User Registration
+//  User Registration
 export async function registerUser(userData: {
     username: string;
     email: string;
@@ -10,49 +12,32 @@ export async function registerUser(userData: {
     last_name: string;
 }) {
     try {
-        const response = await fetch(`${BASE_URL}/register_user/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || "Registration failed");
-        }
-
-        const data = await response.json();
-        return data; // Typically includes user info
-    } catch (error) {
+        // POST request to backend to create a new user
+        const response = await axios.post(`${BASE_URL}/register_user/`, userData);
+        return response.data; // 📨 Returns user info or success message
+    } catch (error: any) {
+        // Catch registration errors and log them
         console.error("Registration error:", error);
-        throw error;
+        throw new Error(error.response?.data?.detail || "Registration failed");
     }
 }
 
 // User Login
 export async function loginUser(username: string, password: string) {
     try {
-        const response = await fetch(`${BASE_URL}/token/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
+        // POST request to get JWT token
+        const response = await axios.post(`${BASE_URL}/token/`, {
+            username,
+            password,
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || "Login failed");
-        }
-
-        const data = await response.json();
-        localStorage.setItem("token", data.access); // Save access token to local storage
-        return data;
-    } catch (error) {
+        // Save token to localStorage for authenticated requests
+        localStorage.setItem("token", response.data.access);
+        return response.data;
+    } catch (error: any) {
+        // Handle login error
         console.error("Login error:", error);
-        throw error;
+        throw new Error(error.response?.data?.detail || "Login failed");
     }
 }
 

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/auth'; // update path if needed
+
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -7,9 +9,17 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        // We’ll connect this with backend later
-        console.log('Logging in:', username, password);
+        try {
+            console.log('Logging in:', username, password);
+            const result = await loginUser(username, password);
+            console.log('Login successful:', result);
+            navigate('/'); // or to another protected page
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('Login failed. Please check your credentials.');
+        }
     };
+
 
     return (
         <div className="login-page">
