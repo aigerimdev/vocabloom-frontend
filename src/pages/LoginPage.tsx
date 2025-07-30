@@ -1,34 +1,59 @@
-import { useState } from 'react';
+import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/auth'; // update path if needed
+import { useAuth } from "../context/useAuth";
+// import { loginUser } from '../api/auth'; // update path if needed
 
 
 const LoginPage = () => {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login_user } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        try {
-            console.log('Logging in:', username, password);
-            const result = await loginUser(username, password);
-            console.log('Login successful:', result);
-            navigate('/'); // or to another protected page
-        } catch (error) {
-            console.error('Login failed:', error);
-            alert('Login failed. Please check your credentials.');
+
+    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        login_user(username, password)
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+        if (e.key === "Enter" || e.key === " ") {
+            navigate('/signup');
         }
     };
-
 
     return (
         <div className="login-page">
             <h2>Login</h2>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <button onClick={handleLogin}>Log in</button>
+            <form onSubmit={handleLogin}>
+                <input
+                    value={username}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                    placeholder="Username"
+                    autoComplete="username"
+                    required
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    autoComplete="current-password"
+                    required
+                />
+                <button type="submit">Log in</button>
+            </form>
             <p>
-                Don’t have an account? <span onClick={() => navigate('/signup')}>Sign up</span>
+                Don’t have an account?{" "}
+                <span
+                    onClick={() => navigate('/signup')}
+                    tabIndex={0}
+                    role="button"
+                    onKeyDown={handleKeyPress}
+                >
+                    Sign up
+                </span>
             </p>
         </div>
     );
