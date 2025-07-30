@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { is_authenticated, login } from "../endpoints/api";
+import { is_authenticated, login, register } from "../endpoints/api";
 import { useNavigate } from "react-router-dom";
 
 type AuthContextType = {
@@ -7,6 +7,14 @@ type AuthContextType = {
   loading: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   login_user: (username: string, password: string) => Promise<void>;
+  register_user: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    username: string,
+    password: string,
+    confirmPassword: string
+  ) => Promise<any | void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,13 +51,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const register_user = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    username: string,
+    password: string,
+    confirmPassword: string
+  ): Promise<any | void> => {
+  if (password === confirmPassword) {
+    try {
+      await register(username, email, password, firstName, lastName);
+      alert('successfully registered user')
+    } catch (error) {
+      console.log(error)
+      alert('error registering user')
+    }
+  } else {
+    alert("Passwords don't match");
+  }
+};
+
   useEffect(() => {
     get_authenticated();
     // eslint-disable-next-line
   }, [window.location.pathname]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, login_user }}>
+    <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, login_user, register_user }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import SignupPage from './pages/SignupPage';
+import SignUpPage from './pages/SingUpPage';
 import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
 import Logout from './pages/Logout';
@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route
             path="/"
             element={
