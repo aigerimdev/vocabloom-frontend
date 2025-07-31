@@ -1,4 +1,6 @@
 import axios from "axios";
+import { WordData } from '../types/word';
+
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
 const LOGIN_URL = `${BASE_URL}token/`;
@@ -167,3 +169,21 @@ export const get_words_by_tag = async (
     );
   }
 };
+
+export async function get_saved_words(): Promise<WordData[]> {
+  try {
+    const response = await fetch(`${BASE_URL}words/`, {
+      credentials: 'include', // use cookies
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch saved words');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching saved words:', error);
+    return [];
+  }
+}
