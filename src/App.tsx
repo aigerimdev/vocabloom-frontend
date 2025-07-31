@@ -12,7 +12,7 @@ import PrivateRoute from './components/private_route';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { AuthProvider } from './context/useAuth'; 
+import { AuthProvider } from './context/useAuth';
 function App() {
 
 
@@ -33,8 +33,8 @@ function App() {
             }
           />
           <Route path='/' element={<PrivateRoute><Logout /></PrivateRoute>} />
-          <Route path='/' element={<PrivateRoute><WordListPage /></PrivateRoute>} />
-          <Route path='/' element={<PrivateRoute><TagBrowserPage /></PrivateRoute>} />
+          <Route path='/my-words' element={<PrivateRoute><WordListPage /></PrivateRoute>} />
+          <Route path='/tags' element={<PrivateRoute><TagBrowserPage /></PrivateRoute>} />
           <Route path='/' element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
           <Route path='/' element={<PrivateRoute><TagWordListPage /></PrivateRoute>} />
         </Routes>
