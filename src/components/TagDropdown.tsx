@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/TagDropdown.css';
+import { create_tag } from '../endpoints/api'; // adjust path if needed
+
 
 interface Tag {
     id: number;
@@ -25,6 +27,38 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
         setIsAddingNew(false);
         setNewTag('');
     };
+    // const handleCreateTag = async () => {
+    //     const trimmed = newTag.trim();
+    //     if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
+
+    //     try {
+    //         const newTagObj = await create_tag(trimmed);
+    //         if (newTagObj) {
+    //             setTags(prev => [...prev, newTagObj]);        // update dropdown tag list
+    //             handleSelect(newTagObj.id, newTagObj.name);   // auto-select new tag
+    //         }
+    //     } catch (err) {
+    //         console.error("Failed to create tag:", err);
+    //     }
+    // };
+    const handleCreateTag = async () => {
+        const trimmed = newTag.trim();
+        if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
+
+        try {
+            const newTagObj = await create_tag(trimmed);
+            if (newTagObj) {
+                setTags((prev) => [...prev, newTagObj]); // update list
+                handleSelect(newTagObj.id, newTagObj.name); // auto-select newly created tag
+                setIsAddingNew(false);
+                setNewTag('');
+            }
+        } catch (err) {
+            console.error("Failed to create tag:", err);
+        }
+    };
+
+
 
     return (
         <div className="tag-dropdown-container">
@@ -67,7 +101,7 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
                                 }}
                                 className="new-tag-input"
                             />
-                            <button className="save-tag-button">Save</button>
+                            <button className="save-tag-button" onClick={handleCreateTag}>Save</button>
                         </li>
                     )}
                 </ul>

@@ -2,18 +2,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { WordData } from '../types/word';
-import '../styles/WordDetailPage.css'; // optional
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
 
 const WordDetailPage = () => {
-  const { word: id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [word, setWord] = useState<WordData | null>(null);
-  const params = useParams();
+  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-
-  console.log('Params:', params);
 
   useEffect(() => {
     const fetchWord = async () => {
@@ -24,29 +21,26 @@ const WordDetailPage = () => {
 
         const normalizedMeanings = res.data.meanings.map((m: any) => ({
           ...m,
-          partOfSpeech: m.part_of_speech, // convert snake_case to camelCase
+          partOfSpeech: m.part_of_speech,
         }));
 
         setWord({
           ...res.data,
           meanings: normalizedMeanings,
         });
-
       } catch (error: any) {
         if (error.response?.status === 404) {
           setNotFound(true);
         } else {
           console.error('Error fetching word:', error);
         }
+      } finally {
+        setLoading(false);
       }
     };
 
-
     fetchWord();
   }, [id]);
-
-  if (notFound) return <p>Word not found.</p>;
-
 
   const handleDelete = async () => {
     try {
@@ -59,14 +53,15 @@ const WordDetailPage = () => {
     }
   };
 
-  if (!word) return <p>Loading word...</p>;
+  if (loading) return <p>Loading word...</p>;
+  if (notFound) return <p>Word not found.</p>;
 
   return (
     <div className="word-detail-container">
-      <h2>{word.word}</h2>
-      {word.phonetic && <p className="phonetic">/{word.phonetic}/</p>}
-      {word.audio && <audio controls src={word.audio} />}
-      {word.meanings.map((meaning, idx) => (
+      <h2>{word?.word}</h2>
+      {word?.phonetic && <p className="phonetic">/{word.phonetic}/</p>}
+      {word?.audio && <audio controls src={word.audio} />}
+      {word?.meanings.map((meaning, idx) => (
         <div key={idx}>
           <h4>{meaning.partOfSpeech}</h4>
           <ul>
