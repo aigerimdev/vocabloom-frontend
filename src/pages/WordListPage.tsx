@@ -1,58 +1,12 @@
-
-// import { useEffect, useState } from 'react';
-// import { useLocation } from 'react-router-dom';
-// import { WordData } from '../types/word';
-// import { get_saved_words } from '../endpoints/api';
-
-// const WordListPage = () => {
-//     const [words, setWords] = useState<WordData[]>([]);
-//     const location = useLocation();
-
-//     const getQueryParam = (key: string) => {
-//         const params = new URLSearchParams(location.search);
-//         return params.get(key);
-//     };
-
-//     const tagIdParam = getQueryParam('tagId');
-//     const tagId = tagIdParam ? Number(tagIdParam) : null;
-
-//     useEffect(() => {
-//         async function fetchWords() {
-//             const data = await get_saved_words();
-//             const filtered = tagId !== null
-//                 ? data.filter(word => word.tag === tagId)
-//                 : data;
-//             setWords(filtered);
-//         }
-
-//         fetchWords();
-//     }, [tagId]);
-
-//     return (
-//         <div>
-//             <h1>{tagId !== null ? 'Words in Selected Tag' : 'My Word List'}</h1>
-//             {words.length === 0 ? (
-//                 <p>No words found{tagId !== null ? ' for this tag' : ''}.</p>
-//             ) : (
-//                 <ul>
-//                     {words.map((word, idx) => (
-//                         <li key={idx}>{word.word}</li>
-//                     ))}
-//                 </ul>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default WordListPage;
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { WordData } from '../types/word';
+import { useLocation, Link } from 'react-router-dom';
 import { get_saved_words } from '../endpoints/api';
+import { WordData } from '../types/word';
 
 const WordListPage = () => {
     const [words, setWords] = useState<WordData[]>([]);
     const [loading, setLoading] = useState(true);
+
     const location = useLocation();
 
     const getQueryParam = (key: string) => {
@@ -64,15 +18,20 @@ const WordListPage = () => {
     const tagId = tagIdParam ? Number(tagIdParam) : null;
 
     useEffect(() => {
-        async function fetchWords() {
-            setLoading(true);
-            const data = await get_saved_words();
-            const filtered = tagId !== null
-                ? data.filter(word => word.tag === tagId)
-                : data;
-            setWords(filtered);
-            setLoading(false);
-        }
+        const fetchWords = async () => {
+            try {
+                const allWords = await get_saved_words();
+                const filtered = tagId !== null
+                    ? allWords.filter(word => word.tag === tagId)
+                    : allWords;
+
+                setWords(filtered);
+            } catch (err) {
+                console.error('Failed to fetch saved words:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
         fetchWords();
     }, [tagId]);
@@ -88,7 +47,9 @@ const WordListPage = () => {
             ) : (
                 <ul>
                     {words.map((word, idx) => (
-                        <li key={idx}>{word.word}</li>
+                        <li key={idx}>
+                            <Link to={`/my-words/${word.id}`}>{word.word}</Link>
+                        </li>
                     ))}
                 </ul>
             )}

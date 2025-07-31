@@ -112,20 +112,28 @@ export const register = async (
   return response.data;
 };
 
-export const save_word = async (wordData: any): Promise<any> => {
+export async function save_word(word: WordData): Promise<WordData | null> {
+  const payload = {
+    ...word,
+    meanings: word.meanings.map((m) => ({
+      part_of_speech: m.partOfSpeech,
+      definitions: m.definitions,
+    })),
+  };
+
   try {
-    const response = await axios.post(
-      WORDS_URL,
-      wordData,
-      { withCredentials: true }
-    );
+    const response = await axios.post(WORDS_URL, payload, {
+      withCredentials: true,
+    });
+
     return response.data;
-  } catch (error: any) {
-    return await call_refresh(error, () =>
-      axios.post(WORDS_URL, wordData, { withCredentials: true })
-    );
+  } catch (error) {
+    console.error("Error saving word:", error);
+    return null;
   }
-};
+}
+
+
 
 export const create_tag = async (name: string): Promise<{ id: number, name: string } | null> => {
   try {

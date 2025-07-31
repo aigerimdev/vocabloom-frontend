@@ -6,6 +6,7 @@ export const getWordData = async (term: string): Promise<WordData> => {
     const entry = response.data[0];
 
     const formatted: WordData = {
+        id: Date.now(),
         word: entry.word,
         phonetic: entry.phonetic,
         meanings: entry.meanings,

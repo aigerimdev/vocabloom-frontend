@@ -9,6 +9,7 @@ export interface Meaning {
 }
 
 export interface WordData {
+    id: number;
     word: string;
     phonetic?: string;
     audio?: string;
