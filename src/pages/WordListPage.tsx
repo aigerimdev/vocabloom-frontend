@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { get_saved_words } from '../endpoints/api';
 import { WordData } from '../types/word';
+import '../styles/WordListPage.css';
 
 const WordListPage = () => {
     const [words, setWords] = useState<WordData[]>([]);
@@ -37,17 +38,20 @@ const WordListPage = () => {
     }, [tagId]);
 
     return (
-        <div>
-            <h1>{tagId !== null ? 'Words in Selected Tag' : 'My Word List'}</h1>
+
+        <div className="word-list-container">
+            <h1 className="word-list-title">{tagId !== null ? 'Words in Selected Tag' : 'My Word List'}</h1>
 
             {loading ? (
                 <p>Loading...</p>
             ) : words.length === 0 ? (
                 <p>No words found{tagId !== null ? ' for this tag' : ''}.</p>
             ) : (
-                <ul>
+                <ul className="word-list-items">
                     {words.map((word, idx) => (
                         <li key={idx}>
+                            <span className="word-list-icon">🌿</span>
+
                             <Link to={`/my-words/${word.id}`}>{word.word}</Link>
                         </li>
                     ))}

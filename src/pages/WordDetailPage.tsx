@@ -2,6 +2,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { WordData } from '../types/word';
+import '../styles/WordResultCard.css';
+
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
 
@@ -57,25 +59,28 @@ const WordDetailPage = () => {
   if (notFound) return <p>Word not found.</p>;
 
   return (
-    <div className="word-detail-container">
-      <h2>{word?.word}</h2>
-      {word?.phonetic && <p className="phonetic">/{word.phonetic}/</p>}
-      {word?.audio && <audio controls src={word.audio} />}
-      {word?.meanings.map((meaning, idx) => (
-        <div key={idx}>
-          <h4>{meaning.partOfSpeech}</h4>
-          <ul>
-            {meaning.definitions.map((def, i) => (
-              <li key={i}>
-                {def.definition}
-                {def.example && <em> – {def.example}</em>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <button onClick={handleDelete} className="delete-button">Delete Word</button>
+    <div className="word-card">
+      <div className="word-detail-container">
+        <h2>{word?.word}</h2>
+        {word?.phonetic && <p className="phonetic">/{word.phonetic}/</p>}
+        {word?.audio && <audio controls src={word.audio} />}
+        {word?.meanings.map((meaning, idx) => (
+          <div key={idx}>
+            <h4>{meaning.partOfSpeech}</h4>
+            <ul>
+              {meaning.definitions.map((def, i) => (
+                <li key={i}>
+                  {def.definition}
+                  {def.example && <em> – {def.example}</em>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <button onClick={handleDelete} className="delete-button">Delete Word</button>
+      </div>
     </div>
+
   );
 };
 

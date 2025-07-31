@@ -27,20 +27,7 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
         setIsAddingNew(false);
         setNewTag('');
     };
-    // const handleCreateTag = async () => {
-    //     const trimmed = newTag.trim();
-    //     if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
 
-    //     try {
-    //         const newTagObj = await create_tag(trimmed);
-    //         if (newTagObj) {
-    //             setTags(prev => [...prev, newTagObj]);        // update dropdown tag list
-    //             handleSelect(newTagObj.id, newTagObj.name);   // auto-select new tag
-    //         }
-    //     } catch (err) {
-    //         console.error("Failed to create tag:", err);
-    //     }
-    // };
     const handleCreateTag = async () => {
         const trimmed = newTag.trim();
         if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
@@ -57,8 +44,6 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
             console.error("Failed to create tag:", err);
         }
     };
-
-
 
     return (
         <div className="tag-dropdown-container">

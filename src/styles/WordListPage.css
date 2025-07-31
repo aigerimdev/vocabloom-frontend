@@ -1,4 +1,4 @@
-.word-list-container {
+/* .word-list-container {
     padding: 20px;
 }
 
@@ -26,4 +26,45 @@
 
 .word-list-icon {
     margin-right: 10px;
+} */
+
+.word-list-container {
+    padding: 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.word-list-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.word-list-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.word-list-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 18px;
+    color: #333;
+}
+
+.word-list-icon {
+    margin-right: 10px;
+}
+
+.word-link {
+    color: #2f4f4f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.word-link:hover {
+    text-decoration: underline;
 }
