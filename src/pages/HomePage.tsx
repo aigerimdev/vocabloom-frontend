@@ -16,7 +16,8 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [wordData, setWordData] = useState<WordData | null>(null);
     const [notFound, setNotFound] = useState(false);
-    const [savedWords, setSavedWords] = useState<WordData[]>([]);
+    // const [savedWords, setSavedWords] = useState<WordData[]>([]);
+    const [, setSavedWords] = useState<WordData[]>([]);
     const [tags, setTags] = useState<Tag[]>([]);
 
 
