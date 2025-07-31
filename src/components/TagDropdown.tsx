@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/TagDropdown.css';
+import { create_tag } from '../endpoints/api';
 
+interface Tag {
+    id: number;
+    name: string;
+}
 interface TagDropdownProps {
-    onSelect: (tag: string) => void;
-    tags: string[];
-    setTags: React.Dispatch<React.SetStateAction<string[]>>;
+    onSelect: (tagId: number | null) => void;
+    tags: Tag[];
+    setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 }
 
+
 const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) => {
-    const [selectedTag, setSelectedTag] = useState<string | null>(null);
+    const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isAddingNew, setIsAddingNew] = useState(false);
     const [newTag, setNewTag] = useState('');
 
-    const handleSelect = (tag: string) => {
-        setSelectedTag(tag);
-        onSelect(tag);
+    const handleSelect = (tagId: number) => {
+        setSelectedTagId(tagId);
+        onSelect(tagId);
         setIsOpen(false);
         setIsAddingNew(false);
         setNewTag('');
@@ -30,17 +36,32 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
         }
     }, []);
 
-    const handleAddTag = () => {
-        if (!newTag.trim() || tags.includes(newTag)) return;
-        const updated = [...tags, newTag];
-        setTags(updated);
-        handleSelect(newTag);
+    const handleAddTag = async () => {
+        const trimmed = newTag.trim();
+        if (!trimmed || tags.find(tag => tag.name === trimmed)) return;
+
+        try {
+            const newTagObj = await create_tag(trimmed);
+            if (newTagObj) {
+                const updated = [...tags, newTagObj];
+                setTags(updated);
+                handleSelect(newTagObj.id);
+            }
+        } catch (error) {
+            console.error('Failed to create tag:', error);
+        }
     };
+
 
     return (
         <div className="tag-dropdown-container">
             <div onClick={() => setIsOpen(!isOpen)} className="dropdown-toggle">
-                <span>{selectedTag || 'Select tag...'}</span>
+                <span>
+                    {selectedTagId != null
+                        ? tags.find(tag => tag.id === selectedTagId)?.name || 'Select tag...'
+                        : 'Select tag...'}
+                </span>
+
                 <span>{isOpen ? '▲' : '▼'}</span>
             </div>
 
@@ -48,13 +69,14 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
                 <ul className="dropdown-list">
                     {tags.map((tag) => (
                         <li
-                            key={tag}
-                            onClick={() => handleSelect(tag)}
-                            className={`dropdown-item ${selectedTag === tag ? 'selected' : ''}`}
+                            key={tag.id}
+                            onClick={() => handleSelect(tag.id)}
+                            className={`dropdown-item ${selectedTagId === tag.id ? 'selected' : ''}`}
                         >
-                            {tag}
+                            {tag.name}
                         </li>
                     ))}
+
 
                     {!isAddingNew ? (
                         <li className="add-new-tag" onClick={() => setIsAddingNew(true)}>

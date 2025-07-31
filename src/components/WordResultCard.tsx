@@ -3,27 +3,38 @@ import { WordData } from '../types/word';
 import TagDropdown from './TagDropdown';
 import '../styles/WordResultCard.css';
 
+
+interface Tag {
+    id: number;
+    name: string;
+}
 interface WordResultCardProps {
     data: WordData;
-    onSave: (tag: string) => void;
-    tags: string[];
-    setTags: React.Dispatch<React.SetStateAction<string[]>>;
+    onSave: (tagId: number | null) => void;
+    tags: Tag[];
+    setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 }
 
 const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) => {
-    const [selectedTag, setSelectedTag] = useState<string>('');
+    const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
 
-    const handleTagSelect = (tag: string) => {
-        setSelectedTag(tag);
+
+    const handleTagSelect = (tagId: number | null) => {
+        setSelectedTagId(tagId);
     };
 
+
     const handleSaveClick = () => {
-        onSave(selectedTag || '');
+        onSave(selectedTagId);
+
+        const tagName = tags.find(tag => tag.id === selectedTagId)?.name;
+
         alert(
-            selectedTag
-                ? `Your word is saved successfully to the "${selectedTag}" tag.`
+            tagName
+                ? `Your word is saved successfully to the "${tagName}" tag.`
                 : "Your word is saved successfully to My Word List."
         );
+
     };
 
     return (

@@ -7,7 +7,7 @@ const WORDS_URL = `${BASE_URL}words/`;
 const LOGOUT_URL = `${BASE_URL}logout/`
 const AUTH_URL = `${BASE_URL}authenticated/`;
 const REGISTER_URL = `${BASE_URL}register_user/`;
-
+const TAGS_URL = `${BASE_URL}tags/`;
 
 
 export const login = async (username: string, password: string): Promise<boolean> => {
@@ -108,4 +108,45 @@ export const register = async (
     }
   );
   return response.data;
+};
+
+export const save_word = async (wordData: any): Promise<any> => {
+  try {
+    const response = await axios.post(
+      WORDS_URL,
+      wordData,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error: any) {
+    return await call_refresh(error, () =>
+      axios.post(WORDS_URL, wordData, { withCredentials: true })
+    );
+  }
+};
+
+export const create_tag = async (name: string): Promise<{ id: number, name: string } | null> => {
+  try {
+    const response = await axios.post(TAGS_URL, { name }, { withCredentials: true });
+    return response.data;
+  } catch (error: any) {
+    const refreshed = await call_refresh(error, () =>
+      axios.post(TAGS_URL, { name }, { withCredentials: true })
+    );
+
+    if (refreshed === false) return null;
+    return refreshed as { id: number; name: string };
+
+  }
+};
+
+export const get_tags = async (): Promise<{ id: number; name: string }[] | false> => {
+  try {
+    const response = await axios.get(TAGS_URL, { withCredentials: true });
+    return response.data;
+  } catch (error: any) {
+    return await call_refresh(error, () =>
+      axios.get(TAGS_URL, { withCredentials: true })
+    );
+  }
 };
