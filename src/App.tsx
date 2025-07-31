@@ -35,8 +35,8 @@ function App() {
           <Route path='/' element={<PrivateRoute><Logout /></PrivateRoute>} />
           <Route path='/my-words' element={<PrivateRoute><WordListPage /></PrivateRoute>} />
           <Route path='/tags' element={<PrivateRoute><TagBrowserPage /></PrivateRoute>} />
-          <Route path='/' element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
-          <Route path='/' element={<PrivateRoute><TagWordListPage /></PrivateRoute>} />
+          <Route path='/word-details/:id' element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
+          <Route path='/my-words-by-tag' element={<PrivateRoute><TagWordListPage /></PrivateRoute>} />
         </Routes>
       </AuthProvider>
     </Router>

@@ -150,3 +150,20 @@ export const get_tags = async (): Promise<{ id: number; name: string }[] | false
     );
   }
 };
+
+export const get_words_by_tag = async (
+  tagId: number
+): Promise<any[] | false> => {
+  try {
+    const response = await axios.get(`${TAGS_URL}${tagId}/words/`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error: any) {
+    return await call_refresh(error, () =>
+      axios.get(`${TAGS_URL}${tagId}/words/`, {
+        withCredentials: true,
+      })
+    );
+  }
+};

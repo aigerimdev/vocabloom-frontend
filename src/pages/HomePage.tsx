@@ -55,50 +55,15 @@ const HomePage = () => {
         }
     };
 
-    // const handleSaveWord = (tag: string) => {
-    //     if (wordData) {
-    //         const cleanedMeanings = wordData.meanings.map((m: any) => ({
-    //             partOfSpeech: m.partOfSpeech,
-    //             definitions: m.definitions,
-    //         }));
-
-    //         const wordWithTag = {
-    //             ...wordData,
-    //             meanings: cleanedMeanings,
-    //             tag: tag || 'Untagged',
-    //         };
-
-    //         const updatedWords = [...savedWords, wordWithTag];
-    //         setSavedWords(updatedWords);
-    //         localStorage.setItem('savedWords', JSON.stringify(updatedWords));
-    //     }
-    // };
-
-    const handleSaveWord = async (tagId: number | null) => {
-        if (wordData) {
-            const cleanedMeanings = wordData.meanings.map((m: any) => ({
-                part_of_speech: m.partOfSpeech,
-                definitions: m.definitions,
-            }));
-
-            const wordToSend = {
-                word: wordData.word,
-                phonetic: wordData.phonetic,
-                audio: wordData.audio,
-                note: '',
-                tag: tagId,
-                meanings: cleanedMeanings,
-            };
-
-            try {
-                await save_word(wordToSend);
-                alert('✅ Word saved to backend!');
-            } catch (err) {
-                console.error('Error saving word:', err);
-                alert('❌ Failed to save word');
-            }
+    const handleSaveWord = async (wordDataWithTag: WordData & { tag: number | null }) => {
+        try {
+            await save_word(wordDataWithTag);
+            console.log("Saved to backend:", wordDataWithTag);
+        } catch (err) {
+            console.error("Error saving word:", err);
         }
     };
+
 
 
     return (

@@ -1,36 +1,48 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { get_words_by_tag } from '../endpoints/api';
 import { WordData } from '../types/word';
-import '../styles/WordListPage.css';
 
 const TagWordListPage = () => {
-    const { tagName } = useParams();
-    const [filteredWords, setFilteredWords] = useState<WordData[]>([]);
+    const [words, setWords] = useState<WordData[]>([]);
+    const [notFound, setNotFound] = useState(false);
+
+    const location = useLocation();
+
+    const getQueryParam = (key: string) => {
+        const params = new URLSearchParams(location.search);
+        return params.get(key);
+    };
+
+    const tagId = getQueryParam('tagId');
+    const tagName = getQueryParam('tagName');
 
     useEffect(() => {
-        const saved = localStorage.getItem('savedWords');
-        if (saved && tagName) {
-            const allWords: WordData[] = JSON.parse(saved);
-            const tagWords = allWords.filter(word => word.tag === tagName);
-            setFilteredWords(tagWords);
+        async function fetchData() {
+            if (!tagId) return;
+
+            const wordList = await get_words_by_tag(Number(tagId));
+            if (Array.isArray(wordList)) {
+                setWords(wordList);
+                setNotFound(wordList.length === 0);
+            } else {
+                setWords([]);
+                setNotFound(true);
+            }
         }
-    }, [tagName]);
+
+        fetchData();
+    }, [tagId]);
 
     return (
-        <div className="word-list-container">
-            <h1 className="word-list-title">{tagName} Words</h1>
-
-            {filteredWords.length === 0 ? (
-                <p style={{ textAlign: 'center' }}>No words with tag "{tagName}" yet.</p>
+        <div>
+            <h1>{tagName} Words</h1>
+            {notFound ? (
+                <p>No words saved under this tag yet.</p>
             ) : (
-                <ul className="word-list-items">
-                    {filteredWords.map((word, index) => (
-                        <li key={`${word.word}-${index}`} className="word-list-item">
-                            <span className="word-list-icon">🌿</span>
-                            <Link to={`/my-words/${word.word.toLowerCase()}`}>
-                                {word.word}
-                            </Link>
-                        </li>
+                <ul>
+                    {words.map((word, idx) => (
+                        <li key={`${word.word}-${idx}`}>{word.word}</li>
                     ))}
                 </ul>
             )}

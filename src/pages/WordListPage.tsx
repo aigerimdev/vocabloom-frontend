@@ -1,49 +1,54 @@
 import { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { WordData } from '../types/word';
-import '../styles/WordListPage.css';
+import { get_words_by_tag } from '../endpoints/api';
 
 const WordListPage = () => {
     const [words, setWords] = useState<WordData[]>([]);
     const location = useLocation();
 
-    // helper to get query params
     const getQueryParam = (param: string) => {
         const params = new URLSearchParams(location.search);
         return params.get(param);
     };
 
+    const tagIdParam = getQueryParam('tagId');
+    const tagName = getQueryParam('tagName');
+    const tagId = tagIdParam ? Number(tagIdParam) : null;
+
     useEffect(() => {
-        const saved = localStorage.getItem('savedWords');
-        const selectedTag = getQueryParam('tag');
+        const fetchWords = async () => {
+            if (tagId !== null) {
+                const backendWords = await get_words_by_tag(tagId);
+                if (Array.isArray(backendWords)) {
+                    setWords(backendWords);
+                } else {
+                    setWords([]);
+                }
+            } else {
+                const saved = localStorage.getItem('savedWords');
+                if (saved) {
+                    const localWords: WordData[] = JSON.parse(saved);
+                    setWords(localWords);
+                }
+            }
+        };
 
-        if (saved) {
-            const allWords: WordData[] = JSON.parse(saved);
-            const filtered = selectedTag
-                ? allWords.filter(word => word.tag === selectedTag)
-                : allWords;
-
-            setWords(filtered);
-        }
-    }, [location.search]);
+        fetchWords();
+    }, [tagId]);
 
     return (
-        <div className="word-list-container">
-            <h1 className="word-list-title">
-                {getQueryParam('tag') ? `${getQueryParam('tag')} Words` : 'My Words List'}
+        <div>
+            <h1>
+                {tagId !== null && tagName ? `Words tagged "${tagName}"` : 'My Word List'}
             </h1>
 
             {words.length === 0 ? (
-                <p style={{ textAlign: 'center' }}>No words saved yet.</p>
+                <p>No words found{tagName ? ` for "${tagName}"` : ''}.</p>
             ) : (
-                <ul className="word-list-items">
-                    {words.map((word, index) => (
-                        <li key={`${word.word}-${index}`} className="word-list-item">
-                            <span className="word-list-icon">🌿</span>
-                            <Link to={`/my-words/${word.word.toLowerCase()}`}>
-                                {word.word}
-                            </Link>
-                        </li>
+                <ul>
+                    {words.map((word, idx) => (
+                        <li key={idx}>{word.word}</li>
                     ))}
                 </ul>
             )}
