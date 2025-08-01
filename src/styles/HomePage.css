@@ -38,3 +38,28 @@
     height: 36px;
     margin-bottom: 0.5rem;
 }
+
+.icon-circle {
+    border-radius: 50%;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0.5rem;
+}
+
+.icon-circle img {
+    width: 36px;
+    height: 36px;
+}
+
+.icon-circle {
+    background-color: #e9f8ec;
+    /* Light green mint */
+}
+
+.icon-circle.tag {
+    background-color: #f2ecff;
+    /* Light lavender purple */
+}

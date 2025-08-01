@@ -91,15 +91,20 @@ const HomePage = () => {
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
             <div className="button-wrapper">
                 <div className="bottom-buttons">
-                    <button className="action-button" onClick={() => navigate('/my-words')}><img
-                        src="https://img.icons8.com/ios-filled/50/book.png"
-                        alt="My Word List"
-                    />
+                    <button className="action-button" onClick={() => navigate('/my-words')}>
+                        <div className="icon-circle word"><img
+                            src="https://img.icons8.com/ios-filled/50/book.png"
+                            alt="My Word List"
+                        />
+                        </div>
                         <span>My Word List</span></button>
-                    <button className="action-button" onClick={() => navigate('/tags')}><img
-                        src="https://img.icons8.com/ios-filled/50/tags.png"
-                        alt="Browse by Tag"
-                    /><span>Browse by Tag</span></button>
+                    <button className="action-button" onClick={() => navigate('/tags')}>
+                        <div className="icon-circle tag"><img
+                            src="https://img.icons8.com/ios-filled/50/tags.png"
+                            alt="Browse by Tag"
+                        />
+                        </div>
+                        <span>Browse by Tag</span></button>
                 </div>
             </div>
         </div>
