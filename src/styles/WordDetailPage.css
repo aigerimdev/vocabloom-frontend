@@ -1,59 +1,76 @@
-.word-detail-card {
-    background: linear-gradient(to bottom, #eaffea, #c2f7c2);
-    border-radius: 20px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 300px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-    color: #1d1d1d;
+.protected-main {
+    background-image: url('../../assets/bg_word_detail.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    height: 90vh;
+    padding: 1rem;
 }
 
-.word-detail-title {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.word-detail {
+    background-color: rgb(255, 253, 253);
+    margin: 2rem auto 0 auto;
+    border-radius: 20px;
+    padding: 20px;
+    width: 95%;
+    max-height: 80vh;
+    box-shadow: rgba(123, 119, 170, 0.48) 0px 20px 25px;
+    overflow-y: scroll;
+}
+
+.word-detail h1 {
+    text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 4px;
+    color: var(--primary-purple-color);
 }
 
 .word-detail-phonetic {
+    text-align: center;
     color: #e45c5c;
     font-style: italic;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-.meaning-section h4 {
-    font-size: 16px;
     font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    font-size: 1rem;
 }
 
-.definition-list {
+.word-detail h2 {
+    font-size: 1rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    text-align: left;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    color: var(--primary-purple-color);
+}
+
+.word-detail ul {
     padding-left: 18px;
     margin: 0;
 }
 
-.definition-list li {
+.word-detail li {
     margin-bottom: 10px;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
 }
 
-.definition-list em {
-    display: block;
+.word-detail em {
     color: #555;
     margin-top: 4px;
     font-style: italic;
 }
 
-.word-detail-audio {
-    margin: 10px 0;
-    width: 100%;
+.word-definitions-definition {
+    font-size: .95rem;
 }
 
-.delete-button {
+.word-definitions-example {
+    font-size: .9rem;
+}
+
+.word-detail button {
     margin-top: 16px;
     width: 100%;
     padding: 12px 20px;
@@ -67,6 +84,6 @@
     transition: background-color 0.3s ease;
 }
 
-.delete-button:hover {
-    background-color: #2b2c4d;
+.word-detail button:hover {
+    background-color: #34365c;
 }
