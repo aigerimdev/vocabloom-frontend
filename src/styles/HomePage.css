@@ -1,0 +1,40 @@
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    padding: 1rem 4rem
+}
+
+.action-button {
+    width: 130px;
+    height: 150px;
+    margin: 0;
+    background-color: #f4fff9;
+    border: 1px solid var(--primary-purple-color);
+    border-radius: 20px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    font-family: var(--font-main);
+}
+
+.action-button:hover {
+    background-color: var(--hover-purple-color);
+    transform: translateY(-2px);
+}
+
+
+.action-button img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0.5rem;
+}

@@ -1,4 +1,3 @@
-// components/ProtectedLayout.tsx
 import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
 

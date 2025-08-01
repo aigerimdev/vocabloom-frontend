@@ -5,6 +5,7 @@ import { WordData } from '../types/word';
 import { getWordData } from '../api/dictionary';
 import { useNavigate } from 'react-router-dom';
 import { save_word, get_tags } from '../endpoints/api';
+import '../styles/HomePage.css';
 
 interface Tag {
     id: number;
@@ -88,9 +89,18 @@ const HomePage = () => {
             )}
 
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
-            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-                <button onClick={() => navigate('/my-words')}>My Word List</button>
-                <button onClick={() => navigate('/tags')}>Browse All Tags</button>
+            <div className="button-wrapper">
+                <div className="bottom-buttons">
+                    <button className="action-button" onClick={() => navigate('/my-words')}><img
+                        src="https://img.icons8.com/ios-filled/50/book.png"
+                        alt="My Word List"
+                    />
+                        <span>My Word List</span></button>
+                    <button className="action-button" onClick={() => navigate('/tags')}><img
+                        src="https://img.icons8.com/ios-filled/50/tags.png"
+                        alt="Browse by Tag"
+                    /><span>Browse by Tag</span></button>
+                </div>
             </div>
         </div>
     );
