@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { useAuth } from "../context/useAuth";
 import { useNavigate } from 'react-router-dom';
+import '../styles/FormPage.css';
 
 
 const SignUpPage = () => {
@@ -25,60 +26,103 @@ const SignUpPage = () => {
         }
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+        if (e.key === "Enter" || e.key === " ") {
+            navigate('/login');
+        }
+    };
+
     return (
-        <div className="signup-page">
-            <h2>Sign up</h2>
-            <form onSubmit={handleRegister}>
-                <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
-                    placeholder="First Name"
-                    autoComplete="given-name"
-                    required
-                />
-                <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
-                    placeholder="Last Name"
-                    autoComplete="family-name"
-                    required
-                />
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                    placeholder="Email"
-                    autoComplete="email"
-                    required
-                />
-                <input
-                    value={username}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-                    placeholder="Username"
-                    autoComplete="username"
-                    required
-                />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    autoComplete="new-password"
-                    required
-                />
-                <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm Password"
-                    autoComplete="new-password"
-                    required
-                />
-                <button type="submit">Sign up</button>
-            </form>
-        </div>
+        <main className="form-page">
+            <section className="form-section">
+                <h1 className="form-title">Sign up</h1>
+                <form className="form-form" onSubmit={handleRegister}>
+                    <div className="form-group">
+                        <input
+                            id="firstName"
+                            className="form-input"
+                            type="text"
+                            value={firstName}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
+                            placeholder="First Name"
+                            autoComplete="given-name"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="lastName"
+                            className="form-input"
+                            type="text"
+                            value={lastName}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
+                            placeholder="Last Name"
+                            autoComplete="family-name"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="email"
+                            className="form-input"
+                            type="email"
+                            value={email}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            placeholder="Email"
+                            autoComplete="email"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="username"
+                            className="form-input"
+                            value={username}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                            placeholder="Username"
+                            autoComplete="username"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="password"
+                            className="form-input"
+                            type="password"
+                            value={password}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                            placeholder="Password"
+                            autoComplete="new-password"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            id="confirmPassword"
+                            className="form-input"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
+                            placeholder="Confirm Password"
+                            autoComplete="new-password"
+                            required
+                        />
+                    </div>    
+                <button className="form-button" type="submit">Sign up</button>
+                </form>
+                <p className="form-text">
+                        Already have an account?{" "}
+                        <button
+                        type="button"
+                        className="form-link"
+                        onClick={() => navigate('/login')}
+                        onKeyDown={handleKeyPress}
+                        >
+                        Log in
+                        </button>
+                </p>
+            </section>
+        </main>
     );
 };
 
