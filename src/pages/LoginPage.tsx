@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/useAuth";
+import '../styles/FormPage.css'; // Ensure you have the correct path to your CSS file
 // import { loginUser } from '../api/auth'; // update path if needed
 
 
@@ -24,38 +25,50 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-page">
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input
-                    value={username}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-                    placeholder="Username"
-                    autoComplete="username"
-                    required
-                />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    autoComplete="current-password"
-                    required
-                />
-                <button type="submit">Log in</button>
-            </form>
-            <p>
-                Don’t have an account?{" "}
-                <span
+        <main className="form-page">
+            <section className="form-section">
+                <h1 className="form-title">Log in</h1>
+                <form className="form-form" onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label htmlFor="username" className="form-label">Username</label>
+                        <input
+                            id="username"
+                            className="form-input"
+                            value={username}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                            placeholder="Username"
+                            autoComplete="username"
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <input
+                            id="password"
+                            className="form-input"
+                            type="password"
+                            value={password}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                            placeholder="Password"
+                            autoComplete="current-password"
+                            required
+                        />
+                    </div>
+                    <button className="form-button" type="submit">Log in</button>
+                </form>
+                <p className="form-text">
+                    Don’t have an account?{" "}
+                    <button
+                    type="button"
+                    className="form-link"
                     onClick={() => navigate('/signup')}
-                    tabIndex={0}
-                    role="button"
                     onKeyDown={handleKeyPress}
-                >
+                    >
                     Sign up
-                </span>
-            </p>
-        </div>
+                    </button>
+                </p>
+            </section>
+        </main>
     );
 };
 

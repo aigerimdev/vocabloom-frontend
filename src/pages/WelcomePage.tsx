@@ -1,15 +1,28 @@
 import { useNavigate } from 'react-router-dom';
+import '../styles/WelcomePage.css';
 
 const WelcomePage = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="welcome-page">
-            <h1>Welcome to Vocabloom🌱</h1>
-            <p>Every word you learn is a seed for your future</p>
-            <button onClick={() => navigate('/login')}>Sign in</button>
-            <button onClick={() => navigate('/signup')}>Sign up</button>
-        </div>
+        <main className="welcome-page">
+            <section className="welcome-header">
+                <h1 className="welcome-title">
+                    Welcome to<br />
+                    <span className='welcome-title-highlight'>VocaBloom</span>
+                </h1>
+                <p className="welcome-subtitle">Every word you learn is a seed for your future</p>
+            </section>
+            <nav className="welcome-actions" aria-label="Authentication">
+                <button className="welcome-btn sign-in" onClick={() => navigate('/login')}>Sign in</button>
+                <button className="welcome-btn sign-up" onClick={() => navigate('/signup')}>Sign up</button>
+            </nav>
+            <footer className="welcome-footer">
+                <p>Made with <span role="img" aria-label="love">♥️</span> by Lina &amp; Aigerim</p>
+                <p>Ada Developers Academy c23</p>
+                <p>2025</p>
+            </footer>
+        </main>
     );
 };
 
