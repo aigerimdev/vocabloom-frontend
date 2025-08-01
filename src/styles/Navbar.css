@@ -1,9 +1,11 @@
 .navbar {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 1rem;
     background-color: #34365c;
     border-bottom: 1px solid #ccc;
+    z-index: 1000;
 }
 
 .nav-links a {
