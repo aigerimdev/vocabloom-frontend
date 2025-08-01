@@ -1,0 +1,71 @@
+.welcome-page {
+    display: grid;
+    grid-template-rows: 30% 60% 10%;
+    height: 100vh;
+    padding: 2rem 2rem 0 2rem;
+    background-image: url('../../assets/bg_welcomepage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.welcome-header {
+    place-self: center;
+    text-align: center;
+    color: var(--primary-purple-color);
+}
+
+.welcome-title {
+    font-family: var(--font-title);
+    font-size: 2.2rem;
+    color: var(--primary-purple-color);
+    line-height: 1.3;
+    margin-bottom: 2rem;
+}
+
+.welcome-title-highlight {
+    font-size: 2.8rem;
+}
+
+.welcome-subtitle {
+    place-self: center;
+    text-align: center;
+    font-family: var(--font-main);
+    font-size: 1.2rem;
+    color: var(--primary-purple-color);
+}
+
+.welcome-actions {
+    place-self: end center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.welcome-btn {
+    padding: .5rem 2rem;
+    border-radius: 15px;
+    border: none;
+    background-color: var(--primary-purple-color);
+    color: var(--primary-green-color);
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-main);
+    box-shadow: var(--shadow-elevation-medium);
+}
+
+.welcome-btn:hover {
+    background-color: var(--primary-green-color);
+    color: var(--primary-purple-color);
+    cursor: pointer;
+}
+
+.welcome-footer {
+    text-align: center;
+}
+
+.welcome-footer p {
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+}
