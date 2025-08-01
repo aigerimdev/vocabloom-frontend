@@ -1,0 +1,102 @@
+.form-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    height: 100vh;
+    padding: 6rem 2rem 2rem 2rem;
+    background-image: url('../../assets/bg_mini_welcome1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.form-section {
+    background-color: rgba(253, 255, 253, 0.525);
+    border-radius: 8px;
+    padding: 2rem 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 50vh;
+    box-shadow:  rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.form-title {
+    font-size: 1.8rem;
+    color: var(--primary-purple-color);
+    margin-bottom: 1rem;
+}
+
+.form-form {
+    align-self: flex-start;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-family: var(--font-main);
+    margin-bottom: 0.5rem;
+    color: var(--terciary-green-color);
+}
+
+.form-input {
+    font-family: var(--font-main);
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--terciary-green-color);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    width: 100%;
+    transition: border-color 0.3s;
+
+    &:focus {
+        outline: none;
+        border-color: var(--secondary-green-color);
+    }
+}
+
+.form-button {
+    background-color: var(--primary-purple-color);
+    color: var(--primary-green-color);
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: var(--btn-green-color);
+        color: var(--primary-purple-color);
+    }
+}
+
+.form-text {
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    color: var(--primary-purple-color);
+    margin-top: 1rem;
+}
+
+.form-link {
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-green-color);
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    
+}
