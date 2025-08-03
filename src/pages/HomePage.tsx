@@ -70,8 +70,8 @@ const HomePage = () => {
 
     return (
         <div>
-            <h1>Vocabloom 🌱</h1>
-            <p>Plant a word, grow your vocabulary.</p>
+            <h1 className="app-title">Vocabloom 🌱</h1>
+            <p className="app-tagline">Plant a word, grow your vocabulary.</p>
 
             <SearchBar
                 value={searchTerm}
