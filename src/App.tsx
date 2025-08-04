@@ -8,7 +8,6 @@ import TagBrowserPage from './pages/TagBrowserPage';
 import WordDetailPage from './pages/WordDetailPage';
 import TagWordListPage from './pages/TagWordListPage';
 import LoginPage from './pages/LoginPage';
-import WelcomePage from './pages/WelcomePage';
 import PrivateRoute from './components/private_route';
 import ProtectedLayout from './components/ProtectedLayout';
 import RootRedirect from './components/RootRedirect';
@@ -32,17 +31,17 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route path="/home" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-            <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
-            <Route path="/my-words" element={<PrivateRoute><WordListPage /></PrivateRoute>} />
-            <Route path="/tags" element={<PrivateRoute><TagBrowserPage /></PrivateRoute>} />
-            <Route path="/word-details/:id" element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
-            <Route path="/my-words-by-tag" element={<PrivateRoute><TagWordListPage /></PrivateRoute>} />
-            <Route path="/my-words/:id" element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/my-words" element={<WordListPage />} />
+            <Route path="/tags" element={<TagBrowserPage />} />
+            <Route path="/word-details/:id" element={<WordDetailPage />} />
+            <Route path="/my-words-by-tag" element={<TagWordListPage />} />
+            <Route path="/my-words/:id" element={<WordDetailPage />} />
           </Route>
         </Routes>
       </AuthProvider>
-    </Router>
+    </Router >
   );
 }
 
