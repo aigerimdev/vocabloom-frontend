@@ -1,64 +1,19 @@
 .word-card {
-    background: linear-gradient(to bottom, #eaffea, #c2f7c2);
+    /* background: linear-gradient(to bottom, #eaffea, #c2f7c2); */
+    background: linear-gradient(0deg,rgba(167, 235, 184, 0.85) 0%, rgba(220, 247, 227, 1) 26%, rgba(255, 255, 255, 0.86) 100%);
     border-radius: 20px;
     padding: 20px;
     margin: 20px auto;
-    max-width: 300px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-    color: #1d1d1d;
-}
-
-.word-card h2 {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-}
-
-.phonetic {
-    color: #e45c5c;
-    font-style: italic;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-.word-card h3 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 6px;
-}
-
-.word-card ul {
-    padding-left: 18px;
-    margin: 0;
-}
-
-.word-card li {
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.word-card em {
-    display: block;
-    color: #555;
-    margin-top: 4px;
-    font-style: italic;
-}
-
-.word-card audio {
-    margin: 10px 0;
-    width: 100%;
+    max-width: 90%;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 
 .tag-dropdown-container {
     margin-top: 16px;
 }
 
-.save-tag-button,
-.word-card button {
+.word-detail-button {
     margin-top: 16px;
     width: 100%;
     padding: 12px 20px;
@@ -66,12 +21,14 @@
     background-color: #34365c;
     color: #8ef58e;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1rem;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    transition: all 0.3s ease;
 }
 
-.word-card button:hover {
+.word-detail-button:hover {
     background-color: #34365c;
+    transform: scale(1.02);
 }
