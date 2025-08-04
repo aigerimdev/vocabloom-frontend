@@ -1,8 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/useAuth";
-import '../styles/FormPage.css'; // Ensure you have the correct path to your CSS file
-// import { loginUser } from '../api/auth'; // update path if needed
+import '../styles/FormPage.css';
 
 
 const LoginPage = () => {
@@ -59,12 +58,12 @@ const LoginPage = () => {
                 <p className="form-text">
                     Don’t have an account?{" "}
                     <button
-                    type="button"
-                    className="form-link"
-                    onClick={() => navigate('/signup')}
-                    onKeyDown={handleKeyPress}
+                        type="button"
+                        className="form-link"
+                        onClick={() => navigate('/signup')}
+                        onKeyDown={handleKeyPress}
                     >
-                    Sign up
+                        Sign up
                     </button>
                 </p>
             </section>
