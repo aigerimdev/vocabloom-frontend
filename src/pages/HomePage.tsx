@@ -5,6 +5,7 @@ import { WordData } from '../types/word';
 import { getWordData } from '../api/dictionary';
 import { useNavigate } from 'react-router-dom';
 import { save_word, get_tags } from '../endpoints/api';
+import '../styles/HomePage.css';
 
 interface Tag {
     id: number;
@@ -69,8 +70,8 @@ const HomePage = () => {
 
     return (
         <div>
-            <h1>Vocabloom 🌱</h1>
-            <p>Plant a word, grow your vocabulary.</p>
+            <h1 className="app-title">Vocabloom 🌱</h1>
+            <p className="app-tagline">Plant a word, grow your vocabulary.</p>
 
             <SearchBar
                 value={searchTerm}
@@ -88,9 +89,23 @@ const HomePage = () => {
             )}
 
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
-            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-                <button onClick={() => navigate('/my-words')}>My Word List</button>
-                <button onClick={() => navigate('/tags')}>Browse All Tags</button>
+            <div className="button-wrapper">
+                <div className="bottom-buttons">
+                    <button className="action-button" onClick={() => navigate('/my-words')}>
+                        <div className="icon-circle word"><img
+                            src="https://img.icons8.com/?size=100&id=LGOY4KAmjR0K&format=png&color=000000"
+                            alt="My Word List"
+                        />
+                        </div>
+                        <span>My Word List</span></button>
+                    <button className="action-button" onClick={() => navigate('/tags')}>
+                        <div className="icon-circle tag"><img
+                            src="https://img.icons8.com/?size=100&id=P3XAjXroE8yW&format=png&color=000000"
+                            alt="Browse By Tag"
+                        />
+                        </div>
+                        <span>Browse By Tag</span></button>
+                </div>
             </div>
         </div>
     );

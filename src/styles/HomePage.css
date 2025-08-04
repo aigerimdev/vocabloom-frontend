@@ -1,0 +1,82 @@
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    padding: 1rem 4rem
+}
+
+.action-button {
+    width: 130px;
+    height: 150px;
+    margin: 0;
+    background-color: #f4fff9;
+    border: 1px solid var(--primary-purple-color);
+    border-radius: 20px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    font-family: var(--font-main);
+
+}
+
+.action-button span {
+    font-size: 0.8rem;
+    color: var(--primary-purple-color);
+    text-align: center;
+}
+
+.action-button:hover {
+    background-color: var(--hover-purple-color);
+    transform: translateY(-2px);
+    font-weight: bold;
+    color: var(--primary-purple-color);
+}
+
+.action-button img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.icon-circle {
+    width: 75px;
+    height: 75px;
+    background-color: var(--mint-green-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.icon-circle img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.app-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--primary-purple-color);
+    padding-top: 2rem;
+}
+
+.app-tagline {
+    font-family: var(--font-main);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}

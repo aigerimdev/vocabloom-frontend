@@ -78,3 +78,7 @@ My Word List Page
 Pulls saved words from localStorage
 Displays clean list with leaf icon (🌱)
 No tags shown in the list (per your design)
+
+
+src="https://img.icons8.com/color/48/book.png"
+src='https://img.icons8.com/color/48/tags.png'
