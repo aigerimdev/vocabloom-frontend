@@ -86,7 +86,7 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
                                 }}
                                 className="new-tag-input"
                             />
-                            <button className="save-tag-button" onClick={handleCreateTag}>Save</button>
+                            <button className="save-tag-button" onClick={handleCreateTag}>Save Tag</button>
                         </li>
                     )}
                 </ul>

@@ -1,28 +1,27 @@
 .tag-dropdown-container {
     position: relative;
-    width: 200px;
+    width: 100%;
     margin-bottom: 10px;
 }
 
 .dropdown-toggle {
     padding: 10px;
-    background-color: #eee;
-    border-radius: 5px;
+    background-color: var(--bg-white-color);
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
 
 .dropdown-list {
-    position: absolute;
     width: 100%;
-    margin-top: 5px;
     list-style: none;
     padding: 0;
     background-color: white;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     z-index: 100;
 }
 
@@ -32,8 +31,12 @@
     background-color: white;
 }
 
+.dropdown-item:hover {
+    background-color: #f5fcf5;
+}
+
 .dropdown-item.selected {
-    background-color: #c8f7c5;
+    background-color: #e4f7e3;
 }
 
 .add-new-tag {
@@ -45,6 +48,7 @@
 
 .new-tag-input-wrapper {
     padding: 10px;
+    width: 100%;
 }
 
 .new-tag-input {
@@ -53,5 +57,20 @@
 }
 
 .save-tag-button {
-    margin-top: 5px;
+    margin-top: 16px;
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 30px;
+    background-color: var(--bg-white-color);
+    color: var(--primary-purple-color);
+    font-weight: bold;
+    font-size: .9rem;
+    border: 1px solid var(--primary-purple-color);
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.save-tag-button:hover {
+    background-color: var(--primary-purple-color);
+    color: var(--primary-green-color);
 }
