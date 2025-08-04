@@ -101,10 +101,10 @@ const HomePage = () => {
                     <button className="action-button" onClick={() => navigate('/tags')}>
                         <div className="icon-circle tag"><img
                             src="https://img.icons8.com/?size=100&id=P3XAjXroE8yW&format=png&color=000000"
-                            alt="Browse by Tag"
+                            alt="Browse By Tag"
                         />
                         </div>
-                        <span>Browse by Tag</span></button>
+                        <span>Browse By Tag</span></button>
                 </div>
             </div>
         </div>

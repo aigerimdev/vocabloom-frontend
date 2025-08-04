@@ -23,6 +23,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
     transition: all 0.2s ease-in-out;
     font-family: var(--font-main);
 
@@ -48,8 +49,8 @@
 }
 
 .icon-circle {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     background-color: var(--mint-green-color);
     border-radius: 50%;
     display: flex;
@@ -62,28 +63,6 @@
     width: 60px;
     height: 60px;
     object-fit: contain;
-}
-
-/* Make the dictionary icon (My Word List) slightly larger */
-.icon-circle.word {
-    width: 70px;
-    height: 70px;
-}
-
-.icon-circle.word img {
-    width: 64px;
-    height: 64px;
-}
-
-/* Make the tag icon (Browse by Tag) slightly smaller */
-.icon-circle.tag {
-    width: 65px;
-    height: 64px;
-}
-
-.icon-circle.tag img {
-    width: 48px;
-    height: 48px;
 }
 
 .app-title {
