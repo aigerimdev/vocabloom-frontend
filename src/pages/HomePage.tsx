@@ -93,14 +93,14 @@ const HomePage = () => {
                 <div className="bottom-buttons">
                     <button className="action-button" onClick={() => navigate('/my-words')}>
                         <div className="icon-circle word"><img
-                            src="https://img.icons8.com/ios-filled/50/book.png"
+                            src="https://img.icons8.com/?size=100&id=LGOY4KAmjR0K&format=png&color=000000"
                             alt="My Word List"
                         />
                         </div>
                         <span>My Word List</span></button>
                     <button className="action-button" onClick={() => navigate('/tags')}>
                         <div className="icon-circle tag"><img
-                            src="https://img.icons8.com/ios-filled/50/tags.png"
+                            src="https://img.icons8.com/?size=100&id=P3XAjXroE8yW&format=png&color=000000"
                             alt="Browse by Tag"
                         />
                         </div>

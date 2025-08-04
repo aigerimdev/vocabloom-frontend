@@ -25,43 +25,65 @@
     justify-content: center;
     transition: all 0.2s ease-in-out;
     font-family: var(--font-main);
+
+}
+
+.action-button span {
+    font-size: 0.8rem;
+    color: var(--primary-purple-color);
+    text-align: center;
 }
 
 .action-button:hover {
     background-color: var(--hover-purple-color);
     transform: translateY(-2px);
+    font-weight: bold;
+    color: var(--primary-purple-color);
 }
 
-
 .action-button img {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 0.5rem;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
 }
 
 .icon-circle {
+    width: 80px;
+    height: 80px;
+    background-color: var(--mint-green-color);
     border-radius: 50%;
-    padding: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    margin-bottom: 0.5rem;
+    margin-bottom: 12px;
 }
 
 .icon-circle img {
-    width: 36px;
-    height: 36px;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
 }
 
-.icon-circle {
-    background-color: #e9f8ec;
-    /* Light green mint */
+/* Make the dictionary icon (My Word List) slightly larger */
+.icon-circle.word {
+    width: 70px;
+    height: 70px;
 }
 
+.icon-circle.word img {
+    width: 64px;
+    height: 64px;
+}
+
+/* Make the tag icon (Browse by Tag) slightly smaller */
 .icon-circle.tag {
-    background-color: #f2ecff;
-    /* Light lavender purple */
+    width: 65px;
+    height: 64px;
+}
+
+.icon-circle.tag img {
+    width: 48px;
+    height: 48px;
 }
 
 .app-title {
@@ -78,5 +100,4 @@
     font-size: 1rem;
     text-align: center;
     margin-bottom: 2rem;
-
 }
