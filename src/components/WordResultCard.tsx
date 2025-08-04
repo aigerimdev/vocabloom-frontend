@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { WordData } from '../types/word';
 import TagDropdown from './TagDropdown';
 import '../styles/WordResultCard.css';
+import '../styles/WordDetailPage.css';
 import { save_word } from '../endpoints/api';
 
 
@@ -53,13 +54,16 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
         }
     };
 
-
+    function capitalize(word: string) {
+        if (!word) return "";
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
 
     return (
         <div className="word-card">
-            <h2>{data.word}</h2>
+            <h1 className='word-detail-title'>{capitalize(data.word)}</h1>
 
-            {data.phonetic && <p className="phonetic">/{data.phonetic}/</p>}
+            {data.phonetic && <p className="word-detail-phonetic">/{data.phonetic}/</p>}
 
             {data.audio && (
                 <audio controls>
@@ -71,12 +75,12 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
             {Array.isArray(data.meanings) &&
                 data.meanings.map((meaning, index) => (
                     <div key={index}>
-                        <h3>{meaning.partOfSpeech}</h3>
-                        <ul>
+                        <h2 className='word-detail-subtitle'>{capitalize(meaning.partOfSpeech)}</h2>
+                        <ul className='word-definitions'>
                             {meaning.definitions.map((def, defIndex) => (
                                 <li key={defIndex}>
-                                    <p>{def.definition}</p>
-                                    {def.example && <em>{def.example}</em>}
+                                    <p className='word-definitions-definition'>{def.definition}</p>
+                                    <p className='word-definitions-example'>{def.example && <em> - {def.example}</em>}</p>
                                 </li>
                             ))}
                         </ul>
@@ -89,7 +93,7 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
                 setTags={setTags}
             />
 
-            <button onClick={handleSaveClick}>Save Word</button>
+            <button className='word-detail-button' onClick={handleSaveClick}>Save Word</button>
         </div>
     );
 };
