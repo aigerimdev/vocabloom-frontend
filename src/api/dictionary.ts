@@ -2,7 +2,9 @@ import axios from 'axios';
 import { WordData } from '../types/word';
 
 export const getWordData = async (term: string): Promise<WordData> => {
-    const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${term}`);
+    const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${term}`,
+        { withCredentials: false } //override the global setting
+    );
     const entry = response.data[0];
 
     const formatted: WordData = {
