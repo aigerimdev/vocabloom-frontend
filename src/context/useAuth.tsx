@@ -59,23 +59,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     password: string,
     confirmPassword: string
   ): Promise<any | void> => {
-  if (password === confirmPassword) {
-    try {
-      await register(username, email, password, firstName, lastName);
-      alert('successfully registered user')
-    } catch (error) {
-      console.log(error)
-      alert('error registering user')
+    if (password === confirmPassword) {
+      try {
+        await register(username, email, password, firstName, lastName);
+        alert('successfully registered user')
+      } catch (error) {
+        console.log(error)
+        alert('error registering user')
+      }
+    } else {
+      alert("Passwords don't match");
     }
-  } else {
-    alert("Passwords don't match");
-  }
-};
+  };
 
+  // useEffect(() => {
+  //   get_authenticated();
+  //   // eslint-disable-next-line
+  // }, [window.location.pathname]);
   useEffect(() => {
     get_authenticated();
-    // eslint-disable-next-line
-  }, [window.location.pathname]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, loading, setIsAuthenticated, login_user, register_user }}>
