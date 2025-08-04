@@ -62,12 +62,12 @@ const WordDetailPage = () => {
     <main className='protected-main'>
       <div className="word-detail">
         <div className="word-detail-container">
-          <h1>{word?.word}</h1>
+          <h1 className='word-detail-title'>{word?.word}</h1>
           {word?.phonetic && <p className="word-detail-phonetic">/{word.phonetic}/</p>}
           {word?.audio && <audio controls src={word.audio} />}
           {word?.meanings.map((meaning, idx) => (
             <div key={idx}>
-              <h2>{meaning.partOfSpeech}</h2>
+              <h2 className='word-detail-subtitle'>{meaning.partOfSpeech}</h2>
               <ul className='word-definitions'>
                 {meaning.definitions.map((def, i) => (
                   <li key={i}>
