@@ -1,5 +1,6 @@
 import axios from "axios";
 import { WordData } from '../types/word';
+import { AxiosRequestConfig } from "axios";
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
 // const BASE_URL = 'http://127.0.0.1:8000/api/';
@@ -17,12 +18,27 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-export const getAuthConfig = () => ({
-  headers: {
+// export const getAuthConfig = () => ({
+//   headers: {
+//     'Content-Type': 'application/json',
+//     ...getAuthHeaders(),
+//   },
+// });
+// Error hadiniling my for my local
+export const getAuthConfig = (): AxiosRequestConfig => {
+  const token = localStorage.getItem('access_token');
+
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...getAuthHeaders(),
-  },
-});
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return { headers };
+};
+
 
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -31,7 +47,7 @@ function capitalizeFirstLetter(str: string) {
 export const login = async (username: string, password: string): Promise<boolean> => {
   try {
     console.log('Attempting login...'); // Debug
-    const response = await axios.post<{ 
+    const response = await axios.post<{
       success: boolean;
       access: string;
       refresh: string;
@@ -49,7 +65,7 @@ export const login = async (username: string, password: string): Promise<boolean
       console.log('Tokens stored successfully'); // Debug
       return true;
     }
-    
+
     console.error('Login failed - no tokens in response');
     return false;
   } catch (error) {
@@ -67,10 +83,10 @@ export const refresh_token = async (): Promise<boolean> => {
     }
 
     console.log('Attempting token refresh...'); // Debug
-    const response = await axios.post<{ 
+    const response = await axios.post<{
       refreshed: boolean;
-      access: string; 
-      refresh?: string; 
+      access: string;
+      refresh?: string;
     }>(
       REFRESH_URL,
       { refresh: refreshToken },
@@ -252,7 +268,7 @@ export async function get_saved_words(): Promise<WordData[]> {
     const result = await call_refresh(error, () =>
       axios.get<WordData[]>(`${WORDS_URL}`, getAuthConfig())
     );
-    
+
     if (result === false) return [];
     return result as WordData[];
   }
