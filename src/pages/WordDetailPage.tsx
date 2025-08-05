@@ -2,10 +2,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { WordData } from '../types/word';
+import { getAuthConfig } from '../endpoints/api';
 import '../styles/WordDetailPage.css';
 
-
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
+// const BASE_URL = 'http://127.0.0.1:8000/api';
+
 
 const WordDetailPage = () => {
   const { id } = useParams();
@@ -17,9 +19,7 @@ const WordDetailPage = () => {
   useEffect(() => {
     const fetchWord = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/words/${id}/`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`${BASE_URL}/words/${id}/`, getAuthConfig());
 
         const normalizedMeanings = res.data.meanings.map((m: any) => ({
           ...m,
@@ -46,9 +46,7 @@ const WordDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${BASE_URL}/words/${id}/`, {
-        withCredentials: true,
-      });
+      await axios.delete(`${BASE_URL}/words/${id}/`, getAuthConfig());
       navigate('/my-words');
     } catch (error) {
       console.error('Error deleting word:', error);
