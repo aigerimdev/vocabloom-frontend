@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const success = await login(username, password);
     if (success) {
       setIsAuthenticated(true);
-      nav("/");
+      nav("/home");
     }
   };
 
