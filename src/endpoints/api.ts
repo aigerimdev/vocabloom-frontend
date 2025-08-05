@@ -13,17 +13,6 @@ const AUTH_URL = `${BASE_URL}authenticated/`;
 const REGISTER_URL = `${BASE_URL}register_user/`;
 const TAGS_URL = `${BASE_URL}tags/`;
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('access_token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
-
-// export const getAuthConfig = () => ({
-//   headers: {
-//     'Content-Type': 'application/json',
-//     ...getAuthHeaders(),
-//   },
-// });
 // Error hadiniling my for my local
 export const getAuthConfig = (): AxiosRequestConfig => {
   const token = localStorage.getItem('access_token');
@@ -39,7 +28,17 @@ export const getAuthConfig = (): AxiosRequestConfig => {
   return { headers };
 };
 
+// const getAuthHeaders = () => {
+//   const token = localStorage.getItem('access_token');
+//   return token ? { Authorization: `Bearer ${token}` } : {};
+// };
 
+// export const getAuthConfig = () => ({
+//   headers: {
+//     'Content-Type': 'application/json',
+//     ...getAuthHeaders(),
+//   },
+// });
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
