@@ -7,8 +7,7 @@
 .bottom-buttons {
     display: flex;
     justify-content: space-around;
-    gap: 1rem;
-    padding: 1rem 4rem
+    width: 80%;
 }
 
 .action-button {
