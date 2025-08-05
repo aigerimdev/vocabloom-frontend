@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/useAuth';
 import SignUpPage from './pages/SingUpPage';
 import HomePage from './pages/HomePage';
-import Logout from './pages/Logout';
 import WordListPage from './pages/WordListPage';
 import TagBrowserPage from './pages/TagBrowserPage';
 import WordDetailPage from './pages/WordDetailPage';
@@ -31,7 +30,6 @@ function App() {
             }
           >
             <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-            <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
             <Route path="/my-words" element={<PrivateRoute><WordListPage /></PrivateRoute>} />
             <Route path="/tags" element={<PrivateRoute><TagBrowserPage /></PrivateRoute>} />
             <Route path="/word-details/:id" element={<PrivateRoute><WordDetailPage /></PrivateRoute>} />
