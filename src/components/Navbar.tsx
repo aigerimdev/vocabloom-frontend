@@ -1,16 +1,27 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
-import Logout from '../pages/Logout';
+// import Logout from '../pages/Logout';
+import { logout } from "../endpoints/api";
+import { useAuth } from "../context/useAuth";
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const { setIsAuthenticated } = useAuth();
+
+    const handleLogout = async () => {
+        await logout();
+        setIsAuthenticated(false);
+        navigate('/welcome');
+    };
+
     return (
         <nav className="navbar">
-            <h2 className="main-title">Vocabloom 🌱</h2>
+            <Link to="/home" className="main-title">
+                Vocabloom <span>🌱</span>
+            </Link>
             <div className="nav-links">
                 <Link to="/">Home</Link>
-                {/* <button className='logout_btn'><Link to="/welcome">Logout</Link></button> */}
-                <Logout/>
-
+                <button onClick={handleLogout}>Log out</button>
             </div>
         </nav>
     );
