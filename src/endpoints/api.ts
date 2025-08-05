@@ -1,9 +1,6 @@
 import axios from "axios";
 import { WordData } from '../types/word';
 
-axios.defaults.withCredentials = true;
-
-
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
 // const BASE_URL = 'http://127.0.0.1:8000/api/';
 
