@@ -5,6 +5,8 @@ axios.defaults.withCredentials = true;
 
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
+// const BASE_URL = 'http://127.0.0.1:8000/api/';
+
 const LOGIN_URL = `${BASE_URL}token/`;
 const REFRESH_URL = `${BASE_URL}token/refresh/`;
 const WORDS_URL = `${BASE_URL}words/`;
@@ -18,77 +20,75 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-const getAuthConfig = () => ({
-  withCredentials: true,
+export const getAuthConfig = () => ({
   headers: {
+    'Content-Type': 'application/json',
     ...getAuthHeaders(),
   },
 });
 
 export const login = async (username: string, password: string): Promise<boolean> => {
   try {
+    console.log('Attempting login...'); // Debug
     const response = await axios.post<{ 
       success: boolean;
-      access?: string;
-      refresh?: string;
+      access: string;
+      refresh: string;
     }>(
       LOGIN_URL,
       { username, password },
-      { withCredentials: true }
+      { headers: { 'Content-Type': 'application/json' } }
     );
 
-    if (response.data.success) {
-      if (response.data.access) {
-        localStorage.setItem('access_token', response.data.access);
-      }
-      if (response.data.refresh) {
-        localStorage.setItem('refresh_token', response.data.refresh);
-      }
+    console.log('Login response:', response.data); // Debug
+
+    if (response.data.success && response.data.access) {
+      localStorage.setItem('access_token', response.data.access);
+      localStorage.setItem('refresh_token', response.data.refresh);
+      console.log('Tokens stored successfully'); // Debug
       return true;
     }
     
+    console.error('Login failed - no tokens in response');
     return false;
   } catch (error) {
-    console.error('Login failed:', error);
+    console.error('Login error:', error);
     return false;
   }
 };
 
 export const refresh_token = async (): Promise<boolean> => {
   try {
-    const response = await axios.post<{ refreshed: boolean }>(
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      console.log('No refresh token available');
+      return false;
+    }
+
+    console.log('Attempting token refresh...'); // Debug
+    const response = await axios.post<{ 
+      refreshed: boolean;
+      access: string; 
+      refresh?: string; 
+    }>(
       REFRESH_URL,
-      {},
-      { withCredentials: true }
+      { refresh: refreshToken },
+      { headers: { 'Content-Type': 'application/json' } }
     );
 
-    if (response.data.refreshed) {
+    if (response.data.refreshed && response.data.access) {
+      localStorage.setItem('access_token', response.data.access);
+      if (response.data.refresh) {
+        localStorage.setItem('refresh_token', response.data.refresh);
+      }
+      console.log('Token refreshed successfully'); // Debug
       return true;
     }
 
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (refreshToken) {
-      const tokenResponse = await axios.post<{ 
-        access: string; 
-        refresh?: string; 
-      }>(
-        REFRESH_URL,
-        { refresh: refreshToken },
-        { withCredentials: true }
-      );
-
-      if (tokenResponse.data.access) {
-        localStorage.setItem('access_token', tokenResponse.data.access);
-      }
-      if (tokenResponse.data.refresh) {
-        localStorage.setItem('refresh_token', tokenResponse.data.refresh);
-      }
-      
-      return true;
-    }
-
+    console.error('Token refresh failed');
     return false;
   } catch (error) {
+    console.error('Refresh error:', error);
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     return false;
