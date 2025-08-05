@@ -24,6 +24,10 @@ export const getAuthConfig = () => ({
   },
 });
 
+function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export const login = async (username: string, password: string): Promise<boolean> => {
   try {
     console.log('Attempting login...'); // Debug
@@ -182,8 +186,9 @@ export const register = async (
 export async function save_word(word: WordData): Promise<WordData | null> {
   const payload = {
     ...word,
+    word: capitalizeFirstLetter(word.word),
     meanings: word.meanings.map((m) => ({
-      part_of_speech: m.partOfSpeech,
+      part_of_speech: capitalizeFirstLetter(m.partOfSpeech),
       definitions: m.definitions,
     })),
   };
@@ -192,11 +197,9 @@ export async function save_word(word: WordData): Promise<WordData | null> {
     const response = await axios.post(WORDS_URL, payload, getAuthConfig());
     return response.data;
   } catch (error: any) {
-    // Use your existing call_refresh function
     const result = await call_refresh(error, () =>
       axios.post(WORDS_URL, payload, getAuthConfig())
     );
-    
     if (result === false) return null;
     return result as WordData;
   }
