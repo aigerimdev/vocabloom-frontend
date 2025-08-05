@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import HomePage from './HomePage';
 import { getWordData } from '../api/dictionary';
-import { get_tags, save_word } from '../endpoints/api';
+import { get_tags } from '../endpoints/api';
 import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('../api/dictionary');
