@@ -3,8 +3,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom;
-    height: 90vh;
-    padding: 1rem;
+    height: 100vh;
+    padding: 10vh 1rem 1rem 1rem; /* Adjust for fixed Navbar */
 }
 
 .word-detail {
