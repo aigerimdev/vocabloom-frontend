@@ -50,57 +50,59 @@ const TagBrowserPage = () => {
     };
 
     return (
-        <div className="tag-browser-container">
-            <header className="header">
-                <button onClick={() => navigate(-1)} className="back-button">
-                    ← Back
-                </button>
-                <h1 className="title">Vocabloom 🌱</h1>
-            </header>
+        <main className='protected-main'>
+            <div className="tag-browser-container">
+                <header className="header">
+                    <button onClick={() => navigate(-1)} className="back-button">
+                        ← Back
+                    </button>
+                    <h1 className="title">Vocabloom 🌱</h1>
+                </header>
 
-            <h2 className="section-title">My Vocabulary Tags</h2>
+                <h2 className="section-title">My Vocabulary Tags</h2>
 
-            <div className="tag-list">
-                <div className="add-tag-card">
-                    {!showInput ? (
-                        <>
-                            <span>Add New Tag</span>
-                            <button className="add-icon" onClick={() => setShowInput(true)}>
-                                +
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <input
-                                type="text"
-                                value={newTag}
-                                onChange={(e) => setNewTag(e.target.value)}
-                                placeholder="Enter tag"
-                                className="new-tag-input"
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') handleAddTag();
-                                }}
-                            />
-                            <button className="add-icon" onClick={handleAddTag}>
-                                ✓
-                            </button>
-                        </>
-                    )}
-                </div>
-
-                {tags.map((tag, index) => (
-                    <div
-                        key={tag.id}
-                        className={`tag-card color-${index % 4}`}
-                        onClick={() => handleTagClick(tag.id, tag.name)}
-
-                    >
-                        <span>{tag.name}</span>
-                        <span className="arrow">➤</span>
+                <div className="tag-list">
+                    <div className="add-tag-card">
+                        {!showInput ? (
+                            <>
+                                <span>Add New Tag</span>
+                                <button className="add-icon" onClick={() => setShowInput(true)}>
+                                    +
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <input
+                                    type="text"
+                                    value={newTag}
+                                    onChange={(e) => setNewTag(e.target.value)}
+                                    placeholder="Enter tag"
+                                    className="new-tag-input"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleAddTag();
+                                    }}
+                                />
+                                <button className="add-icon" onClick={handleAddTag}>
+                                    ✓
+                                </button>
+                            </>
+                        )}
                     </div>
-                ))}
+
+                    {tags.map((tag, index) => (
+                        <div
+                            key={tag.id}
+                            className={`tag-card color-${index % 4}`}
+                            onClick={() => handleTagClick(tag.id, tag.name)}
+
+                        >
+                            <span>{tag.name}</span>
+                            <span className="arrow">➤</span>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+        </main>
     );
 };
 

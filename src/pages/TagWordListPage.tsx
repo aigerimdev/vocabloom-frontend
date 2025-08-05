@@ -35,7 +35,7 @@ const TagWordListPage = () => {
     }, [tagId]);
 
     return (
-        <div>
+        <main className='protected-main'>
             <h1>{tagName} Words</h1>
             {notFound ? (
                 <p>No words saved under this tag yet.</p>
@@ -46,7 +46,7 @@ const TagWordListPage = () => {
                     ))}
                 </ul>
             )}
-        </div>
+        </main>
     );
 };
 

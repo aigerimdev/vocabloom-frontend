@@ -38,26 +38,27 @@ const WordListPage = () => {
     }, [tagId]);
 
     return (
+        <main className='protected-main'>
+            <div className="word-list-container">
+                <h1 className="word-list-title">{tagId !== null ? 'Words in Selected Tag' : 'My Word List'}</h1>
 
-        <div className="word-list-container">
-            <h1 className="word-list-title">{tagId !== null ? 'Words in Selected Tag' : 'My Word List'}</h1>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : words.length === 0 ? (
+                    <p>No words found{tagId !== null ? ' for this tag' : ''}.</p>
+                ) : (
+                    <ul className="word-list-items">
+                        {words.map((word, idx) => (
+                            <li key={idx}>
+                                <span className="word-list-icon">🌿</span>
 
-            {loading ? (
-                <p>Loading...</p>
-            ) : words.length === 0 ? (
-                <p>No words found{tagId !== null ? ' for this tag' : ''}.</p>
-            ) : (
-                <ul className="word-list-items">
-                    {words.map((word, idx) => (
-                        <li key={idx}>
-                            <span className="word-list-icon">🌿</span>
-
-                            <Link to={`/my-words/${word.id}`}>{word.word}</Link>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
+                                <Link to={`/my-words/${word.id}`}>{word.word}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        </main>
     );
 };
 

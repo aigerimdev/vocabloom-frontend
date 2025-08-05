@@ -69,7 +69,7 @@ const HomePage = () => {
 
 
     return (
-        <div>
+        <main className='protected-main'>
             <h1 className="app-title">Vocabloom 🌱</h1>
             <p className="app-tagline">Plant a word, grow your vocabulary.</p>
 
@@ -107,7 +107,7 @@ const HomePage = () => {
                         <span>Browse By Tag</span></button>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 
