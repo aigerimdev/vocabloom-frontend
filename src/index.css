@@ -72,9 +72,10 @@ h6 {
 
 
 :root {
-  --primary-green-color: #7FDE92;
+  --primary-green-color: #afebbb;
   --secondary-green-color: #458d7c;
-  --terciary-green-color: #349b76;;
+  --terciary-green-color: #349b76;
+  ;
   --primary-purple-color: #34365C;
   --btn-green-color: #66c484;
   --bg-white-color: #F5F5F5;
@@ -142,3 +143,24 @@ audio {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--primary-purple-color);
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    height: 8vh;
+    position: fixed;
+}
+
+.protected-main {
+  background-image: url('../assets/bg_word_detail.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 100vh;
+  padding: 10vh 1rem 1rem 1rem;
+  /* Adjust for fixed Navbar */
+}

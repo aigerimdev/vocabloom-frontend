@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/useAuth';
 import SignUpPage from './pages/SingUpPage';
 import HomePage from './pages/HomePage';
-import Logout from './pages/Logout';
 import WordListPage from './pages/WordListPage';
 import TagBrowserPage from './pages/TagBrowserPage';
 import WordDetailPage from './pages/WordDetailPage';
@@ -32,12 +31,13 @@ function App() {
             }
           >
             <Route path="/home" element={<HomePage />} />
-            <Route path="/logout" element={<Logout />} />
+            {/* <Route path="/logout" element={<Logout />} /> */}
             <Route path="/my-words" element={<WordListPage />} />
             <Route path="/tags" element={<TagBrowserPage />} />
             <Route path="/word-details/:id" element={<WordDetailPage />} />
             <Route path="/my-words-by-tag" element={<TagWordListPage />} />
             <Route path="/my-words/:id" element={<WordDetailPage />} />
+
           </Route>
         </Routes>
       </AuthProvider>

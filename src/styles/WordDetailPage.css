@@ -1,12 +1,3 @@
-.protected-main {
-    background-image: url('../../assets/bg_word_detail.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    height: 90vh;
-    padding: 1rem;
-}
-
 .word-detail {
     background-color: rgba(255, 253, 253, 0.587);
     margin: 2rem auto 0 auto;
