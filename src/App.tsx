@@ -17,7 +17,6 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* Public routes */}
-          {/* <Route path="/" element={<WelcomePage />} /> */}
           <Route path="/" element={<RootRedirect />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
@@ -31,7 +30,6 @@ function App() {
             }
           >
             <Route path="/home" element={<HomePage />} />
-            {/* <Route path="/logout" element={<Logout />} /> */}
             <Route path="/my-words" element={<WordListPage />} />
             <Route path="/tags" element={<TagBrowserPage />} />
             <Route path="/word-details/:id" element={<WordDetailPage />} />
