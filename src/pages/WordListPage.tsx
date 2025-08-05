@@ -49,7 +49,7 @@ const WordListPage = () => {
                 ) : (
                     <ul className="word-list-items">
                         {words.map((word, idx) => (
-                            <li key={idx}>
+                            <li key={idx} className="word-list-item">
                                 <span className="word-list-icon">🌿</span>
 
                                 <Link to={`/my-words/${word.id}`}>{word.word}</Link>
