@@ -8,6 +8,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: var(--primary-purple-color);
 }
 
 .word-list-items {
@@ -75,4 +76,49 @@
 .word-link:visited {
     color: var(--primary-purple-color) !important;
     text-decoration: none;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .word-list-container {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 40px;
+    }
+
+    .word-list-title {
+        font-size: 28px;
+    }
+
+    .word-list-item {
+        font-size: 20px;
+        padding: 12px;
+    }
+
+    .word-link {
+        font-size: 16px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .word-list-container {
+        max-width: 750px;
+        padding: 50px;
+
+    }
+
+    .word-list-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .word-list-item {
+        padding: 16px;
+        font-size: 22px;
+    }
+
+    .word-link {
+        font-size: 20px;
+    }
 }
