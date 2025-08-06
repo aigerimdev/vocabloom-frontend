@@ -78,3 +78,53 @@
 .delete-button:hover {
     background-color: #34365c;
 }
+
+/* Tablet*/
+@media (min-width: 768px) {
+    .word-detail {
+        max-width: 650px;
+        padding: 30px;
+    }
+
+    .word-detail-title {
+        font-size: 2rem;
+    }
+
+    .word-detail-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .word-definitions-definition {
+        font-size: 1rem;
+    }
+
+    .word-definitions-example {
+        font-size: 0.95rem;
+    }
+
+    .delete-button {
+        font-size: 15px;
+        padding: 14px 24px;
+    }
+}
+
+/* Desktop*/
+@media (min-width: 1024px) {
+    .word-detail {
+        max-width: 750px;
+        padding: 40px;
+    }
+
+    .word-detail-title {
+        font-size: 2.2rem;
+    }
+
+    .word-detail-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .delete-button {
+        font-size: 16px;
+        padding: 16px 28px;
+    }
+}
