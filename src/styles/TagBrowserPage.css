@@ -1,45 +1,50 @@
-.tag-browser-container {
-    font-family: sans-serif;
-    padding: 16px;
-    max-width: 400px;
-    margin: auto;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
 .back-button {
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.title {
-    flex-grow: 1;
-    text-align: center;
-    font-weight: bold;
-    color: #2e7d32;
+.back-button:hover {
+    text-decoration: underline;
 }
 
 .section-title {
-    margin-top: 24px;
-    font-size: 22px;
-    font-family: 'Georgia', serif;
+    margin: 1.5rem 0;
+    font-size: 1.4rem;
     text-align: center;
+    color: var(--primary-purple-color);
 }
 
-.tag-list {
-    margin-top: 16px;
+.add-tag-button {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: var(--bg-white-color);
+    color: var(--primary-purple-color);
+    padding: 10px 20px;
+    margin-top: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--primary-purple-color);
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    & span {
+        font-size: 1.3rem;
+    }
+
+    &:hover {
+        background-color: var(--primary-purple-color);
+        color: var(--bg-white-color);
+    }
 }
 
-.tag-card,
 .add-tag-card {
     display: flex;
     justify-content: space-between;
@@ -49,40 +54,13 @@
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.1rem;
     font-weight: 500;
 }
 
 .add-tag-card {
-    background-color: #e0e0e0;
-}
-
-.add-icon {
-    border: none;
-    background: none;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.arrow {
-    font-size: 20px;
-}
-
-.color-0 {
-    border-left: 6px solid #ff8a80;
-}
-
-.color-1 {
-    border-left: 6px solid #82b1ff;
-}
-
-.color-2 {
-    border-left: 6px solid #ea80fc;
-}
-
-.color-3 {
-    border-left: 6px solid #b9f6ca;
+    background-color: var(--primary-purple-color);
+    color: var(--bg-white-color);
 }
 
 .new-tag-input {
@@ -92,4 +70,85 @@
     font-size: 14px;
     margin-right: 8px;
     outline: none;
+}
+
+.input-icon {
+    align-self: baseline;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 2rem;
+    height: 2rem;
+    margin-left: 1rem;
+    cursor: pointer;
+    color: var(--primary-green-color);
+    transition: all 0.3s ease;
+    &:hover {
+        transform: scale(1.1);
+        color: var(--primary-purple-color);
+        background-color: var(--primary-green-color);
+    }
+}
+
+.tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.tag-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 16px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-purple-color);
+    transition: all 0.3s ease;
+}
+
+.tag-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.arrow {
+    font-size: 1.1rem;
+}
+
+.color-0 {
+    border-left: .5rem solid #a5c5f9;
+    &:hover {
+        border-left: .5rem solid #3f51b5;
+    }
+}
+
+.color-1 {
+    border-left: .5rem solid #f9a39c;
+    &:hover {
+        border-left: .5rem solid #ff6f61;
+    } 
+}
+
+.color-2 {
+    border-left: .5rem solid #d4f3f6;
+    transition: border-left 0.3s ease, background-color 0.3s ease;
+    &:hover {
+        border-left: .5rem solid #00bcd4;
+    }
+}
+
+.color-3 {
+    border-left: .5rem solid #f7bdea;
+    &:hover {
+        border-left: .5rem solid #e91e63;
+    }
 }
