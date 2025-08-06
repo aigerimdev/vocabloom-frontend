@@ -77,7 +77,7 @@ const WordListPage = () => {
                     {tagId !== null && tagName
                         ? `${tagName} Collection`
                         : tagId !== null
-                            ? 'Loading tag name...'
+                            ? 'Loading...'
                             : 'My Word List'}
                 </h1>
                 {/* option 2 when loading shows My Word List */}
