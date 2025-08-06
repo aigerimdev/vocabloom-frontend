@@ -62,8 +62,10 @@
 
 .word-link {
     color: var(--primary-purple-color) !important;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    font-weight: 600;
     text-decoration: none;
 }
 
