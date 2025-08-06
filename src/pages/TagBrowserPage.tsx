@@ -30,9 +30,6 @@ const TagBrowserPage = () => {
         navigate(`/my-words?tagId=${tagId}&tagName=${encodeURIComponent(tagName)}`);
     };
 
-
-
-
     const handleAddTag = async () => {
         const trimmed = newTag.trim();
         if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
@@ -52,43 +49,37 @@ const TagBrowserPage = () => {
     return (
         <main className='protected-main'>
             <div className="tag-browser-container">
-                <header className="header">
-                    <button onClick={() => navigate(-1)} className="back-button">
-                        ← Back
-                    </button>
-                    <h1 className="title">Vocabloom 🌱</h1>
-                </header>
+                <button onClick={() => navigate(-1)} className="back-button">
+                    ← Back
+                </button>
+                <h1 className="section-title">My Vocabulary Tags</h1>
 
-                <h2 className="section-title">My Vocabulary Tags</h2>
+                {!showInput ? (
+                    <button className='add-tag-button' onClick={() => setShowInput(true)}>
+                        Add New Tag <span>+</span>
+                    </button>
+                ) : (
+                    <div className="add-tag-card">
+                        <input
+                            type="text"
+                            value={newTag}
+                            onChange={(e) => setNewTag(e.target.value)}
+                            placeholder="Enter tag"
+                            className="new-tag-input"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleAddTag();
+                            }}
+                        />
+                        <button className="input-icon" onClick={handleAddTag}>
+                            ✓
+                        </button>
+                        <button className="input-icon close-input-icon" onClick={() => {setShowInput(false)}}>
+                            x
+                        </button>
+                    </div>
+                )}
 
                 <div className="tag-list">
-                    <div className="add-tag-card">
-                        {!showInput ? (
-                            <>
-                                <span>Add New Tag</span>
-                                <button className="add-icon" onClick={() => setShowInput(true)}>
-                                    +
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <input
-                                    type="text"
-                                    value={newTag}
-                                    onChange={(e) => setNewTag(e.target.value)}
-                                    placeholder="Enter tag"
-                                    className="new-tag-input"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') handleAddTag();
-                                    }}
-                                />
-                                <button className="add-icon" onClick={handleAddTag}>
-                                    ✓
-                                </button>
-                            </>
-                        )}
-                    </div>
-
                     {tags.map((tag, index) => (
                         <div
                             key={tag.id}
