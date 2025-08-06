@@ -272,3 +272,8 @@ export async function get_saved_words(): Promise<WordData[]> {
     return result as WordData[];
   }
 }
+
+export const get_tag_by_id = async (id: number) => {
+  const response = await axios.get(`${BASE_URL}tags/${id}/`, getAuthConfig());
+  return response.data;
+};
