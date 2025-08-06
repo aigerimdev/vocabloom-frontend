@@ -52,7 +52,7 @@ const WordListPage = () => {
                             <li key={idx} className="word-list-item">
                                 <span className="word-list-icon">🌿</span>
 
-                                <Link to={`/my-words/${word.id}`}>{word.word}</Link>
+                                <Link to={`/my-words/${word.id}`} className="word-link">{word.word}</Link>
                             </li>
                         ))}
                     </ul>
