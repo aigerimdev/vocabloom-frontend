@@ -28,17 +28,6 @@ export const getAuthConfig = (): AxiosRequestConfig => {
   return { headers };
 };
 
-// const getAuthHeaders = () => {
-//   const token = localStorage.getItem('access_token');
-//   return token ? { Authorization: `Bearer ${token}` } : {};
-// };
-
-// export const getAuthConfig = () => ({
-//   headers: {
-//     'Content-Type': 'application/json',
-//     ...getAuthHeaders(),
-//   },
-// });
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -66,10 +55,12 @@ export const login = async (username: string, password: string): Promise<boolean
     }
 
     console.error('Login failed - no tokens in response');
-    return false;
+    // return false;
+    throw new Error('Invalid login credentials');
   } catch (error) {
     console.error('Login error:', error);
-    return false;
+    // return false;
+    throw error;
   }
 };
 

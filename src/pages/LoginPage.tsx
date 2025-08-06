@@ -8,14 +8,24 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const { login_user } = useAuth();
     const navigate = useNavigate();
 
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        login_user(username, password)
-    }
+        setError('');
+
+        try {
+            await login_user(username, password);
+            navigate('/');
+        } catch (err) {
+            setError('Invalid username or password');
+            console.error('Login error:', err);
+        }
+    };
+
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLSpanElement>) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -53,6 +63,7 @@ const LoginPage = () => {
                             required
                         />
                     </div>
+                    {error && <p className="error-message">{error}</p>}
                     <button className="form-button" type="submit">Log in</button>
                 </form>
                 <p className="form-text">
