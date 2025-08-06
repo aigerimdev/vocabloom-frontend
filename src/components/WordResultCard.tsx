@@ -61,39 +61,42 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
 
     return (
         <div className="word-card">
-            <h1 className='word-detail-title'>{capitalize(data.word)}</h1>
+            <section className='word-card-header'>
+                <h1 className='word-detail-title'>{capitalize(data.word)}</h1>
 
-            {data.phonetic && <p className="word-detail-phonetic">/{data.phonetic}/</p>}
+                {data.phonetic && <p className="word-detail-phonetic">/{data.phonetic}/</p>}
+            </section>
 
-            {data.audio && (
-                <audio controls>
-                    <source src={data.audio} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                </audio>
-            )}
+            <div className='word-card-main'>
+                {data.audio && (
+                    <audio controls>
+                        <source src={data.audio} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                    </audio>
+                )}
+                {Array.isArray(data.meanings) &&
+                    data.meanings.map((meaning, index) => (
+                        <div key={index}>
+                            <h2 className='word-detail-subtitle'>{capitalize(meaning.partOfSpeech)}</h2>
+                            <ul className='word-definitions'>
+                                {meaning.definitions.map((def, defIndex) => (
+                                    <li key={defIndex}>
+                                        <p className='word-definitions-definition'>{def.definition}</p>
+                                        <p className='word-definitions-example'>{def.example && <em> - {def.example}</em>}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
 
-            {Array.isArray(data.meanings) &&
-                data.meanings.map((meaning, index) => (
-                    <div key={index}>
-                        <h2 className='word-detail-subtitle'>{capitalize(meaning.partOfSpeech)}</h2>
-                        <ul className='word-definitions'>
-                            {meaning.definitions.map((def, defIndex) => (
-                                <li key={defIndex}>
-                                    <p className='word-definitions-definition'>{def.definition}</p>
-                                    <p className='word-definitions-example'>{def.example && <em> - {def.example}</em>}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
+                <TagDropdown
+                    onSelect={handleTagSelect}
+                    tags={tags}
+                    setTags={setTags}
+                />
 
-            <TagDropdown
-                onSelect={handleTagSelect}
-                tags={tags}
-                setTags={setTags}
-            />
-
-            <button className='word-detail-button' onClick={handleSaveClick}>Save Word</button>
+                <button className='word-detail-button' onClick={handleSaveClick}>Save Word</button>
+            </div>
         </div>
     );
 };

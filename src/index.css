@@ -140,7 +140,7 @@ audio {
   margin: 1rem 0;
   width: 100%;
   border-radius: 25px;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
 .navbar {
@@ -161,6 +161,20 @@ audio {
   background-repeat: no-repeat;
   background-position: bottom;
   height: 100vh;
-  padding: 10vh 1rem 1rem 1rem;
-  /* Adjust for fixed Navbar */
+  padding: 8vh 1rem 1rem 1rem; /* Adjust for fixed Navbar */
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-purple-color) var(--bg-white-color);
+
+}
+
+.protected-main::-webkit-scrollbar {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.protected-main:hover::-webkit-scrollbar,
+.protected-main:active::-webkit-scrollbar,
+.protected-main:focus::-webkit-scrollbar {
+  opacity: 1;
 }
