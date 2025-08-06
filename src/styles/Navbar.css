@@ -45,3 +45,15 @@
 .logout_btn {
     border-radius: 10px;
 }
+
+@media (min-width: 768px) {
+    .nav-links {
+        gap: 2rem;
+    }
+    .nav-links a, .nav-links button {
+        font-size: 1.1rem;
+    }
+    .main-title {
+        font-size: 1.5rem;
+    }
+}
