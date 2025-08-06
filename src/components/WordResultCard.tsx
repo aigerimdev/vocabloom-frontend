@@ -89,13 +89,15 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
                         </div>
                     ))}
 
-                <TagDropdown
-                    onSelect={handleTagSelect}
-                    tags={tags}
-                    setTags={setTags}
-                />
+                <div className='word-card-buttons'>
+                    <TagDropdown
+                        onSelect={handleTagSelect}
+                        tags={tags}
+                        setTags={setTags}
+                    />
 
-                <button className='word-detail-button' onClick={handleSaveClick}>Save Word</button>
+                    <button className='word-detail-button' onClick={handleSaveClick}>Save Word</button>
+                </div>
             </div>
         </div>
     );
