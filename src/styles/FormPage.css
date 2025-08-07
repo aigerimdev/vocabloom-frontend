@@ -74,11 +74,12 @@
     border-radius: 4px;
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-    transition: background-color 0.3s;
+    transition: all 0.4s ease;
 
     &:hover {
         background-color: var(--btn-green-color);
         color: var(--primary-purple-color);
+        transform: translateY(-2px);
     }
 }
 
@@ -98,10 +99,65 @@
     border: none;
     text-decoration: underline;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.form-link:hover {
+    color: var(--primary-purple-color);
+    transform: translateY(-2px);
 }
 
 .error-message {
     color: red;
     font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+    .form-page {
+        background: 
+            url('../../assets/bg_forms.svg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: right bottom;
+    }
+
+    .form-section {
+        width: 40%;
+        min-height: 60vh;
+        padding: 3rem;
+    }
+
+    .form-title {
+        font-size: 1.8rem;
+    }
+
+    .form-input {
+        font-size: 1rem;
+    }
+
+    .form-button {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .form-page {
+        background-position: center;
+    }
+
+    .form-section {
+        width: 35%;
+    }
+
+    .form-title {
+        font-size: 2rem;
+    }
+
+    .form-input {
+        font-size: 1rem;
+    }
+
+    .form-button {
+        font-size: 1.1rem;
+    }
 }
