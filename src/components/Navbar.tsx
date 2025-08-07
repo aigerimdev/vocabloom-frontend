@@ -10,7 +10,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         await logout();
         setIsAuthenticated(false);
-        navigate('/welcome');
+        navigate('/');
     };
 
     return (
@@ -19,7 +19,7 @@ const Navbar = () => {
                 Vocabloom <span>🌱</span>
             </Link>
             <div className="nav-links">
-                <Link to="/">Home</Link>
+                <Link to="/home">Home</Link>
                 <button onClick={handleLogout}>Log out</button>
             </div>
         </nav>
