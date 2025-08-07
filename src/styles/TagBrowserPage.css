@@ -4,6 +4,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-family: var(--font-main);
 }
 
 .back-button:hover {
@@ -97,6 +98,7 @@
     flex-direction: column;
     gap: 12px;
     margin-top: 2rem;
+    width: 100%;
 }
 
 .tag-card {
@@ -150,5 +152,55 @@
     border-left: .5rem solid #f7bdea;
     &:hover {
         border-left: .5rem solid #e91e63;
+    }
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 1.6rem;
+        margin: 2rem;
+    }
+
+    .add-tag-button, .add-tag-card {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .tag-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        width: 70%;
+        margin: 2rem auto;
+    }
+
+    .tag-list div {
+        flex: 1 1 calc(45% - 16px);
+        max-width: calc(45% - 16px);
+        margin: 8px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 3.5rem;
+    }
+
+    .add-tag-button {
+        width: 60%;
+    }
+
+    .tag-list {
+        gap: 20px;
+        width:70%;
+        margin: 3rem auto;
+    }
+
+    .tag-list div {
+        flex: 1 1 calc(31% - 20px);
+        max-width: calc(31% - 20px);
+        margin: 10px;
     }
 }
