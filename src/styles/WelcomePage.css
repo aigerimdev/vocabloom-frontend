@@ -52,12 +52,14 @@
     font-size: 1.1rem;
     font-weight: 700;
     font-family: var(--font-main);
-    box-shadow: var(--shadow-elevation-medium);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    transition: all 0.3s ease;
 }
 
 .welcome-btn:hover {
-    background-color: var(--primary-green-color);
-    color: var(--primary-purple-color);
+    transform: scale(1.03);
+    text-decoration: underline ;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
     cursor: pointer;
 }
 
@@ -68,4 +70,61 @@
 .welcome-footer p {
     font-family: var(--font-main);
     font-size: 0.9rem;
+    color: var(--primary-purple-color)
+}
+
+@media (min-width: 768px) {
+    .welcome-page {
+        padding: 3rem 4rem 0 4rem;
+        background-image: url('../../assets/bg_mini_welcome1.png');
+        grid-template-rows: 40% 50% 10%;
+        background-position: bottom;
+        background-size: auto;
+    }
+
+    .welcome-actions {
+        place-self: start center;
+        justify-content: center;
+        gap: 2rem;
+        flex-direction: row;
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+    }
+
+    .welcome-title-highlight {
+        font-size: 3.2rem;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.4rem;
+    }
+
+    .welcome-btn {
+        font-size: 1.2rem;
+        padding: .7rem 2.5rem;
+    }
+    
+}
+
+@media (min-width: 1024px) {
+    .welcome-page {
+        padding: 4rem 6rem 0 6rem;
+        /* background-image: url('../../assets/bg_mini_welcome1.png'), linear-gradient(0deg,rgba(255, 254, 209, 1) 0%, rgba(227, 255, 222, 1) 100%); */
+        background-image: linear-gradient(0deg,rgba(249, 254, 214, 0.3) 20%, rgba(202, 255, 231, 0.93) 100%),
+            url('../../assets/bg_mini_welcome1.png'),
+            linear-gradient(0deg,rgba(249, 254, 214, 1) 30%, rgba(202, 255, 231, 0.93) 100%);
+        grid-template-rows: 30% 60% 10%;
+    }
+
+
+    .welcome-title-highlight {
+        font-size: 3.3rem;
+    }
+
+    .welcome-btn {
+        margin-top: 3rem;
+        padding: .8rem 3rem;
+    }
 }
