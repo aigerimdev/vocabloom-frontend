@@ -1,16 +1,3 @@
-.back-button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-main);
-}
-
-.back-button:hover {
-    text-decoration: underline;
-}
-
 .section-title {
     margin: 1.5rem 0;
     font-size: 1.4rem;
@@ -23,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    background-color: var(--bg-white-color);
+    background-color: #f9f9f9;
     color: var(--primary-purple-color);
     padding: 10px 20px;
     margin-top: 2rem;
@@ -34,15 +21,18 @@
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 
     & span {
         font-size: 1.3rem;
     }
 
     &:hover {
-        background-color: var(--primary-purple-color);
-        color: var(--bg-white-color);
+        /* background-color: var(--primary-purple-color);
+        color: var(--bg-white-color); */
+        transform: scale(1.01);
+        background-color: var(--bg-image-color);
+        color: var(--primary-purple-color);
     }
 }
 
@@ -62,6 +52,9 @@
 .add-tag-card {
     background-color: var(--primary-purple-color);
     color: var(--bg-white-color);
+
+    background-color: var(--mint-green-color);
+    color: var(--primary-purple-color);
 }
 
 .new-tag-input {
@@ -84,12 +77,13 @@
     height: 2rem;
     margin-left: 1rem;
     cursor: pointer;
-    color: var(--primary-green-color);
+    /* color: var(--primary-green-color); */
+    color: var(--primary-purple-color);
     transition: all 0.3s ease;
     &:hover {
         transform: scale(1.1);
         color: var(--primary-purple-color);
-        background-color: var(--primary-green-color);
+        background-color: var(--bg-image-color);
     }
 }
 
@@ -157,14 +151,16 @@
 
 @media (min-width: 768px) {
     .section-title {
-        font-size: 1.6rem;
-        margin: 2rem;
+        font-size: 1.65rem;
+        margin: 2.3rem;
     }
 
-    .add-tag-button, .add-tag-card {
-        width: 70%;
+    .add-tag-card,
+    .add-tag-button {
+        width: 60%;
         margin: 0 auto;
     }
+
 
     .tag-list {
         flex-direction: row;
