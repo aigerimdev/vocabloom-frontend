@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { get_saved_words } from '../endpoints/api';
 import { WordData } from '../types/word';
 import { useNavigate } from 'react-router-dom';
@@ -23,21 +23,6 @@ const WordListPage = () => {
     const tagIdParam = getQueryParam('tagId');
     const tagId = tagIdParam ? Number(tagIdParam) : null;
 
-    // useEffect(() => {
-    //     const fetchWords = async () => {
-    //         try {
-    //             const allWords = await get_saved_words();
-    //             const filtered = tagId !== null
-    //                 ? allWords.filter(word => word.tag === tagId)
-    //                 : allWords;
-
-    //             setWords(filtered);
-    //         } catch (err) {
-    //             console.error('Failed to fetch saved words:', err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -77,7 +62,6 @@ const WordListPage = () => {
                 ← Back
             </button>
             <div className="word-list-container">
-                {/* option 1 when loading shows loading message */}
                 <h1 className="word-list-title">
                     {tagId !== null && tagName
                         ? `${tagName} Collection`
@@ -85,12 +69,6 @@ const WordListPage = () => {
                             ? 'Loading...'
                             : 'My Word List'}
                 </h1>
-                {/* option 2 when loading shows My Word List */}
-                {/* <h1 className="word-list-title">
-                    {tagId !== null && tagName
-                        ? `${tagName} Collection`
-                        : 'My Word List'}
-                </h1> */}
                 {loading ? (
                     <p>Loading...</p>
                 ) : words.length === 0 ? (
