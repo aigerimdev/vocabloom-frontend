@@ -15,4 +15,5 @@ export interface WordData {
     audio?: string;
     meanings: Meaning[];
     tag?: number | null;
+    note?: string | null;
 }
