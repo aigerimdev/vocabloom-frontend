@@ -79,6 +79,7 @@ h6 {
   --primary-purple-color: #34365C;
   --btn-green-color: #66c484;
   --bg-white-color: #F5F5F5;
+  --bg-image-color: #fffefe;
   --font-main: "Inter", sans-serif;
   --font-title: "Poetsen One", sans-serif;
   --hover-purple-color: #E5E5FF;
@@ -156,8 +157,21 @@ audio {
     box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
 
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-main);
+    margin-top: 1rem;
+}
+
+.back-button:hover {
+    transform: scale(1.03);
+}
+
 .protected-main {
-  /* background-image: url('../assets/bg_word_detail.png'); */
   background-image: url('../assets/bg_protected_main.png');
   background-size: cover;
   background-repeat: no-repeat;
@@ -166,7 +180,7 @@ audio {
   padding: 8vh 1rem 1rem 1rem; /* Adjust for fixed Navbar */
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: var(--primary-purple-color) var(--bg-white-color);
+  scrollbar-color: var(--primary-purple-color) transparent;
 
 }
 
@@ -187,7 +201,7 @@ audio {
     }
 
     .protected-main {
-        padding: 9vh 2rem 2rem 2rem; /* Adjust for larger Navbar */
+        padding: 9vh 3rem 2rem 3rem; /* Adjust for larger Navbar */
     }
 }   
 
