@@ -4,8 +4,8 @@
     border-radius: 20px;
     padding: 20px;
     width: 95%;
-    max-height: 80vh;
-    box-shadow: rgba(123, 119, 170, 0.48) 0px 20px 25px;
+    max-height: 75vh;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     overflow-y: scroll;
 }
 
