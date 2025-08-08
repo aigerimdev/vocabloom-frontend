@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { get_saved_words } from '../endpoints/api';
 import { WordData } from '../types/word';
+import { useNavigate } from 'react-router-dom';
 import { get_tag_by_id } from '../endpoints/api';
 import '../styles/WordListPage.css';
 
@@ -12,6 +13,7 @@ const WordListPage = () => {
     const [loading, setLoading] = useState(true);
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const getQueryParam = (key: string) => {
         const params = new URLSearchParams(location.search);
@@ -71,6 +73,9 @@ const WordListPage = () => {
 
     return (
         <main className='protected-main'>
+            <button onClick={() => navigate(-1)} className="back-button">
+                ← Back
+            </button>
             <div className="word-list-container">
                 {/* option 1 when loading shows loading message */}
                 <h1 className="word-list-title">
@@ -93,10 +98,12 @@ const WordListPage = () => {
                 ) : (
                     <ul className="word-list-items">
                         {words.map((word, idx) => (
-                            <li key={idx} className="word-list-item">
-                                <span className="word-list-icon">🌿</span>
-
-                                <Link to={`/my-words/${word.id}`} className="word-link">{word.word}</Link>
+                            <li key={idx} className="word-list-item" onClick={() => navigate(`/my-words/${word.id}`)}>
+                                <div className='word-list-word'>
+                                    <span className="word-list-icon">🌿</span>
+                                    <p className="word-link">{word.word}</p>
+                                </div>
+                                <span className="word-list-arrow">➤</span>
                             </li>
                         ))}
                     </ul>

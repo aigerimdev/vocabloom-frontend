@@ -58,6 +58,9 @@ const WordDetailPage = () => {
 
   return (
     <main className='protected-main'>
+      <button onClick={() => navigate(-1)} className="back-button">
+        ← Back
+      </button>
       <div className="word-detail">
         <div className="word-detail-container">
           <h1 className='word-detail-title'>{word?.word}</h1>
