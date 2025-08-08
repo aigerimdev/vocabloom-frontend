@@ -1,0 +1,113 @@
+/* src/styles/WordNote.css */
+.note-block {
+    display: grid;
+    gap: .5rem;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-title {
+    font-weight: 600;
+}
+
+.note-view {
+    background: #f6f7f8;
+    border-radius: .5rem;
+    padding: .75rem;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid var(--primary-purple-color);
+    border-radius: .5rem;
+    padding: .75rem;
+    resize: vertical;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border: 1.5px solid var(--primary-purple-color);
+}
+
+
+.note-actions {
+    display: flex;
+    gap: .75rem;
+    justify-content: flex-end;
+}
+
+.note-primary {
+    border: 1px solid var(--primary-purple-color);
+    padding: .5rem .9rem;
+    border-radius: .5rem;
+}
+
+.note-secondary {
+    background: #eee;
+    border: 1px solid #ddd;
+    padding: .5rem .9rem;
+    border-radius: .5rem;
+}
+
+.note-link {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+}
+
+.note-error {
+    color: #b00020;
+}
+
+.note-title {
+    font-weight: 600;
+    font-family: var(--font-title);
+    /* match section headers */
+    font-size: 1.2rem;
+    /* make it stand out like Word family */
+    color: var(--primary-purple-color);
+}
+
+.note-primary {
+    background-color: var(--primary-purple-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.note-actions button {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.note-secondary {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    color: black;
+}
+
+.note-secondary:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.note-primary {
+    background-color: var(--primary-purple-color);
+    border: none;
+    color: var(--primary-green-color, #afebbb);
+}

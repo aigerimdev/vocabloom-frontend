@@ -28,18 +28,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const nav = useNavigate();
 
-  const get_authenticated = async () => {
-    try {
-      const success = await is_authenticated();
-      setIsAuthenticated(success);
-    } catch {
-      setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // NO nav argument! Use the nav in scope.
   const login_user = async (
     username: string,
     password: string
@@ -72,12 +60,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   get_authenticated();
-  //   // eslint-disable-next-line
-  // }, [window.location.pathname]);
   useEffect(() => {
-    get_authenticated();
+    const access = localStorage.getItem("access_token");
+    const refresh = localStorage.getItem("refresh_token");
+
+    if (access && refresh) {
+      setIsAuthenticated(true);
+      is_authenticated()
+        .then(setIsAuthenticated)
+        .finally(() => setLoading(false));
+    } else {
+      setIsAuthenticated(false);
+      setLoading(false);
+    }
   }, []);
 
   return (

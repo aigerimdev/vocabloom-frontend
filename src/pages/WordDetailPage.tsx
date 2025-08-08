@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { WordData } from '../types/word';
 import { getAuthConfig } from '../endpoints/api';
+import WordNote from "../components/WordNote";
 import '../styles/WordDetailPage.css';
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
@@ -66,6 +67,12 @@ const WordDetailPage = () => {
           <h1 className='word-detail-title'>{word?.word}</h1>
           {word?.phonetic && <p className="word-detail-phonetic">/{word.phonetic}/</p>}
           {word?.audio && <audio controls src={word.audio} />}
+          {word && (
+            <WordNote
+              word={word}
+              onUpdated={(updated) => setWord(updated)}
+            />
+          )}
           {word?.meanings.map((meaning, idx) => (
             <div key={idx}>
               <h2 className='word-detail-subtitle'>{meaning.partOfSpeech}</h2>
