@@ -11,7 +11,7 @@
 
 .word-detail-title {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.65rem;
     margin-bottom: 4px;
     color: var(--primary-purple-color);
 }
@@ -87,7 +87,7 @@
     }
 
     .word-detail-title {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
 
     .word-detail-subtitle {
@@ -116,7 +116,7 @@
     }
 
     .word-detail-title {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
     }
 
     .word-detail-subtitle {
