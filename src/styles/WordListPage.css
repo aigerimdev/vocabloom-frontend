@@ -1,13 +1,13 @@
 .word-list-container {
-    padding: 20px;
+    padding: 2rem 1rem;
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 .word-list-title {
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     color: var(--primary-purple-color);
 }
 
@@ -22,8 +22,9 @@
     align-items: center;
     padding: 8px 0;
     border-bottom: 1px solid #ccc;
-    font-size: 18px;
-    color: #333;
+    font-size: 1rem;
+    color: var(--primary-purple-color);
+    cursor: pointer;
 }
 
 .word-list-icon {
@@ -42,13 +43,27 @@
 
 .word-list-item {
     display: flex;
-    align-items: center;
+    align-items: space-between;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-    font-size: 18px;
-    color: #333;
+    font-size: 1rem;
+    color: var(--primary-purple-color);
     border-radius: 8px;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.3s ease;
+    background-color: var(--bg-image-color);
+    margin-top: 7px;
+    transition: all 0.3s ease;
+}
+
+.word-list-word {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.word-list-arrow {
+    font-size: 1rem;
+    color: var(--primary-purple-color);
+    display: none;
 }
 
 .word-list-item:active,
@@ -59,13 +74,19 @@
     box-shadow: 0 0 0 2px #a5d6a7;
     /* green outline */
     transform: scale(1.005);
+
+    .word-list-icon {
+        transform: rotate(-60deg);
+    }
+
+    .word-list-arrow {
+        display: inline;
+    }
 }
 
 .word-link {
-    color: var(--primary-purple-color) !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
+    color: var(--primary-purple-color);
+    font-family: var(--font-main);
     font-weight: 600;
     text-decoration: none;
 }
@@ -74,51 +95,51 @@
 .word-link:focus,
 .word-link:active,
 .word-link:visited {
-    color: var(--primary-purple-color) !important;
+    color: var(--primary-purple-color);
     text-decoration: none;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
     .word-list-container {
-        max-width: 640px;
+        max-width: 75%;
         margin: 0 auto;
-        padding: 40px;
+        padding: 2.3rem 1.5rem;
     }
 
     .word-list-title {
-        font-size: 28px;
+        font-size: 1.65rem;
+        margin-bottom: 2.3rem;
     }
 
     .word-list-item {
-        font-size: 20px;
+        font-size: 1.3rem;
         padding: 12px;
     }
 
     .word-link {
-        font-size: 16px;
+        font-size: 1rem;
     }
 }
 
 /* Desktop */
 @media (min-width: 1024px) {
     .word-list-container {
-        max-width: 750px;
-        padding: 50px;
-
+        width: 55%;
+        padding: 2rem 2rem;
     }
 
     .word-list-title {
-        font-size: 32px;
-        margin-bottom: 40px;
+        font-size: 1.8rem;
+        margin-bottom: 3.5rem;
     }
 
     .word-list-item {
-        padding: 16px;
-        font-size: 22px;
+        padding: 12px;
+        font-size: 1.35rem;
     }
 
     .word-link {
-        font-size: 20px;
+        font-size: 1.25rem;
     }
 }
