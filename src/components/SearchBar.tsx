@@ -14,6 +14,11 @@ const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
                 placeholder="Type a word..."
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        onSearch();
+                    }
+                }}
             />
             <button onClick={onSearch}>🔍</button>
         </div>
