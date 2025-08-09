@@ -5,6 +5,7 @@ import { WordData } from '../types/word';
 import { getWordData } from '../api/dictionary';
 import { useNavigate } from 'react-router-dom';
 import { save_word, get_tags } from '../endpoints/api';
+import PersonalWordForm from '../components/PersonalWordForm';
 import '../styles/HomePage.css';
 
 interface Tag {
@@ -20,6 +21,8 @@ const HomePage = () => {
     // const [savedWords, setSavedWords] = useState<WordData[]>([]);
     const [, setSavedWords] = useState<WordData[]>([]);
     const [tags, setTags] = useState<Tag[]>([]);
+
+    const [showPersonalWordForm, setShowPersonalWordForm] = useState(false);
 
 
     // Load saved words from localStorage
@@ -50,6 +53,8 @@ const HomePage = () => {
             const data = await getWordData(searchTerm);
             setWordData(data);
             setNotFound(false);
+
+            setSearchTerm('');
         } catch (err) {
             console.error(err);
             setWordData(null);
@@ -59,18 +64,29 @@ const HomePage = () => {
 
     const handleSaveWord = async (wordDataWithTag: WordData & { tag: number | null }) => {
         try {
-            await save_word(wordDataWithTag);
+            const savedWord = await save_word(wordDataWithTag);
             console.log("Saved to backend:", wordDataWithTag);
+
+            if (savedWord) {
+                console.log("Personal word saved successfully:", savedWord);
+                alert(`Personal word "${wordDataWithTag.word}" saved successfully!`);
+            } else {
+                throw new Error('Failed to save word');
+            }
         } catch (err) {
             console.error("Error saving word:", err);
         }
     };
 
-
+        // Add close handler
+    const handleCloseWordCard = () => {
+        setWordData(null);
+        setNotFound(false);
+    };
 
     return (
         <main className='protected-main'>
-            <h1 className="app-title">Vocabloom 🌱</h1>
+            <h1 className="app-title">VocaBloom 🌱</h1>
             <p className="app-tagline">Plant a word, grow your vocabulary.</p>
 
             <SearchBar
@@ -83,10 +99,26 @@ const HomePage = () => {
                 <WordResultCard
                     data={wordData}
                     onSave={handleSaveWord}
+                    onClose={handleCloseWordCard}
                     tags={tags}
                     setTags={setTags}
                 />
             )}
+            <div className="button-wrapper">
+                <button
+                    className="create-personal-word-btn"
+                    onClick={() => setShowPersonalWordForm(true)}
+                >
+                    Create Your Own Word
+                </button>
+            </div>
+            <PersonalWordForm
+                isOpen={showPersonalWordForm}
+                onClose={() => setShowPersonalWordForm(false)}
+                onSave={handleSaveWord}
+                tags={tags}
+                setTags={setTags}
+            />
 
             {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
             <div className="button-wrapper">
@@ -104,7 +136,8 @@ const HomePage = () => {
                             alt="Browse By Tag"
                         />
                         </div>
-                        <span>Browse By Tag</span></button>
+                        <span>Browse By Tag</span>
+                    </button>
                 </div>
             </div>
         </main>
