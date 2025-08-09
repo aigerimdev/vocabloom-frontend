@@ -13,6 +13,23 @@ const REGISTER_URL = `${BASE_URL}register_user/`;
 const TAGS_URL = `${BASE_URL}tags/`;
 
 
+// 
+function friendlyMsg(err: any, fallback = "Something went wrong.") {
+  const data = err?.response?.data;
+  const first = (v: any) => Array.isArray(v) ? v[0] : v;
+
+  if (typeof data === "string") return data;
+  if (data?.detail) return first(data.detail);
+  if (data?.non_field_errors) return first(data.non_field_errors);
+  if (data?.name) return first(data.name);   // tag field error
+  if (data?.word) return first(data.word);   // word field error
+
+  const s = err?.response?.status;
+  if (s === 400 || s === 409) return "Already exists.";
+  if (s === 401) return "Please log in again.";
+  return fallback;
+}
+
 export const getAuthConfig = (): AxiosRequestConfig => {
   const token = localStorage.getItem("access_token");
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -58,14 +75,31 @@ export const call_refresh = async <T>(
   return false;
 };
 
+// export const login = async (username: string, password: string): Promise<boolean> => {
+//   const { data } = await axios.post(LOGIN_URL, { username, password });
+//   if (data.access && data.refresh) {
+//     localStorage.setItem("access_token", data.access);
+//     localStorage.setItem("refresh_token", data.refresh);
+//     return true;
+//   }
+//   return false;
+// };
 export const login = async (username: string, password: string): Promise<boolean> => {
-  const { data } = await axios.post(LOGIN_URL, { username, password });
-  if (data.access && data.refresh) {
-    localStorage.setItem("access_token", data.access);
-    localStorage.setItem("refresh_token", data.refresh);
-    return true;
+  try {
+    const { data } = await axios.post(LOGIN_URL, { username, password });
+    if (data.access && data.refresh) {
+      localStorage.setItem("access_token", data.access);
+      localStorage.setItem("refresh_token", data.refresh);
+      return true;
+    }
+    throw new Error("Invalid username or password");
+  } catch (err: any) {
+    const message =
+      err?.response?.status === 401
+        ? "Invalid username or password"
+        : err?.response?.data?.detail || "Failed to log in.";
+    throw new Error(message);
   }
-  return false;
 };
 
 export const register = async (
@@ -150,10 +184,15 @@ export async function save_word(word: WordData): Promise<WordData | null> {
     const { data } = await axios.post(WORDS_URL, payload, getAuthConfig());
     return data;
   } catch (error: any) {
-    const result = await call_refresh(error, () =>
-      axios.post(WORDS_URL, payload, getAuthConfig())
-    );
-    return result === false ? null : (result as WordData);
+    // try auth refresh first
+    if (error.response?.status === 401) {
+      const result = await call_refresh(error, () =>
+        axios.post(WORDS_URL, payload, getAuthConfig())
+      );
+      if (result !== false) return result as WordData;
+    }
+    // then surface a nice message (e.g., duplicate)
+    throw new Error(friendlyMsg(error, "Failed to save word."));
   }
 }
 
@@ -184,15 +223,34 @@ export const delete_word = async (id: number) => {
   }
 };
 
+// export const create_tag = async (name: string) => {
+//   try {
+//     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
+//     return data;
+//   } catch (error: any) {
+//     if (error.response?.status === 401) {
+//       const result = await call_refresh(error, () =>
+//         axios.post(TAGS_URL, { name }, getAuthConfig())
+//       );
+//       if (result !== false) return result;
+//     }
+//     throw new Error(friendlyMsg(error, "Failed to create tag."));
+//   }
+// };
 export const create_tag = async (name: string) => {
   try {
     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
     return data;
   } catch (error: any) {
-    const result = await call_refresh(error, () =>
-      axios.post(TAGS_URL, { name }, getAuthConfig())
-    );
-    return result === false ? null : result;
+    if (error.response?.status === 401) {
+      const result = await call_refresh(error, () =>
+        axios.post(TAGS_URL, { name }, getAuthConfig())
+      );
+      if (result !== false) return result;
+    }
+    // extract friendly message or default
+    const msg = error?.response?.data?.name?.[0] || error?.response?.data?.detail || "This tag already exists.";
+    throw new Error(msg);
   }
 };
 

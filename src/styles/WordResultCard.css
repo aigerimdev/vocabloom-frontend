@@ -1,5 +1,5 @@
 .word-card {
-    background: linear-gradient(0deg,rgba(167, 235, 184, 0.85) 0%, rgba(220, 247, 227, 1) 26%, rgba(255, 255, 255, 0.86) 100%);
+    background: linear-gradient(0deg, rgba(167, 235, 184, 0.85) 0%, rgba(220, 247, 227, 1) 26%, rgba(255, 255, 255, 0.86) 100%);
     border-radius: 20px;
     padding: 5px 0;
     margin: 20px auto;
@@ -74,6 +74,7 @@
     .word-card {
         max-width: 70%;
     }
+
     .word-card-buttons {
         display: flex;
         justify-content: space-between;
@@ -81,4 +82,18 @@
         margin-top: 16px;
         gap: 2rem;
     }
+}
+
+.error-text {
+    color: #c0342b;
+    margin: 0.5rem 0 0.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.success-text {
+    color: #1f7a3e;
+    margin: 0.5rem 0 0.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
 }
