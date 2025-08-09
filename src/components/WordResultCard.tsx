@@ -5,7 +5,6 @@ import '../styles/WordResultCard.css';
 import '../styles/WordDetailPage.css';
 import { save_word } from '../endpoints/api';
 
-
 interface Tag {
     id: number;
     name: string;
@@ -14,11 +13,12 @@ interface Tag {
 interface WordResultCardProps {
     data: WordData;
     onSave: (wordDataWithTag: WordData & { tag: number | null }) => void;
+    onClose?: () => void; // New optional prop
     tags: Tag[];
     setTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 }
 
-const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) => {
+const WordResultCard = ({ data, onSave, onClose, tags, setTags }: WordResultCardProps) => {
     const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
     const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
 
@@ -34,7 +34,7 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
         };
 
         try {
-            const savedWord = await save_word(wordToSave); // Send to backend
+            const savedWord = await save_word(wordToSave);
 
             if (savedWord) {
                 const existing = localStorage.getItem('savedWords');
@@ -62,9 +62,19 @@ const WordResultCard = ({ data, onSave, tags, setTags }: WordResultCardProps) =>
     return (
         <div className="word-card">
             <section className='word-card-header'>
+                {/* Close button */}
+                {onClose && (
+                    <button 
+                        className="word-card-close-btn" 
+                        onClick={onClose}
+                        title="Close"
+                    >
+                        ✕
+                    </button>
+                )}
                 <h1 className='word-detail-title'>{capitalize(data.word)}</h1>
-
                 {data.phonetic && <p className="word-detail-phonetic">/{data.phonetic}/</p>}
+                
             </section>
 
             <div className='word-card-main'>
