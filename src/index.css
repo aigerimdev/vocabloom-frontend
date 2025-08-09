@@ -172,6 +172,8 @@ audio {
 }
 
 .protected-main {
+  /* background: linear-gradient(0deg,rgba(255, 255, 255, 0.1) 0%, rgb(237, 255, 247) 20%, rgb(247, 250, 230) 100%), url('../assets/bg_protected_main.png'); */
+  /* background: linear-gradient(0deg, rgb(249 249 249 / 0%) 0%, rgb(206 227 239) 100%), url('../assets/bg_protected_main.png'); */
   background-image: url('../assets/bg_protected_main.png');
   background-size: cover;
   background-repeat: no-repeat;
