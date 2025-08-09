@@ -40,10 +40,10 @@ const WordListPage = () => {
                         const tag = await get_tag_by_id(tagId);
                         setTagName(tag.name);
                     } catch (err) {
-                        setTagName(null); // fallback
+                        setTagName(null);
                     }
                 } else {
-                    setTagName(null); // clear tagName when not filtering
+                    setTagName(null);
                 }
             } catch (err) {
                 console.error('Failed to fetch words or tag name:', err);
@@ -54,7 +54,6 @@ const WordListPage = () => {
 
         fetchData();
     }, [tagId]);
-
 
     return (
         <main className='protected-main'>
