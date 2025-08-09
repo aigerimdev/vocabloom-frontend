@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { WordData } from "../types/word";
 
-const BASE_URL = "https://vocabloom-backend.onrender.com/api/";
+const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
+// const BASE_URL = 'http://127.0.0.1:8000/api/';
 
 const LOGIN_URL = `${BASE_URL}token/`;
 const REFRESH_URL = `${BASE_URL}token/refresh/`;
