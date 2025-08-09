@@ -224,3 +224,15 @@ export const get_tag_by_id = async (id: number) => {
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const delete_tag = async (id: number): Promise<boolean> => {
+  try {
+    await axios.delete(`${TAGS_URL}${id}/`, getAuthConfig());
+    return true;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.delete(`${TAGS_URL}${id}/`, getAuthConfig())
+    );
+    return result === false ? false : true;
+  }
+};
