@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react";
 import { updateWordNote } from "../endpoints/api";
 import { WordData } from "../types/word";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faPencil } from '@fortawesome/free-solid-svg-icons'
+
 import "../styles/WordNote.css";
 
 type Props = {
@@ -45,7 +49,7 @@ export default function WordNote({ word, onUpdated }: Props) {
 
     if (mode === "empty") return (
         <div className="note-block">
-            <button className="note-primary" onClick={() => setMode("edit")}>Write a note</button>
+            <button className="button-write-note" onClick={() => setMode("edit")}><FontAwesomeIcon icon={faPenToSquare} />Write a note</button>
         </div>
     );
 
@@ -91,7 +95,7 @@ export default function WordNote({ word, onUpdated }: Props) {
         <div className="note-block">
             <div className="note-header">
                 <span className="note-title">Your note</span>
-                <button className="note-link" onClick={() => setMode("edit")}>Edit</button>
+                <button className="note-link" onClick={() => setMode("edit")}><FontAwesomeIcon icon={faPencil} size="sm"/> Edit</button>
             </div>
             <p className="note-view">{word.note}</p>
         </div>
@@ -99,7 +103,7 @@ export default function WordNote({ word, onUpdated }: Props) {
 
     return (
         <div className="note-block">
-            <label className="note-title" htmlFor="note-ta">Your note</label>
+            <label className="note-title" htmlFor="note-ta"><FontAwesomeIcon icon={faPenToSquare}/> Write your note</label>
             <textarea
                 id="note-ta"
                 rows={3}

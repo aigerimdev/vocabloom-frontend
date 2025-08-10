@@ -2,6 +2,26 @@
 .note-block {
     display: grid;
     gap: .5rem;
+    margin: 1.5rem 0;
+}
+
+.button-write-note {
+    color: var(--primary-purple-color);
+    border: none;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f1f3f4;
+    transition: all 0.2s ease-in-out;
+}
+.button-write-note:hover {
+    transform: scale(1.05);
 }
 
 .note-header {
@@ -10,28 +30,30 @@
     align-items: center;
 }
 
-.note-title {
-    font-weight: 600;
-}
-
 .note-view {
     background: #f6f7f8;
     border-radius: .5rem;
     padding: .75rem;
+    font-size: .9rem;
 }
 
 textarea {
     width: 100%;
-    border: 1px solid var(--primary-purple-color);
+    border: .5px solid var(--primary-purple-color);
+    /* border: none; */
+    outline: none;
     border-radius: .5rem;
     padding: .75rem;
     resize: vertical;
-    font-family: inherit;
+    font-family: var(--font-main);
+    font-size: .9rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    transition: all 0.2s ease-in-out;
 }
 
 textarea:focus {
-    outline: none;
-    border: 1.5px solid var(--primary-purple-color);
+    /* outline: none; */
+    border: 1px solid var(--primary-purple-color);
 }
 
 
@@ -57,7 +79,14 @@ textarea:focus {
 .note-link {
     background: transparent;
     border: none;
-    text-decoration: underline;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.note-link:hover {
+    color: var(--primary-purple-color);
+    padding-bottom: 1px;
+    border-bottom: 1px solid var(--primary-purple-color);
+    transform: scale(1.02);
 }
 
 .note-error {
@@ -66,24 +95,11 @@ textarea:focus {
 
 .note-title {
     font-weight: 600;
-    font-family: var(--font-title);
-    /* match section headers */
-    font-size: 1.2rem;
-    /* make it stand out like Word family */
+    font-family: var(--font-main);
+    font-size: 1rem;
     color: var(--primary-purple-color);
 }
 
-.note-primary {
-    background-color: var(--primary-purple-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
 
 .note-actions button {
     min-width: 120px;
@@ -98,16 +114,26 @@ textarea:focus {
 .note-secondary {
     background-color: #eee;
     border: 1px solid #ddd;
-    color: black;
+    color: var(--primary-purple-color);
 }
 
 .note-secondary:hover {
     background-color: #ddd;
-    color: black;
+    color: var(--primary-purple-color);
 }
 
 .note-primary {
     background-color: var(--primary-purple-color);
-    border: none;
     color: var(--primary-green-color, #afebbb);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.note-primary:hover {
+    color: var(--primary-green-color, #afebbb);
+    font-weight: 700;
 }
