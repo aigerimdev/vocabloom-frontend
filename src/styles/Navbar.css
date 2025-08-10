@@ -20,10 +20,20 @@
     flex-direction: row;
     align-items: center;
     gap:1rem;
+
+    .nav-links-icons {
+        display: none;
+        transition: all 0.3s ease;
+    }
+}
+
+
+.nav-links-words, .nav-links-tags {
+    display: none;
 }
 
 .nav-links a, .nav-links button {
-    margin-left: 1rem;
+    margin-left: .5rem;
     text-decoration: none;
     color: var(--primary-green-color);
     background-color: var(--primary-purple-color);
@@ -33,14 +43,18 @@
     font-family: var(--font-main);
     font-size: 1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .nav-links a:hover, .nav-links button:hover {
     padding-bottom: 3px;
     border-bottom: 2px solid var(--primary-green-color);
-}
 
+    .nav-links-icons {
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+}
 
 .logout_btn {
     border-radius: 10px;
@@ -55,5 +69,8 @@
     }
     .main-title {
         font-size: 1.5rem;
+    }
+    .nav-links-words, .nav-links-tags {
+        display: block;
     }
 }
