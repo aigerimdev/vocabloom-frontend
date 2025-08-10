@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/ConfirmationModal.css';
 
 interface ConfirmationModalProps {
@@ -20,38 +20,43 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     cancelText = 'Cancel',
     onConfirm,
     onCancel,
-    type = 'warning'
+    type = 'warning',
 }) => {
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onCancel(); };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [isOpen, onCancel]);
 
     const handleBackdropClick = (e: React.MouseEvent) => {
-        if (e.target === e.currentTarget) {
-            onCancel();
-        }
+        if (e.target === e.currentTarget) onCancel();
     };
 
+    if (!isOpen) return null;
+
     return (
-        <div className="confirmation-modal-backdrop" onClick={handleBackdropClick}>
+        <div
+            className="confirmation-modal-backdrop"
+            onClick={handleBackdropClick}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirmation-title"
+        >
             <div className="confirmation-modal">
                 <div className="confirmation-modal-header">
-                    <h3 className={`confirmation-title ${type}`}>{title}</h3>
+                    <h3 id="confirmation-title" className={`confirmation-title ${type}`}>{title}</h3>
                 </div>
-                
                 <div className="confirmation-modal-body">
                     <p>{message}</p>
                 </div>
-                
                 <div className="confirmation-modal-actions">
-                    <button 
-                        className="confirmation-btn cancel-btn" 
-                        onClick={onCancel}
-                    >
-                        {cancelText}
-                    </button>
-                    <button 
-                        className={`confirmation-btn confirm-btn ${type}`} 
-                        onClick={onConfirm}
-                    >
+                    {cancelText !== '' && (
+                        <button className="confirmation-btn cancel-btn" onClick={onCancel}>
+                            {cancelText}
+                        </button>
+                    )}
+                    <button className={`confirmation-btn confirm-btn ${type}`} onClick={onConfirm}>
                         {confirmText}
                     </button>
                 </div>
