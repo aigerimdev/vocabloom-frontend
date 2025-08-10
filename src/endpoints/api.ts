@@ -236,3 +236,85 @@ export const delete_tag = async (id: number): Promise<boolean> => {
     return result === false ? false : true;
   }
 };
+
+////////////////////////
+//////// AUDIO ////////
+///////////////////////
+
+interface TextToSpeechResponse {
+  success: boolean;
+  audio_data: string;
+  content_type: string;
+  error?: string;
+}
+
+export const convertTextToSpeech = async (
+  text: string, 
+  voiceId: string = 'Joanna'
+): Promise<string | null> => {
+  try {
+    const response = await axios.post<TextToSpeechResponse>(
+      `${BASE_URL}audio/`, 
+      { text, voiceId }, 
+      getAuthConfig()
+    );
+
+    const data = response.data;
+    
+    if (data.success && data.audio_data) {
+      const audioBlob = base64ToBlob(data.audio_data, data.content_type);
+      return URL.createObjectURL(audioBlob);
+    }
+    
+    throw new Error(data.error || 'Invalid response from server');
+  } catch (error: any) {
+    console.error('Text-to-speech error:', error);
+    
+    const result = await call_refresh(error, () =>
+      axios.post<TextToSpeechResponse>(`${BASE_URL}audio/`, { text, voiceId }, getAuthConfig())
+    );
+    
+    if (result === false) {
+      return null;
+    }
+    
+    if (result.success && result.audio_data) {
+      const audioBlob = base64ToBlob(result.audio_data, result.content_type);
+      return URL.createObjectURL(audioBlob);
+    }
+    
+    return null;
+  }
+};
+
+// Helper function to convert base64 to blob
+const base64ToBlob = (base64: string, contentType: string): Blob => {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+  
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: contentType });
+};
+
+// Audio player utility
+export const playAudio = (audioUrl: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const audio = new Audio(audioUrl);
+    
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl); // Clean up
+      resolve();
+    };
+    
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl); // Clean up
+      reject(new Error('Failed to play audio'));
+    };
+    
+    audio.play().catch(reject);
+  });
+};
