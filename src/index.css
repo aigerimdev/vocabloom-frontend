@@ -172,9 +172,7 @@ audio {
 }
 
 .protected-main {
-  /* background: linear-gradient(0deg,rgba(255, 255, 255, 0.1) 0%, rgb(237, 255, 247) 20%, rgb(247, 250, 230) 100%), url('../assets/bg_protected_main.png'); */
-  /* background: linear-gradient(0deg, rgb(249 249 249 / 0%) 0%, rgb(206 227 239) 100%), url('../assets/bg_protected_main.png'); */
-  background-image: url('../assets/bg_protected_main.png');
+  background: linear-gradient(0deg, rgb(249 249 249 / 0%) 0%, rgb(206 227 239) 100%), url('../assets/bg_protected_main.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -195,6 +193,38 @@ audio {
 .protected-main:active::-webkit-scrollbar,
 .protected-main:focus::-webkit-scrollbar {
   opacity: 1;
+}
+
+/* -------------------------------------- */
+/* -------------- AUDIO ------------------*/
+/* -------------------------------------- */
+
+.audio-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  color: #ccc;
+}
+
+.audio-button:hover {
+  background-color: #f3f4f6;
+  color: var(--primary-purple-color);
+}
+
+.audio-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.audio-button.loading {
+  color: #3b82f6;
+}
+
+.audio-button.playing {
+  color: #10b981;
 }
 
 @media (min-width: 768px) {
