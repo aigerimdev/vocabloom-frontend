@@ -48,8 +48,8 @@
 }
 
 .add-tag-card {
-    background-color: rgb(249, 249, 249);
-    border: 1px solid #ccc;
+    background: var(--bg-image-color);
+    border: .5px solid var(--primary-purple-color);
     color: var(--primary-purple-color);
 }
 
@@ -76,6 +76,7 @@
     /* color: var(--primary-green-color); */
     color: var(--primary-purple-color);
     transition: all 0.3s ease;
+
     &:hover {
         transform: scale(1.1);
         color: var(--primary-purple-color);
@@ -95,7 +96,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 16px;
+    /* padding: 1rem 16px; */
     border-radius: 10px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -109,9 +110,9 @@
         color: #858585;
         cursor: pointer;
         padding: .5rem;
-        border-radius: 10px;
+        margin-right: .5rem;
+        border-radius: 50%;
         transition: all 0.3s ease;
-        display: none;
     }
 
 }
@@ -119,7 +120,6 @@
 .tag-card-trash:hover {
     transform: scale(1.1);
     color: var(--primary-purple-color);
-    background-color: var(--bg-image-color);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
@@ -133,8 +133,14 @@
     }
 }
 
+.tag-card-name {
+    width: 95%;
+    padding: .8rem 1rem
+}
+
 .color-0 {
     border-left: .5rem solid #a5c5f9;
+
     &:hover {
         border-left: .5rem solid #3f51b5;
     }
@@ -142,14 +148,16 @@
 
 .color-1 {
     border-left: .5rem solid #f9a39c;
+
     &:hover {
         border-left: .5rem solid #ff6f61;
-    } 
+    }
 }
 
 .color-2 {
     border-left: .5rem solid #d4f3f6;
     transition: border-left 0.3s ease, background-color 0.3s ease;
+
     &:hover {
         border-left: .5rem solid #00bcd4;
     }
@@ -157,6 +165,7 @@
 
 .color-3 {
     border-left: .5rem solid #f7bdea;
+
     &:hover {
         border-left: .5rem solid #e91e63;
     }
@@ -184,7 +193,7 @@
         margin: 2rem auto;
     }
 
-    .tag-list div {
+    .tag-card {
         flex: 1 1 calc(45% - 16px);
         max-width: calc(45% - 16px);
         margin: 8px;
@@ -197,19 +206,43 @@
         margin-bottom: 3.5rem;
     }
 
-    .add-tag-button, .add-tag-card {
+    .add-tag-button,
+    .add-tag-card {
         width: 40%;
     }
 
     .tag-list {
         gap: 20px;
-        width:70%;
+        width: 70%;
         margin: 3rem auto;
     }
 
-    .tag-list div {
+    .tag-card {
         flex: 1 1 calc(31% - 20px);
         max-width: calc(31% - 20px);
         margin: 10px;
+
+        .tag-card-trash {
+            transition: all 0.3s ease;
+            padding: 1rem;
+            display: none;
+        }
+    }
+
+    .tag-card-trash:hover {
+        transform: scale(1.1);
+        color: var(--primary-purple-color);
+        background-color: var(--bg-image-color);
+        box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+    }
+
+    .tag-card:hover {
+        .tag-card-trash {
+            display: flex;
+        }
+    }
+
+    .tag-card-name {
+        padding: 1.25rem 1.5rem;
     }
 }

@@ -112,10 +112,9 @@ const TagBrowserPage = () => {
                 <div className="tag-list">
                     {tags.map((tag, index) => (
                         <div key={tag.id}
-                                className={`tag-card color-${index % 4}`}>
-                            <div
-                                onClick={() => handleTagClick(tag.id, tag.name)}
-                            >
+                                className={`tag-card color-${index % 4}`}
+                                >
+                            <div className="tag-card-name" onClick={() => handleTagClick(tag.id, tag.name)}>
                                 <span>{tag.name}</span>
                             </div>
                             <FontAwesomeIcon icon={faTrashCan} size="xs" className='tag-card-trash' onClick={() => handleDeleteClick(tag.id, tag.name)}/>
