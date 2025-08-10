@@ -1,8 +1,8 @@
 .word-detail {
-    background-color: rgba(255, 253, 253, 0.587);
+    background-color: rgba(254, 254, 254, 0.84);
     margin: 2rem auto 0 auto;
     border-radius: 20px;
-    padding: 20px;
+    padding: 1rem 1rem .5rem 1rem;
     width: 95%;
     max-height: 75vh;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -25,6 +25,11 @@
     font-size: 1rem;
 }
 
+.word-detail-meanings {
+    margin: .5rem 0;
+    padding: 0 1rem 0 0;
+}
+
 .word-detail-subtitle {
     font-size: 1.0rem;
     border-bottom: 1px solid #ccc;
@@ -37,46 +42,57 @@
 
 .word-definitions {
     padding-left: 18px;
-    margin: 0;
+    margin: .5rem 0;
 }
 
 .word-definitions li {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     font-size: 14px;
     display: flex;
     flex-direction: column;
-}
-
-.word-definitions em {
-    color: #555;
-    margin-top: 4px;
-    font-style: italic;
+    font-family: var(--font-main);
 }
 
 .word-definitions-definition {
     font-size: .95rem;
 }
 
+.word-definitions-example-div {
+    display: flex;
+    align-items: center;
+    padding-left: .5rem;
+    gap: 8px;
+}
+
 .word-definitions-example {
     font-size: .9rem;
+    color: #555;
 }
 
 .delete-button {
-    /* margin-top: 16px; */
-    width: 100%;
-    padding: 12px 20px;
-    border-radius: 30px;
-    background-color: #34365c;
-    color: #8ef58e;
+    position: sticky;
+    bottom: 0;
+    left: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 1rem;
+    border-radius: 50%;
+    background-color: rgba(206, 227, 239, 0.829);
+    color: var(--primary-purple-color);
+
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1rem;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    transition: all 0.3s ease;
 }
 
 .delete-button:hover {
-    background-color: #34365c;
+    transform: scale(1.1);
 }
 
 /* Tablet*/
@@ -104,7 +120,6 @@
 
     .delete-button {
         font-size: 15px;
-        padding: 14px 24px;
     }
 }
 
@@ -112,7 +127,8 @@
 @media (min-width: 1024px) {
     .word-detail {
         max-width: 750px;
-        padding: 40px;
+        padding: 2rem 1rem 1rem 2rem;
+        margin: 1.5rem auto 0 auto;
     }
 
     .word-detail-title {
@@ -125,6 +141,5 @@
 
     .delete-button {
         font-size: 16px;
-        padding: 16px 28px;
     }
 }

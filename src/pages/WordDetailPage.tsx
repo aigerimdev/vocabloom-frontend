@@ -4,6 +4,11 @@ import axios from 'axios';
 import { WordData } from '../types/word';
 import { getAuthConfig } from '../endpoints/api';
 import WordNote from "../components/WordNote";
+import AudioButton from '../components/AudioButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
+import ConfirmationModal from '../components/ConfirmationModal';
+
 import '../styles/WordDetailPage.css';
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
@@ -16,6 +21,8 @@ const WordDetailPage = () => {
   const [word, setWord] = useState<WordData | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [wordToDelete, setWordToDelete] = useState<{ id: number; name: string } | null>(null);
 
   useEffect(() => {
     const fetchWord = async () => {
@@ -45,13 +52,28 @@ const WordDetailPage = () => {
     fetchWord();
   }, [id]);
 
-  const handleDelete = async () => {
+  const handleDeleteClick = (wordId: number, wordName: string) => {
+    setWordToDelete({ id: wordId, name: wordName });
+    setShowDeleteConfirm(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!wordToDelete) return;
+
     try {
       await axios.delete(`${BASE_URL}/words/${id}/`, getAuthConfig());
       navigate('/my-words');
     } catch (error) {
       console.error('Error deleting word:', error);
+    } finally {
+      setShowDeleteConfirm(false);
+      setWordToDelete(null);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setWordToDelete(null);
   };
 
   if (loading) return <p>Loading word...</p>;
@@ -74,21 +96,50 @@ const WordDetailPage = () => {
             />
           )}
           {word?.meanings.map((meaning, idx) => (
-            <div key={idx}>
+            <div key={idx} className='word-detail-meanings'>
               <h2 className='word-detail-subtitle'>{meaning.partOfSpeech}</h2>
               <ul className='word-definitions'>
                 {meaning.definitions.map((def, i) => (
                   <li key={i}>
-                    <p className='word-definitions-definition'>{def.definition}</p>
-                    <p className='word-definitions-example'>{def.example && <em> – {def.example}</em>}</p>
+                    <p className='word-definitions-definition'>- {def.definition}</p>
+                    {def.example && (
+                      <div className='word-definitions-example-div'>
+                        <AudioButton
+                          text={def.example ?? ""}
+                          className="ml-2 text-blue-500"
+                          size={16}
+                        />
+                        <p className='word-definitions-example'>{def.example && <em>{def.example}</em>}</p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
             </div>
           ))}
-          <button onClick={handleDelete} className="delete-button">Delete Word</button>
+          <FontAwesomeIcon
+            icon={faTrashCan}
+            size="xs"
+            className="delete-button"
+            onClick={() => {
+              if (word?.id && word?.word) {
+                handleDeleteClick(word.id, word.word);
+              }
+            }}
+          ></FontAwesomeIcon>
+          {/* // <button onClick={handleDelete} className="delete-button">Delete Word</button> */}
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={showDeleteConfirm}
+        title="Delete Word"
+        message={`Are you sure you want to delete "${wordToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        type="danger"
+      />
     </main>
   );
 };
