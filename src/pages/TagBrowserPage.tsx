@@ -62,6 +62,7 @@ const TagBrowserPage = () => {
         try {
             await delete_tag(tagToDelete.id);
             setTags(tags.filter(tag => tag.id !== tagToDelete.id));
+            navigate('/tags', { replace: true })
         } catch (error) {
             console.error('Failed to delete tag:', error);
             alert('Failed to delete tag. Please try again.');

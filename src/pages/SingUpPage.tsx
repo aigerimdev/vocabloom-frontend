@@ -20,9 +20,10 @@ const SignUpPage = () => {
         e.preventDefault();
         try {
             await register_user(firstName, lastName, email, username, password, confirmPassword);
-            navigate('/welcome');
+            navigate('/signup');
         } catch (error) {
             alert("Registration failed. Please try again.");
+            navigate('/signup')
         }
     }
 
