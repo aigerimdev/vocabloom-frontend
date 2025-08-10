@@ -62,7 +62,7 @@ const WordDetailPage = () => {
 
     try {
       await axios.delete(`${BASE_URL}/words/${id}/`, getAuthConfig());
-      navigate('/my-words');
+      navigate('/my-words', { replace: true });
     } catch (error) {
       console.error('Error deleting word:', error);
     } finally {
