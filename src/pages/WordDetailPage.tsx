@@ -88,7 +88,8 @@ const WordDetailPage = () => {
         <div className="word-detail-container">
           <h1 className='word-detail-title'>{word?.word}</h1>
           {word?.phonetic && <p className="word-detail-phonetic">/{word.phonetic}/</p>}
-          {word?.audio && <audio controls src={word.audio} />}
+          {/* {word?.audio && <audio controls src={word.audio} />} */}
+          {word?.audio && <audio data-testid="word-audio" controls src={word.audio} />}
           {word && (
             <WordNote
               word={word}

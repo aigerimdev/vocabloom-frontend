@@ -127,12 +127,14 @@ const TagBrowserPage = () => {
                             <div className="tag-card-name" onClick={() => handleTagClick(tag.id, tag.name)}>
                                 <span>{tag.name}</span>
                             </div>
-                            <FontAwesomeIcon
-                                icon={faTrashCan}
-                                size="xs"
-                                className='tag-card-trash'
+                            <button
+                                type="button"
+                                aria-label={`Delete ${tag.name}`}
+                                className="tag-card-trash"
                                 onClick={() => handleDeleteClick(tag.id, tag.name)}
-                            />
+                            >
+                                <FontAwesomeIcon icon={faTrashCan} size="xs" />
+                            </button>
                         </div>
                     ))}
                 </div>

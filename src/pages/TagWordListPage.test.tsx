@@ -1,43 +1,57 @@
 import { render, screen } from '@testing-library/react';
 import TagWordListPage from './TagWordListPage';
-import { get_words_by_tag } from '../endpoints/api';
-import { MemoryRouter } from 'react-router-dom';
+
+const mockUseLocation = jest.fn();
+jest.mock('react-router-dom', () => ({
+    useLocation: () => mockUseLocation(),
+}));
 
 jest.mock('../endpoints/api', () => ({
     get_words_by_tag: jest.fn(),
 }));
+const { get_words_by_tag } = jest.requireMock('../endpoints/api') as {
+    get_words_by_tag: jest.Mock;
+};
 
-describe('TagWordListPage', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
-    it('displays word list from tagId', async () => {
-        (get_words_by_tag as jest.Mock).mockResolvedValue([
-            { word: 'apple', id: 1, phonetic: '', audio: '', meanings: [] },
-            { word: 'banana', id: 2, phonetic: '', audio: '', meanings: [] },
-        ]);
+test('renders "<tagName> Words" and shows words from API', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagId=7&tagName=Science' });
+    get_words_by_tag.mockResolvedValueOnce([{ word: 'Alpha' }, { word: 'Beta' }] as any);
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=5&tagName=Fruits']}>
-                <TagWordListPage />
-            </MemoryRouter>
-        );
+    render(<TagWordListPage />);
 
-        expect(await screen.findByText('Fruits Words')).toBeInTheDocument();
-        expect(await screen.findByText('apple')).toBeInTheDocument();
-        expect(await screen.findByText('banana')).toBeInTheDocument();
-    });
+    expect(await screen.findByRole('heading', { name: /science words/i })).toBeInTheDocument();
+    expect(await screen.findByText(/alpha/i)).toBeInTheDocument();
+    expect(screen.getByText(/beta/i)).toBeInTheDocument();
+    expect(screen.queryByText(/no words saved under this tag yet\./i)).not.toBeInTheDocument();
+});
 
-    it('shows message when no words found', async () => {
-        (get_words_by_tag as jest.Mock).mockResolvedValue([]);
+test('shows not-found message when API returns empty array', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagId=7&tagName=Science' });
+    get_words_by_tag.mockResolvedValueOnce([] as any);
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=10&tagName=Empty']}>
-                <TagWordListPage />
-            </MemoryRouter>
-        );
+    render(<TagWordListPage />);
+    expect(await screen.findByText(/no words saved under this tag yet\./i)).toBeInTheDocument();
+});
 
-        expect(await screen.findByText('No words saved under this tag yet.')).toBeInTheDocument();
-    });
+test('shows not-found message when API returns non-array (error path)', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagId=7&tagName=Science' });
+    get_words_by_tag.mockResolvedValueOnce(undefined as any);
+
+    render(<TagWordListPage />);
+    expect(await screen.findByText(/no words saved under this tag yet\./i)).toBeInTheDocument();
+});
+
+test('when tagId is missing, does not call API and shows no not-found message', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagName=Science' });
+    render(<TagWordListPage />);
+
+    expect(get_words_by_tag).not.toHaveBeenCalled();
+
+    expect(screen.getByRole('heading', { name: /science words/i })).toBeInTheDocument();
+
+    expect(screen.queryByText(/no words saved under this tag yet\./i)).not.toBeInTheDocument();
 });

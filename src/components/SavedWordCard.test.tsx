@@ -10,41 +10,37 @@ const mockData: WordData = {
     meanings: [
         {
             partOfSpeech: 'noun',
-            definitions: [
-                {
-                    definition: 'A procedure for critical evaluation.',
-                    example: 'A spelling test.',
-                },
-            ],
+            definitions: [{ definition: 'A procedure for critical evaluation.', example: 'A spelling test.' }],
         },
     ],
     tag: 1,
 };
 
 describe('SavedWordCard', () => {
-    test('renders the word', () => {
+    it('renders the word', () => {
         render(<SavedWordCard data={mockData} />);
-        expect(screen.getByText('test')).toBeInTheDocument();
+        expect(screen.getByRole('heading', { level: 2, name: /test/i })).toBeInTheDocument();
     });
 
-    test('renders phonetic', () => {
+    it('renders phonetic', () => {
         render(<SavedWordCard data={mockData} />);
         expect(screen.getByText('/tɛst/')).toBeInTheDocument();
     });
 
-    test('renders audio element', () => {
+    it('renders audio element', () => {
         render(<SavedWordCard data={mockData} />);
-        expect(document.querySelector('audio')).toBeInTheDocument();
+        const audio = screen.getByLabelText(/audio player/i);
+        expect(audio).toBeInTheDocument();
     });
 
-    test('renders definition and example', () => {
+    it('renders definition and example', () => {
         render(<SavedWordCard data={mockData} />);
         expect(screen.getByText(/a procedure for critical evaluation/i)).toBeInTheDocument();
         expect(screen.getByText(/a spelling test/i)).toBeInTheDocument();
     });
 
-    test('renders tag', () => {
+    it('renders tag', () => {
         render(<SavedWordCard data={mockData} />);
-        expect(screen.getByText('Tag: 1')).toBeInTheDocument();
+        expect(screen.getByText(/tag:\s*1/i)).toBeInTheDocument();
     });
 });

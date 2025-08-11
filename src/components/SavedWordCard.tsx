@@ -6,7 +6,7 @@ const SavedWordCard = ({ data }: { data: WordData }) => {
             <h2>{data.word}</h2>
             {data.phonetic && <p className="phonetic">/{data.phonetic}/</p>}
             {data.audio && (
-                <audio controls>
+                <audio aria-label="audio player" controls>
                     <source src={data.audio} type="audio/mpeg" />
                 </audio>
             )}

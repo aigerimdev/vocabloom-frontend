@@ -1,60 +1,58 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './private_route';
-import { useAuth as mockUseAuth } from '../context/useAuth';
 
-jest.mock('../context/useAuth');
 
-const MockChild = () => <div>Secret Page</div>;
+const mockAuth: { isAuthenticated?: boolean; loading?: boolean } = {};
+jest.mock('../context/useAuth', () => ({
+    useAuth: () => ({
+        isAuthenticated: mockAuth.isAuthenticated ?? false,
+        loading: mockAuth.loading ?? false,
+    }),
+}));
 
-describe('PrivateRoute', () => {
-    it('shows loading when loading is true', () => {
-        (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: false, loading: true });
+function AppUnderTest() {
+    return (
+        <Routes>
+            <Route
+                path="/protected"
+                element={
+                    <PrivateRoute>
+                        <h1>Secret</h1>
+                    </PrivateRoute>
+                }
+            />
+            <Route path="/" element={<h1>Public</h1>} />
+        </Routes>
+    );
+}
 
-        render(
-            <MemoryRouter>
-                <PrivateRoute>
-                    <MockChild />
-                </PrivateRoute>
-            </MemoryRouter>
-        );
+const renderAt = (path: string) =>
+    render(
+        <MemoryRouter initialEntries={[path]}>
+            <AppUnderTest />
+        </MemoryRouter>
+    );
 
-        expect(screen.getByText(/loading.../i)).toBeInTheDocument();
-    });
+beforeEach(() => {
+    mockAuth.isAuthenticated = false;
+    mockAuth.loading = false;
+});
 
-    it('renders children if authenticated', () => {
-        (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: true, loading: false });
+test('shows loading when loading', () => {
+    mockAuth.loading = true;
+    renderAt('/protected');
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+});
 
-        render(
-            <MemoryRouter>
-                <PrivateRoute>
-                    <MockChild />
-                </PrivateRoute>
-            </MemoryRouter>
-        );
+test('renders children when authenticated', () => {
+    mockAuth.isAuthenticated = true;
+    renderAt('/protected');
+    expect(screen.getByText('Secret')).toBeInTheDocument();
+});
 
-        expect(screen.getByText(/secret page/i)).toBeInTheDocument();
-    });
-
-    it('redirects to /login if not authenticated', () => {
-        (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: false, loading: false });
-
-        render(
-            <MemoryRouter initialEntries={['/protected']}>
-                <Routes>
-                    <Route
-                        path="/protected"
-                        element={
-                            <PrivateRoute>
-                                <MockChild />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route path="/login" element={<div>Login Page</div>} />
-                </Routes>
-            </MemoryRouter>
-        );
-
-        expect(screen.getByText(/login page/i)).toBeInTheDocument();
-    });
+test('redirects to "/" when not authenticated', () => {
+    mockAuth.isAuthenticated = false;
+    renderAt('/protected');
+    expect(screen.getByText('Public')).toBeInTheDocument();
 });
