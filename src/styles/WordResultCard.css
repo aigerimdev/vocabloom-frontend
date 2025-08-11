@@ -1,5 +1,5 @@
 .word-card {
-    background: linear-gradient(0deg,rgba(167, 235, 184, 0.85) 0%, rgba(220, 247, 227, 1) 26%, rgba(255, 255, 255, 0.86) 100%);
+    background: linear-gradient(0deg,rgba(177, 246, 195, 0.687) 0%, rgba(220, 247, 227, 1) 26%, rgba(255, 255, 255, 0.86) 100%);
     border-radius: 20px;
     padding: 5px 0;
     margin: 20px auto;
@@ -12,7 +12,6 @@
     top: 0;
     z-index: 1000;
     background-color: #ffffff;
-    padding-bottom: 10px;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
     border-radius: 15px 15px 0 0;
 
@@ -26,7 +25,6 @@
     font-size: 18px;
     color: #666;
     cursor: pointer;
-    padding: 4px;
     align-self: flex-end;
     margin-right: .5rem;
     transition: all 0.3s ease;
@@ -46,12 +44,11 @@
 }
 
 .word-detail-button {
-    /* margin-top: 16px; */
     width: 100%;
     padding: 12px 20px;
     border-radius: 30px;
-    background-color: #34365c;
-    color: #8ef58e;
+    background-color: var(--primary-purple-color);
+    color: var(--primary-green-color);
     font-weight: bold;
     font-size: 1rem;
     border: none;
@@ -61,7 +58,7 @@
 }
 
 .word-detail-button:hover {
-    background-color: #34365c;
+    background-color: var(--primary-purple-color);
     transform: scale(1.02);
 }
 
@@ -73,7 +70,7 @@
 
 @media (min-width: 1024px) {
     .word-card {
-        max-width: 70%;
+        max-width: 60%;
     }
     .word-card-buttons {
         display: flex;
@@ -82,4 +79,7 @@
         margin-top: 16px;
         gap: 2rem;
     }
-}
+    .word-card-main {
+        padding: 1rem 5rem;
+    }
+}   
