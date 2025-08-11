@@ -1,6 +1,3 @@
-/* Mobile-first base styles */
-
-/* Backdrop */
 .personal-word-form-backdrop {
     position: fixed;
     inset: 0;
@@ -14,10 +11,9 @@
 
 /* Container */
 .personal-word-form-container {
-    /* background: linear-gradient(0deg, #f7fae6 0%, #edfff7 100%); */
     background-color: var(--bg-image-color);
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(115, 250, 194, 0.473);
+    box-shadow: 0 10px 30px rgba(115, 218, 250, 0.473);
     width: 100%;
     max-width: 100%;
     max-height: 95vh;
@@ -97,7 +93,7 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #047857;
+    color: var(--primary-purple-color);
     font-size: 0.95rem;
 }
 
@@ -117,7 +113,6 @@
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    /* border-color: #34d399; */
     border: none;
     box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
 }
@@ -132,20 +127,21 @@
 }
 
 .add-meaning-btn {
-    background-color: #f0fdf4;
-    /* green-50-ish */
+    background-color: #e1fbf9ac;
     color: var(--primary-purple-color);
-    border: 1px solid #a7f3d0;
+    border: .5px solid var(--primary-purple-color);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    font-weight: bold;
     width: 100%;
 }
 .add-meaning-btn:hover {
-    background-color: #dcfce7;
-    font-weight: bold;
+    background-color: #dcfcf3;
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 .add-meaning-btn:active {
@@ -173,7 +169,7 @@
 
 .meaning-header h4 {
     margin: 0;
-    color: #047857;
+    color: var(--primary-purple-color);
     font-size: 1rem;
 }
 
@@ -195,7 +191,6 @@
     transform: scale(1.02);
 }
 
-/* Subgroup */
 .form-subgroup {
     margin-bottom: 1rem;
 }
@@ -228,26 +223,24 @@
     color: #047857;
 }
 
-/* Secondary action (Add Definition) */
 .add-definition-btn {
-    background-color: #f0fdf4;
-    /* green-50-ish */
+    background-color: #e1fbf9ac;
     color: var(--primary-purple-color);
-    border: 1px solid #a7f3d0;
+    border: .5px solid var(--primary-purple-color);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
+    font-size: .9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
     width: 100%;
 }
 
 .add-definition-btn:hover {
-    background-color: #dcfce7;
-    font-weight: 500;
+    background-color: #dcfcf3;
+    scale: 1.01;
 }
 
-/* Definition group */
 .definition-group {
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -327,13 +320,14 @@
 
 .save-btn {
     background-color: var(--primary-purple-color);
-    color: #dcfce7;
+    color: var(--primary-green-color);
     border: 1px solid var(--primary-purple-color);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    transition: transform 0.1s ease;
+    font-weight: bold;
+    transition: transform 0.2s ease;
     width: 100%;
 }
 
@@ -345,7 +339,6 @@
     transform: translateY(1px);
 }
 
-/* Tablet (>= 768px) */
 @media (min-width: 768px) {
     .personal-word-form-backdrop {
         padding: 1rem;
@@ -420,7 +413,6 @@
     }
 }
 
-/* Desktop (>= 1200px) */
 @media (min-width: 1200px) {
     .personal-word-form-container {
         max-width: 700px;
