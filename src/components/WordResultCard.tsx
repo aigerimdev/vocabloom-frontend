@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WordData } from '../types/word';
+import { useNavigate } from 'react-router-dom';
 import TagDropdown from './TagDropdown';
 import '../styles/WordResultCard.css';
 import '../styles/WordDetailPage.css';
@@ -21,6 +22,8 @@ interface WordResultCardProps {
 const WordResultCard = ({ data, onSave, onClose, tags, setTags }: WordResultCardProps) => {
     const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
     const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
+
+    const navigate = useNavigate();
 
     const handleTagSelect = (tagId: number | null, tagName: string | null) => {
         setSelectedTagId(tagId);
@@ -47,6 +50,7 @@ const WordResultCard = ({ data, onSave, onClose, tags, setTags }: WordResultCard
                         ? `Your word is saved successfully to the "${selectedTagName}" tag.`
                         : "Your word is saved successfully to My Word List."
                 );
+                navigate(`/my-words/${savedWord.id}`);
             }
         } catch (err) {
             console.error("Failed to save word:", err);
