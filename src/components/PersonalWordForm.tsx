@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WordData } from '../types/word';
 import TagDropdown from './TagDropdown';
+import ConfirmationModal from './ConfirmationModal';
 import '../styles/PersonalWordForm.css';
 
 interface Tag {
@@ -21,7 +22,7 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
     onClose,
     onSave,
     tags,
-    setTags
+    setTags,
 }) => {
     const [formData, setFormData] = useState({
         word: '',
@@ -32,16 +33,18 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                 definitions: [
                     {
                         definition: '',
-                        example: ''
-                    }
-                ]
-            }
-        ]
+                        example: '',
+                    },
+                ],
+            },
+        ],
     });
-    const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
-    const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
 
-    // Reset form when popup opens/closes
+    const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMsg, setModalMsg] = useState('');
+
     useEffect(() => {
         if (!isOpen) {
             setFormData({
@@ -53,148 +56,157 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                         definitions: [
                             {
                                 definition: '',
-                                example: ''
-                            }
-                        ]
-                    }
-                ]
+                                example: '',
+                            },
+                        ],
+                    },
+                ],
             });
             setSelectedTagId(null);
-            setSelectedTagName(null);
         }
     }, [isOpen]);
 
     const handleInputChange = (field: string, value: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [field]: value
+            [field]: value,
         }));
     };
 
     const handleMeaningChange = (meaningIndex: number, field: string, value: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             meanings: prev.meanings.map((meaning, index) =>
-                index === meaningIndex
-                    ? { ...meaning, [field]: value }
-                    : meaning
-            )
+                index === meaningIndex ? { ...meaning, [field]: value } : meaning
+            ),
         }));
     };
 
-    const handleDefinitionChange = (meaningIndex: number, defIndex: number, field: string, value: string) => {
-        setFormData(prev => ({
+    const handleDefinitionChange = (
+        meaningIndex: number,
+        defIndex: number,
+        field: string,
+        value: string
+    ) => {
+        setFormData((prev) => ({
             ...prev,
             meanings: prev.meanings.map((meaning, mIndex) =>
                 mIndex === meaningIndex
                     ? {
                         ...meaning,
                         definitions: meaning.definitions.map((def, dIndex) =>
-                            dIndex === defIndex
-                                ? { ...def, [field]: value }
-                                : def
-                        )
+                            dIndex === defIndex ? { ...def, [field]: value } : def
+                        ),
                     }
                     : meaning
-            )
+            ),
         }));
     };
 
     const addDefinition = (meaningIndex: number) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             meanings: prev.meanings.map((meaning, index) =>
                 index === meaningIndex
                     ? {
                         ...meaning,
-                        definitions: [...meaning.definitions, { definition: '', example: '' }]
+                        definitions: [...meaning.definitions, { definition: '', example: '' }],
                     }
                     : meaning
-            )
+            ),
         }));
     };
 
     const removeDefinition = (meaningIndex: number, defIndex: number) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             meanings: prev.meanings.map((meaning, mIndex) =>
                 mIndex === meaningIndex
                     ? {
                         ...meaning,
-                        definitions: meaning.definitions.filter((_, dIndex) => dIndex !== defIndex)
+                        definitions: meaning.definitions.filter((_, dIndex) => dIndex !== defIndex),
                     }
                     : meaning
-            )
+            ),
         }));
     };
 
     const addMeaning = () => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             meanings: [
                 ...prev.meanings,
                 {
                     partOfSpeech: '',
-                    definitions: [{ definition: '', example: '' }]
-                }
-            ]
+                    definitions: [{ definition: '', example: '' }],
+                },
+            ],
         }));
     };
 
     const removeMeaning = (meaningIndex: number) => {
         if (formData.meanings.length > 1) {
-            setFormData(prev => ({
+            setFormData((prev) => ({
                 ...prev,
-                meanings: prev.meanings.filter((_, index) => index !== meaningIndex)
+                meanings: prev.meanings.filter((_, index) => index !== meaningIndex),
             }));
         }
     };
 
-    const handleTagSelect = (tagId: number | null, tagName: string | null) => {
+    const handleTagSelect = (tagId: number | null, _tagName: string | null) => {
         setSelectedTagId(tagId);
-        setSelectedTagName(tagName);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validate required fields
         if (!formData.word.trim()) {
             alert('Word is required');
             return;
         }
 
-        if (formData.meanings.some(m => !m.partOfSpeech.trim())) {
+        if (formData.meanings.some((m) => !m.partOfSpeech.trim())) {
             alert('Part of speech is required for all meanings');
             return;
         }
 
-        if (formData.meanings.some(m =>
-            m.definitions.some(d => !d.definition.trim())
-        )) {
+        if (
+            formData.meanings.some((m) => m.definitions.some((d) => !d.definition.trim()))
+        ) {
             alert('Definition is required for all entries');
             return;
         }
 
-        // Create word data structure
         const wordData: WordData & { tag: number | null } = {
             id: Date.now(),
             word: formData.word.trim(),
             phonetic: formData.phonetic.trim() || undefined,
-            audio: undefined, // No audio
-            meanings: formData.meanings.map(meaning => ({
+            audio: undefined,
+            meanings: formData.meanings.map((meaning) => ({
                 partOfSpeech: meaning.partOfSpeech.trim(),
-                definitions: meaning.definitions.filter(def => def.definition.trim()).map(def => ({
-                    definition: def.definition.trim(),
-                    example: def.example.trim() || undefined
-                }))
+                definitions: meaning.definitions
+                    .filter((def) => def.definition.trim())
+                    .map((def) => ({
+                        definition: def.definition.trim(),
+                        example: def.example.trim() || undefined,
+                    })),
             })),
-            tag: selectedTagId
+            tag: selectedTagId,
         };
 
-        console.log('Saving word:', wordData);
-        onSave(wordData);
-        onClose();
+        try {
+            await Promise.resolve(onSave(wordData));
+            onClose();
+        } catch (e: any) {
+            setModalMsg(
+                e?.message === 'WORD_DUPLICATE'
+                    ? 'This word already exists for this tag.'
+                    : e?.message === 'TAG_DUPLICATE'
+                        ? 'This tag already exists.'
+                        : 'Couldn’t save. Please try again.'
+            );
+            setModalOpen(true);
+        }
     };
 
     const handleBackdropClick = (e: React.MouseEvent) => {
@@ -209,11 +221,7 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
         <div className="personal-word-form-backdrop" onClick={handleBackdropClick}>
             <div className="personal-word-form-container">
                 <div className="personal-word-form-header">
-                    <button
-                        type="button"
-                        className="close-button"
-                        onClick={onClose}
-                    >
+                    <button type="button" className="close-button" onClick={onClose}>
                         ×
                     </button>
                     <h2>Create Your Own Word</h2>
@@ -248,11 +256,7 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                     {/* Tag Selection */}
                     <div className="form-group">
                         <label>Tag (optional)</label>
-                        <TagDropdown
-                            onSelect={handleTagSelect}
-                            tags={tags}
-                            setTags={setTags}
-                        />
+                        <TagDropdown onSelect={handleTagSelect} tags={tags} setTags={setTags} />
                     </div>
 
                     {/* Meanings */}
@@ -280,7 +284,9 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                                     <label>Part of Speech *</label>
                                     <select
                                         value={meaning.partOfSpeech}
-                                        onChange={(e) => handleMeaningChange(meaningIndex, 'partOfSpeech', e.target.value)}
+                                        onChange={(e) =>
+                                            handleMeaningChange(meaningIndex, 'partOfSpeech', e.target.value)
+                                        }
                                         required
                                     >
                                         <option value="">Select part of speech</option>
@@ -327,7 +333,14 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                                             <input
                                                 type="text"
                                                 value={definition.definition}
-                                                onChange={(e) => handleDefinitionChange(meaningIndex, defIndex, 'definition', e.target.value)}
+                                                onChange={(e) =>
+                                                    handleDefinitionChange(
+                                                        meaningIndex,
+                                                        defIndex,
+                                                        'definition',
+                                                        e.target.value
+                                                    )
+                                                }
                                                 placeholder="Enter definition"
                                                 required
                                             />
@@ -335,7 +348,14 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                                             <input
                                                 type="text"
                                                 value={definition.example}
-                                                onChange={(e) => handleDefinitionChange(meaningIndex, defIndex, 'example', e.target.value)}
+                                                onChange={(e) =>
+                                                    handleDefinitionChange(
+                                                        meaningIndex,
+                                                        defIndex,
+                                                        'example',
+                                                        e.target.value
+                                                    )
+                                                }
                                                 placeholder="Enter example (optional)"
                                             />
                                         </div>
@@ -344,16 +364,11 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                             </div>
                         ))}
 
-                        <button
-                            type="button"
-                            className="add-meaning-btn"
-                            onClick={addMeaning}
-                        >
+                        <button type="button" className="add-meaning-btn" onClick={addMeaning}>
                             + Add Meaning
                         </button>
                     </div>
 
-                    {/* Form Actions */}
                     <div className="form-actions">
                         <button type="button" className="cancel-btn" onClick={onClose}>
                             Cancel
@@ -363,6 +378,17 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                         </button>
                     </div>
                 </form>
+
+                <ConfirmationModal
+                    isOpen={modalOpen}
+                    title="Save Error"
+                    message={modalMsg}
+                    confirmText="OK"
+                    cancelText=""
+                    onConfirm={() => setModalOpen(false)}
+                    onCancel={() => setModalOpen(false)}
+                    type="danger"
+                />
             </div>
         </div>
     );

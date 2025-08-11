@@ -1,56 +1,75 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import LoginPage from './LoginPage';
-import { MemoryRouter } from 'react-router-dom';
 import { useAuth as mockUseAuth } from '../context/useAuth';
 
-const mockLoginUser = jest.fn();
 const mockNavigate = jest.fn();
+const mockLogin = jest.fn();
 
-jest.mock('../context/useAuth', () => ({
-    useAuth: () => ({ login_user: mockLoginUser }),
+jest.mock('../context/useAuth');
+jest.mock('react-router-dom', () => ({
+    useNavigate: () => mockNavigate,
 }));
 
-jest.mock('react-router-dom', () => {
-    const actual = jest.requireActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
+const renderUI = () => render(<LoginPage />);
+
+beforeEach(() => {
+    jest.clearAllMocks();
+    (mockUseAuth as unknown as jest.Mock).mockReturnValue({
+        login_user: mockLogin,
+    });
 });
 
-describe('LoginPage', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+test('successful login submits credentials and navigates to "/"', async () => {
+    const user = userEvent.setup();
+    mockLogin.mockResolvedValueOnce({});
 
-    it('renders form inputs and login button', () => {
-        render(<LoginPage />, { wrapper: MemoryRouter });
+    renderUI();
 
-        expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
-    });
+    await user.type(screen.getByLabelText(/username/i), 'aigerim');
+    await user.type(screen.getByLabelText(/password/i), 'Secret123!');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
 
-    it('calls login_user on form submit', () => {
-        render(<LoginPage />, { wrapper: MemoryRouter });
+    expect(mockLogin).toHaveBeenCalledWith('aigerim', 'Secret123!');
+    expect(mockNavigate).toHaveBeenCalledWith('/');
+    expect(screen.queryByText(/invalid username or password/i)).not.toBeInTheDocument();
+});
 
-        fireEvent.change(screen.getByLabelText(/username/i), {
-            target: { value: 'testuser' },
-        });
-        fireEvent.change(screen.getByLabelText(/password/i), {
-            target: { value: 'password123' },
-        });
+test('failed login shows error and does not navigate', async () => {
+    const user = userEvent.setup();
+    mockLogin.mockRejectedValueOnce(new Error('bad creds'));
 
-        fireEvent.click(screen.getByRole('button', { name: /log in/i }));
+    renderUI();
 
-        expect(mockLoginUser).toHaveBeenCalledWith('testuser', 'password123');
-    });
+    await user.type(screen.getByLabelText(/username/i), 'aigerim');
+    await user.type(screen.getByLabelText(/password/i), 'wrongpass');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
 
-    it('navigates to signup when button is clicked', () => {
-        render(<LoginPage />, { wrapper: MemoryRouter });
+    expect(mockLogin).toHaveBeenCalledWith('aigerim', 'wrongpass');
+    expect(await screen.findByText(/invalid username or password/i)).toBeInTheDocument();
+    expect(mockNavigate).not.toHaveBeenCalledWith('/');
+});
 
-        fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+test('clicking "Sign up" navigates to /signup', async () => {
+    const user = userEvent.setup();
+    renderUI();
 
-        expect(mockNavigate).toHaveBeenCalledWith('/signup');
-    });
+    await user.click(screen.getByRole('button', { name: /sign up/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/signup');
+});
+
+test('pressing Enter/Space on "Sign up" navigates to /signup', async () => {
+    const user = userEvent.setup();
+    renderUI();
+
+    const signUpBtn = screen.getByRole('button', { name: /sign up/i });
+    signUpBtn.focus();
+    await user.keyboard('{Enter}');
+    expect(mockNavigate).toHaveBeenCalledWith('/signup');
+
+    // Space too
+    jest.clearAllMocks();
+    signUpBtn.focus();
+    await user.keyboard(' ');
+    expect(mockNavigate).toHaveBeenCalledWith('/signup');
 });

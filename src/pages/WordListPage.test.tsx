@@ -1,107 +1,84 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import WordListPage from './WordListPage';
-import { get_saved_words, get_tag_by_id } from '../endpoints/api';
-import { MemoryRouter } from 'react-router-dom';
+
+const mockUseLocation = jest.fn();
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+    useLocation: () => mockUseLocation(),
+    useNavigate: () => mockNavigate,
+}));
 
 jest.mock('../endpoints/api', () => ({
     get_saved_words: jest.fn(),
     get_tag_by_id: jest.fn(),
 }));
 
-describe('WordListPage', () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
+const { get_saved_words, get_tag_by_id } = jest.requireMock('../endpoints/api') as {
+    get_saved_words: jest.Mock;
+    get_tag_by_id: jest.Mock;
+};
 
-    it('shows loading state initially', () => {
-        (get_saved_words as jest.Mock).mockImplementationOnce(() => new Promise(() => { }));
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
-        render(<WordListPage />, { wrapper: MemoryRouter });
+const words = [
+    { id: 1, word: 'alpha', tag: 7 },
+    { id: 2, word: 'beta', tag: 9 },
+    { id: 3, word: 'gamma', tag: 7 },
+];
 
-        expect(screen.getByText(/loading/i)).toBeInTheDocument();
-    });
+test('no tagId: shows "My Word List", renders words, and navigates to detail on click', async () => {
+    mockUseLocation.mockReturnValue({ search: '' });
+    get_saved_words.mockResolvedValueOnce(words);
 
-    it('shows "My Word List" title when no tagId is present', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([]);
+    render(<WordListPage />);
 
-        render(<WordListPage />, {
-            wrapper: ({ children }) => (
-                <MemoryRouter initialEntries={['/my-words']}>{children}</MemoryRouter>
-            ),
-        });
+    expect(await screen.findByRole('heading', { name: /my word list/i })).toBeInTheDocument();
 
-        expect(await screen.findByText(/my word list/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/alpha/i)).toBeInTheDocument();
+    expect(await screen.findByText(/beta/i)).toBeInTheDocument();
+    expect(await screen.findByText(/gamma/i)).toBeInTheDocument();
 
-    it('shows dynamic tag name in title when tagId is present', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([
-            { id: 1, word: 'ocean', tag: 10, phonetic: '', audio: '', meanings: [] },
-        ]);
-        (get_tag_by_id as jest.Mock).mockResolvedValue({ id: 10, name: 'Nature' });
+    await userEvent.click(screen.getByText(/alpha/i));
+    expect(mockNavigate).toHaveBeenCalledWith('/my-words/1');
+});
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=10']}>
-                <WordListPage />
-            </MemoryRouter>
-        );
+test('with tagId: filters words by tag and shows "<Tag> Collection"', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagId=7' });
+    get_saved_words.mockResolvedValueOnce(words);
+    get_tag_by_id.mockResolvedValueOnce({ id: 7, name: 'Science' });
 
-        expect(await screen.findByText('Nature Collection')).toBeInTheDocument();
-        expect(await screen.findByText('ocean')).toBeInTheDocument();
-    });
+    render(<WordListPage />);
 
-    it('falls back to "Loading..." title if tag name fetch fails', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([
-            { id: 2, word: 'moon', tag: 99, phonetic: '', audio: '', meanings: [] },
-        ]);
-        (get_tag_by_id as jest.Mock).mockRejectedValue(new Error('Tag not found'));
+    expect(await screen.findByRole('heading', { name: /science collection/i })).toBeInTheDocument();
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=99']}>
-                <WordListPage />
-            </MemoryRouter>
-        );
+    expect(await screen.findByText(/alpha/i)).toBeInTheDocument();
+    expect(await screen.findByText(/gamma/i)).toBeInTheDocument();
+    expect(screen.queryByText(/beta/i)).not.toBeInTheDocument();
+});
 
-        expect(await screen.findByText('Loading...')).toBeInTheDocument();
-    });
+test('with tagId but no matching words: shows "No words found for this tag."', async () => {
+    mockUseLocation.mockReturnValue({ search: '?tagId=42' });
+    get_saved_words.mockResolvedValueOnce(words);
+    get_tag_by_id.mockResolvedValueOnce({ id: 42, name: 'Empty' });
 
-    it('filters words and only shows those with matching tagId', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([
-            { id: 1, word: 'cat', tag: 1, phonetic: '', audio: '', meanings: [] },
-            { id: 2, word: 'dog', tag: 2, phonetic: '', audio: '', meanings: [] },
-        ]);
-        (get_tag_by_id as jest.Mock).mockResolvedValue({ id: 1, name: 'Pets' });
+    render(<WordListPage />);
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=1']}>
-                <WordListPage />
-            </MemoryRouter>
-        );
+    expect(await screen.findByText(/no words found for this tag\./i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /empty collection/i })).toBeInTheDocument();
+});
 
-        expect(await screen.findByText('Pets Collection')).toBeInTheDocument();
-        expect(await screen.findByText('cat')).toBeInTheDocument();
-        expect(screen.queryByText('dog')).not.toBeInTheDocument();
-    });
+test('Back button navigates -1', async () => {
+    mockUseLocation.mockReturnValue({ search: '' });
+    get_saved_words.mockResolvedValueOnce([]);
 
-    it('shows message when no words match the tagId', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([
-            { id: 1, word: 'apple', tag: 1, phonetic: '', audio: '', meanings: [] },
-        ]);
-        (get_tag_by_id as jest.Mock).mockResolvedValue({ id: 99, name: 'Travel' });
+    render(<WordListPage />);
 
-        render(
-            <MemoryRouter initialEntries={['/my-words?tagId=99']}>
-                <WordListPage />
-            </MemoryRouter>
-        );
+    await screen.findByRole('heading', { name: /my word list/i });
 
-        expect(await screen.findByText(/no words found for this tag/i)).toBeInTheDocument();
-    });
-
-    it('shows message when there are no saved words', async () => {
-        (get_saved_words as jest.Mock).mockResolvedValue([]);
-
-        render(<WordListPage />, { wrapper: MemoryRouter });
-
-        expect(await screen.findByText(/no words found/i)).toBeInTheDocument();
-    });
+    await userEvent.click(screen.getByRole('button', { name: /back/i }));
+    expect(mockNavigate).toHaveBeenCalledWith(-1);
 });

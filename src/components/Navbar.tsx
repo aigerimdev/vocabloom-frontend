@@ -16,8 +16,6 @@ const Navbar = () => {
         setIsAuthenticated(false);
         navigate('/');
     };
-
-
     return (
         <nav className="navbar">
             <Link to="/home" className="main-title">
@@ -25,15 +23,15 @@ const Navbar = () => {
             </Link>
             <div className="nav-links">
                 <Link to="/my-words" className='nav-links-words'>
-                    <FontAwesomeIcon icon={faList} className='nav-links-icons'/>
+                    <FontAwesomeIcon icon={faList} className='nav-links-icons' />
                     <span>My Words</span>
                 </Link>
                 <Link to="/tags" className='nav-links-tags'>
-                    <FontAwesomeIcon icon={faTag} className='nav-links-icons'/>
+                    <FontAwesomeIcon icon={faTag} className='nav-links-icons' />
                     <span>My Tags</span>
                 </Link>
-                <Link to="/home" aria-label="Home">
-                    <FontAwesomeIcon icon={faHouse} className='navbar-icons'/>
+                <Link to="/" aria-label="Home">
+                    <FontAwesomeIcon icon={faHouse} className='navbar-icons' />
                 </Link>
                 <button onClick={handleLogout} aria-label='Log out'><FontAwesomeIcon icon={faArrowRightFromBracket} /></button>
             </div>

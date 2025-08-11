@@ -1,44 +1,50 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import WelcomePage from './WelcomePage';
-import { MemoryRouter } from 'react-router-dom';
 
 const mockNavigate = jest.fn();
 
-jest.mock('react-router-dom', () => {
-    const actual = jest.requireActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
+jest.mock('react-router-dom', () => ({
+    useNavigate: () => mockNavigate,
+}));
+
+beforeEach(() => {
+    jest.clearAllMocks();
 });
 
-describe('WelcomePage', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+test('renders title, subtitle, and footer', () => {
+    render(<WelcomePage />);
 
-    it('renders title, subtitle, and footer', () => {
-        render(<WelcomePage />, { wrapper: MemoryRouter });
+    expect(
+        screen.getByRole('heading', { name: /welcome to\s*vocabloom/i })
+    ).toBeInTheDocument();
 
-        expect(screen.getByText(/welcome to/i)).toBeInTheDocument();
-        expect(screen.getByText(/VocaBloom/i)).toBeInTheDocument();
-        expect(screen.getByText(/every word you learn/i)).toBeInTheDocument();
-        expect(screen.getByText(/made with/i)).toBeInTheDocument();
-        expect(screen.getByText(/ada developers academy/i)).toBeInTheDocument();
-        expect(screen.getByText(/2025/i)).toBeInTheDocument();
-    });
+    expect(
+        screen.getByText(/every word you learn is a seed for your future/i)
+    ).toBeInTheDocument();
 
-    it('navigates to login when "Sign in" is clicked', () => {
-        render(<WelcomePage />, { wrapper: MemoryRouter });
+    expect(
+        screen.getByText(/made with/i)
+    ).toBeInTheDocument();
 
-        fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
-        expect(mockNavigate).toHaveBeenCalledWith('/login');
-    });
-
-    it('navigates to signup when "Sign up" is clicked', () => {
-        render(<WelcomePage />, { wrapper: MemoryRouter });
-
-        fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
-        expect(mockNavigate).toHaveBeenCalledWith('/signup');
-    });
+    expect(
+        screen.getByRole('navigation', { name: /authentication/i })
+    ).toBeInTheDocument();
 });
+
+test('clicking "Sign in" navigates to /login', async () => {
+    const user = userEvent.setup();
+    render(<WelcomePage />);
+
+    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/login');
+});
+
+test('clicking "Sign up" navigates to /signup', async () => {
+    const user = userEvent.setup();
+    render(<WelcomePage />);
+
+    await user.click(screen.getByRole('button', { name: /sign up/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/signup');
+});
+

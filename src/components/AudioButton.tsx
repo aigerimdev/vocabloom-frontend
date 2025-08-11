@@ -1,5 +1,4 @@
-// Create AudioButton.tsx component
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { convertTextToSpeech, playAudio } from '../endpoints/api';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

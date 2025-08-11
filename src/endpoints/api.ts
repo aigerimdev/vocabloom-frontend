@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { WordData, UserExample, CreateUserExamplePayload, GenerateExampleOptions, GenerateExampleResponse } from "../types/word";
 
-const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
-// const BASE_URL = 'http://127.0.0.1:8000/api/';
+const BASE_URL = "https://vocabloom-backend.onrender.com/api/";
+// const BASE_URL = "http://127.0.0.1:8000/api/";
 
 const LOGIN_URL = `${BASE_URL}token/`;
 const REFRESH_URL = `${BASE_URL}token/refresh/`;
@@ -12,6 +12,29 @@ const AUTH_URL = `${BASE_URL}authenticated/`;
 const REGISTER_URL = `${BASE_URL}register_user/`;
 const TAGS_URL = `${BASE_URL}tags/`;
 
+const classifyDuplicate = (
+  err: any,
+  kind: "WORD" | "TAG"
+): "WORD_DUPLICATE" | "TAG_DUPLICATE" | null => {
+  const status = err?.response?.status;
+  const data = err?.response?.data;
+
+  const collect = (v: any): string[] => {
+    if (v == null) return [];
+    if (Array.isArray(v)) return v.flatMap(collect);
+    if (typeof v === "object") return Object.values(v).flatMap(collect);
+    return [String(v)];
+  };
+  const text = collect(data).join(" ").toLowerCase();
+
+  if (status === 409) return kind === "TAG" ? "TAG_DUPLICATE" : "WORD_DUPLICATE";
+
+  if (status === 400 && /(exist|already|duplicate|unique|integrity|constraint)/i.test(text)) {
+    return kind === "TAG" ? "TAG_DUPLICATE" : "WORD_DUPLICATE";
+  }
+
+  return null;
+};
 
 export const getAuthConfig = (): AxiosRequestConfig => {
   const token = localStorage.getItem("access_token");
@@ -19,7 +42,6 @@ export const getAuthConfig = (): AxiosRequestConfig => {
   if (token) headers["Authorization"] = `Bearer ${token}`;
   return { headers };
 };
-
 
 export const refresh_token = async (): Promise<boolean> => {
   const refreshToken = localStorage.getItem("refresh_token");
@@ -44,6 +66,7 @@ export const refresh_token = async (): Promise<boolean> => {
 };
 
 type ErrorWithResponse = { response?: { status?: number };[key: string]: any };
+
 export const call_refresh = async <T>(
   error: ErrorWithResponse,
   func: () => Promise<{ data: T }>
@@ -105,15 +128,27 @@ export const is_authenticated = async (): Promise<boolean> => {
   }
 };
 
+// export const logout = async (): Promise<boolean> => {
+//   try {
+//     await axios.post(LOGOUT_URL, {}, getAuthConfig());
+//   } finally {
+//     localStorage.removeItem("access_token");
+//     localStorage.removeItem("refresh_token");
+//   }
+//   return true;
+// };
 export const logout = async (): Promise<boolean> => {
   try {
     await axios.post(LOGOUT_URL, {}, getAuthConfig());
+  } catch {
+    // Swallow the error so logout still resolves
   } finally {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
   }
   return true;
 };
+
 
 export const get_words = async (): Promise<any[] | false> => {
   try {
@@ -136,7 +171,7 @@ export async function get_saved_words(): Promise<WordData[]> {
   }
 }
 
-export async function save_word(word: WordData): Promise<WordData | null> {
+export async function save_word(word: WordData): Promise<WordData> {
   const payload = {
     ...word,
     word: capitalizeFirstLetter(word.word),
@@ -150,12 +185,30 @@ export async function save_word(word: WordData): Promise<WordData | null> {
     const { data } = await axios.post(WORDS_URL, payload, getAuthConfig());
     return data;
   } catch (error: any) {
+    const dup = classifyDuplicate(error, "WORD");
+    if (dup) throw new Error(dup);
     const result = await call_refresh(error, () =>
       axios.post(WORDS_URL, payload, getAuthConfig())
     );
-    return result === false ? null : (result as WordData);
+    if (result === false) throw error;
+    return result as WordData;
   }
 }
+
+// export const create_tag = async (name: string) => {
+//   try {
+//     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
+//     return data;
+//   } catch (error: any) {
+//     const dup = classifyDuplicate(error, "TAG");
+//     if (dup) throw new Error(dup);
+//     const result = await call_refresh(error, () =>
+//       axios.post(TAGS_URL, { name }, getAuthConfig())
+//     );
+//     if (result === false) throw error;
+//     return result;
+//   }
+// };
 
 export async function updateWordNote(id: number, note: string | null) {
   try {
@@ -173,14 +226,25 @@ export async function updateWordNote(id: number, note: string | null) {
   }
 }
 
-export const delete_word = async (id: number) => {
+// export const delete_word = async (id: number) => {
+//   try {
+//     await axios.delete(`${WORDS_URL}${id}/`, getAuthConfig());
+//     return true;
+//   } catch (error: any) {
+//     return await call_refresh(error, () =>
+//       axios.delete(`${WORDS_URL}${id}/`, getAuthConfig())
+//     );
+//   }
+// };
+export const delete_word = async (id: number): Promise<boolean> => {
   try {
     await axios.delete(`${WORDS_URL}${id}/`, getAuthConfig());
     return true;
   } catch (error: any) {
-    return await call_refresh(error, () =>
+    const res = await call_refresh(error, () =>
       axios.delete(`${WORDS_URL}${id}/`, getAuthConfig())
     );
+      return res !== false;
   }
 };
 
@@ -199,6 +263,7 @@ export const create_tag = async (name: string) => {
     return result === false ? null : result;
   }
 };
+
 
 export const get_tags = async () => {
   try {
@@ -241,9 +306,7 @@ export const delete_tag = async (id: number): Promise<boolean> => {
   }
 };
 
-////////////////////////
-//////// AUDIO ////////
-///////////////////////
+/* ===== AUDIO ===== */
 
 interface TextToSpeechResponse {
   success: boolean;
@@ -253,72 +316,64 @@ interface TextToSpeechResponse {
 }
 
 export const convertTextToSpeech = async (
-  text: string, 
-  voiceId: string = 'Joanna'
+  text: string,
+  voiceId: string = "Joanna"
 ): Promise<string | null> => {
   try {
     const response = await axios.post<TextToSpeechResponse>(
-      `${BASE_URL}audio/`, 
-      { text, voiceId }, 
+      `${BASE_URL}audio/`,
+      { text, voiceId },
       getAuthConfig()
     );
 
     const data = response.data;
-    
+
     if (data.success && data.audio_data) {
       const audioBlob = base64ToBlob(data.audio_data, data.content_type);
       return URL.createObjectURL(audioBlob);
     }
-    
-    throw new Error(data.error || 'Invalid response from server');
+
+    throw new Error("Invalid response from server");
   } catch (error: any) {
-    console.error('Text-to-speech error:', error);
-    
     const result = await call_refresh(error, () =>
       axios.post<TextToSpeechResponse>(`${BASE_URL}audio/`, { text, voiceId }, getAuthConfig())
     );
-    
-    if (result === false) {
-      return null;
-    }
-    
-    if (result.success && result.audio_data) {
-      const audioBlob = base64ToBlob(result.audio_data, result.content_type);
+
+    if (result === false) return null;
+
+    if ((result as any)?.success && (result as any)?.audio_data) {
+      const audioBlob = base64ToBlob(
+        (result as any).audio_data,
+        (result as any).content_type
+      );
       return URL.createObjectURL(audioBlob);
     }
-    
+
     return null;
   }
 };
 
-// Helper function to convert base64 to blob
 const base64ToBlob = (base64: string, contentType: string): Blob => {
   const byteCharacters = atob(base64);
   const byteNumbers = new Array(byteCharacters.length);
-  
   for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
-  
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: contentType });
 };
 
-// Audio player utility
 export const playAudio = (audioUrl: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const audio = new Audio(audioUrl);
-    
     audio.onended = () => {
-      URL.revokeObjectURL(audioUrl); // Clean up
+      URL.revokeObjectURL(audioUrl);
       resolve();
     };
-    
     audio.onerror = () => {
-      URL.revokeObjectURL(audioUrl); // Clean up
-      reject(new Error('Failed to play audio'));
+      URL.revokeObjectURL(audioUrl);
+      reject(new Error("Failed to play audio"));
     };
-    
     audio.play().catch(reject);
   });
 };

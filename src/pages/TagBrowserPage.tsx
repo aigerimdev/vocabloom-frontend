@@ -1,10 +1,9 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { get_tags, create_tag, delete_tag } from '../endpoints/api';
 import '../styles/TagBrowserPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan} from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import ConfirmationModal from '../components/ConfirmationModal';
 
 interface Tag {
@@ -20,6 +19,9 @@ const TagBrowserPage = () => {
     const [tagToDelete, setTagToDelete] = useState<{ id: number; name: string } | null>(null);
     const navigate = useNavigate();
 
+    const [infoOpen, setInfoOpen] = useState(false);
+    const [infoMsg, setInfoMsg] = useState('');
+
     useEffect(() => {
         async function fetchTags() {
             const result = await get_tags();
@@ -27,7 +29,6 @@ const TagBrowserPage = () => {
                 setTags(result);
             }
         }
-
         fetchTags();
     }, []);
 
@@ -37,7 +38,14 @@ const TagBrowserPage = () => {
 
     const handleAddTag = async () => {
         const trimmed = newTag.trim();
-        if (!trimmed || tags.find((tag) => tag.name === trimmed)) return;
+        if (!trimmed) return;
+
+        const exists = tags.some(t => t.name.toLowerCase() === trimmed.toLowerCase());
+        if (exists) {
+            setInfoMsg('This tag already exists.');
+            setInfoOpen(true);
+            return;
+        }
 
         try {
             const newTagObj = await create_tag(trimmed);
@@ -46,8 +54,11 @@ const TagBrowserPage = () => {
                 setNewTag('');
                 setShowInput(false);
             }
-        } catch (error) {
-            console.error('Failed to create tag:', error);
+        } catch (error: any) {
+            setInfoMsg(error?.message === 'TAG_DUPLICATE'
+                ? 'This tag already exists.'
+                : 'Couldn’t create tag. Please try again.');
+            setInfoOpen(true);
         }
     };
 
@@ -62,10 +73,10 @@ const TagBrowserPage = () => {
         try {
             await delete_tag(tagToDelete.id);
             setTags(tags.filter(tag => tag.id !== tagToDelete.id));
-            navigate('/tags', { replace: true })
+            navigate('/tags', { replace: true });
         } catch (error) {
-            console.error('Failed to delete tag:', error);
-            alert('Failed to delete tag. Please try again.');
+            setInfoMsg('Couldn’t delete tag. Please try again.');
+            setInfoOpen(true);
         } finally {
             setShowDeleteConfirm(false);
             setTagToDelete(null);
@@ -104,7 +115,7 @@ const TagBrowserPage = () => {
                         <button className="input-icon" onClick={handleAddTag}>
                             ✓
                         </button>
-                        <button className="input-icon close-input-icon" onClick={() => {setShowInput(false)}}>
+                        <button className="input-icon close-input-icon" onClick={() => { setShowInput(false); }}>
                             x
                         </button>
                     </div>
@@ -112,17 +123,23 @@ const TagBrowserPage = () => {
 
                 <div className="tag-list">
                     {tags.map((tag, index) => (
-                        <div key={tag.id}
-                                className={`tag-card color-${index % 4}`}
-                                >
+                        <div key={tag.id} className={`tag-card color-${index % 4}`}>
                             <div className="tag-card-name" onClick={() => handleTagClick(tag.id, tag.name)}>
                                 <span>{tag.name}</span>
                             </div>
-                            <FontAwesomeIcon icon={faTrashCan} size="xs" className='tag-card-trash' onClick={() => handleDeleteClick(tag.id, tag.name)}/>
+                            <button
+                                type="button"
+                                aria-label={`Delete ${tag.name}`}
+                                className="tag-card-trash"
+                                onClick={() => handleDeleteClick(tag.id, tag.name)}
+                            >
+                                <FontAwesomeIcon icon={faTrashCan} size="xs" />
+                            </button>
                         </div>
                     ))}
                 </div>
             </div>
+
             <ConfirmationModal
                 isOpen={showDeleteConfirm}
                 title="Delete Tag"
@@ -133,9 +150,19 @@ const TagBrowserPage = () => {
                 onCancel={handleCancelDelete}
                 type="danger"
             />
+
+            <ConfirmationModal
+                isOpen={infoOpen}
+                title="Save Error"
+                message={infoMsg}
+                confirmText="OK"
+                cancelText=""
+                onConfirm={() => setInfoOpen(false)}
+                onCancel={() => setInfoOpen(false)}
+                type="danger"
+            />
         </main>
     );
 };
 
 export default TagBrowserPage;
-

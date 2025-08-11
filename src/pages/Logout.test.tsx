@@ -1,45 +1,28 @@
+import * as RouterDom from 'react-router-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Logout from './Logout';
-import { logout as mockLogout } from '../endpoints/api';
+import { useAuth as mockUseAuth } from '../context/useAuth';
 
-const mockSetIsAuthenticated = jest.fn();
-const mockNavigate = jest.fn();
+jest.mock('react-router-dom');                       // uses __mocks__/react-router-dom.tsx
+jest.mock('../endpoints/api', () => ({ logout: jest.fn().mockResolvedValue(undefined) }));
+jest.mock('../context/useAuth');                     // mock the auth hook
 
-jest.mock('../endpoints/api', () => ({
-    logout: jest.fn(),
-}));
+const nav = () => (RouterDom as any).useNavigate() as jest.Mock;
 
-jest.mock('../context/useAuth', () => ({
-    useAuth: () => ({
-        setIsAuthenticated: mockSetIsAuthenticated,
-    }),
-}));
-
-jest.mock('react-router-dom', () => {
-    const actual = jest.requireActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
+beforeEach(() => {
+    nav().mockReset();
+    (mockUseAuth as jest.Mock).mockReset();
+    (require('../endpoints/api').logout as jest.Mock).mockClear();
 });
 
-describe('Logout', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+test('clicking "Log out" calls API, clears auth, and navigates to /welcome', async () => {
+    const setIsAuthenticated = jest.fn();
+    (mockUseAuth as jest.Mock).mockReturnValue({ setIsAuthenticated });
 
-    it('renders log out button', () => {
-        render(<Logout />);
-        expect(screen.getByRole('button', { name: /log out/i })).toBeInTheDocument();
-    });
+    render(<Logout />);
+    fireEvent.click(screen.getByRole('button', { name: /log out/i }));
 
-    it('logs out and navigates on click', async () => {
-        render(<Logout />);
-        fireEvent.click(screen.getByText(/log out/i));
-
-        await waitFor(() => expect(mockLogout).toHaveBeenCalled());
-
-        expect(mockSetIsAuthenticated).toHaveBeenCalledWith(false);
-        expect(mockNavigate).toHaveBeenCalledWith('/welcome');
-    });
+    await waitFor(() => expect(require('../endpoints/api').logout).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(setIsAuthenticated).toHaveBeenCalledWith(false));
+    await waitFor(() => expect(nav()).toHaveBeenCalledWith('/welcome'));
 });

@@ -1,13 +1,13 @@
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import { getWordData } from '../dictionary';
 import { WordData } from '../../types/word';
 
-const mock = new MockAdapter(axios);
+
+jest.mock('axios');
 
 describe('getWordData', () => {
-    afterEach(() => {
-        mock.reset();
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
 
     test('fetches and formats word data correctly', async () => {
@@ -18,25 +18,22 @@ describe('getWordData', () => {
                 meanings: [
                     {
                         partOfSpeech: 'noun',
-                        definitions: [
-                            {
-                                definition: 'A procedure intended to establish the quality, performance, or reliability of something.',
-                            },
-                        ],
+                        definitions: [{ definition: 'A procedure intended to establish the quality...' }],
                     },
                 ],
-                phonetics: [
-                    {
-                        audio: 'https://api.audio/test.mp3',
-                    },
-                ],
+                phonetics: [{ audio: 'https://api.audio/test.mp3' }],
             },
         ];
 
-        mock.onGet('https://api.dictionaryapi.dev/api/v2/entries/en/test').reply(200, sampleResponse);
+        // make the mocked axios return our fixture
+        (axios.get as jest.Mock).mockResolvedValueOnce({ data: sampleResponse });
 
         const result: WordData = await getWordData('test');
 
+        expect(axios.get).toHaveBeenCalledWith(
+            'https://api.dictionaryapi.dev/api/v2/entries/en/test',
+            expect.any(Object)
+        );
         expect(result.word).toBe('test');
         expect(result.phonetic).toBe('/test/');
         expect(result.meanings.length).toBe(1);

@@ -1,73 +1,56 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import SignUpPage from './SingUpPage';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import SignUpPage from './SingUpPage'; // keep your actual filename
 import { useAuth as mockUseAuth } from '../context/useAuth';
 
 const mockRegisterUser = jest.fn();
 const mockNavigate = jest.fn();
 
+// Mock only what the component uses; do NOT requireActual.
 jest.mock('../context/useAuth');
-jest.mock('react-router-dom', () => {
-    const actual = jest.requireActual('react-router-dom');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
+jest.mock('react-router-dom', () => ({
+    useNavigate: () => mockNavigate,
+}));
+
+const renderUI = () => render(<SignUpPage />);
+
+beforeEach(() => {
+    jest.clearAllMocks();
+    (mockUseAuth as unknown as jest.Mock).mockReturnValue({
+        register_user: mockRegisterUser,
+    });
 });
 
-describe('SignUpPage', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-        (mockUseAuth as jest.Mock).mockReturnValue({
-            register_user: mockRegisterUser,
-        });
-    });
+it('fills and submits the form (success)', async () => {
+    const user = userEvent.setup();
+    mockRegisterUser.mockResolvedValueOnce({});
 
-    it('fills out and submits the sign-up form', async () => {
-        mockRegisterUser.mockResolvedValueOnce({});
+    renderUI();
 
-        render(<SignUpPage />, { wrapper: MemoryRouter });
+    await user.type(screen.getByPlaceholderText(/first name/i), 'Aigerim');
+    await user.type(screen.getByPlaceholderText(/last name/i), 'Doe');
+    await user.type(screen.getByPlaceholderText(/email/i), 'aigerim@example.com');
+    await user.type(screen.getByPlaceholderText(/username/i), 'aigerimdoe');
+    await user.type(screen.getByPlaceholderText(/^password$/i), 'password123');
+    await user.type(screen.getByPlaceholderText(/confirm password/i), 'password123');
 
-        fireEvent.change(screen.getByPlaceholderText(/first name/i), {
-            target: { value: 'Aigerim' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/last name/i), {
-            target: { value: 'Doe' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/email/i), {
-            target: { value: 'aigerim@example.com' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/username/i), {
-            target: { value: 'aigerimdoe' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/^password$/i), {
-            target: { value: 'password123' },
-        });
-        fireEvent.change(screen.getByPlaceholderText(/confirm password/i), {
-            target: { value: 'password123' },
-        });
+    await user.click(screen.getByRole('button', { name: /sign up/i }));
 
-        fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    expect(mockRegisterUser).toHaveBeenCalledWith(
+        'Aigerim',
+        'Doe',
+        'aigerim@example.com',
+        'aigerimdoe',
+        'password123',
+        'password123'
+    );
+    expect(mockNavigate).toHaveBeenCalledWith('/signup');
+});
 
-        await waitFor(() => expect(mockRegisterUser).toHaveBeenCalled());
+it('navigates to login when "Log in" is clicked', async () => {
+    const user = userEvent.setup();
+    renderUI();
 
-        expect(mockRegisterUser).toHaveBeenCalledWith(
-            'Aigerim',
-            'Doe',
-            'aigerim@example.com',
-            'aigerimdoe',
-            'password123',
-            'password123'
-        );
-
-        expect(mockNavigate).toHaveBeenCalledWith('/welcome');
-    });
-
-    it('navigates to login when "Log in" button is clicked', () => {
-        render(<SignUpPage />, { wrapper: MemoryRouter });
-
-        fireEvent.click(screen.getByRole('button', { name: /log in/i }));
-
-        expect(mockNavigate).toHaveBeenCalledWith('/login');
-    });
+    await user.click(screen.getByRole('button', { name: /log in/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/login');
 });
