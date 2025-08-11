@@ -10,12 +10,12 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    background-color: #f9f9f9;
+    background-color: var(--bg-image-color);
     color: var(--primary-purple-color);
     padding: 10px 20px;
     margin-top: 2rem;
     border-radius: 20px;
-    border: 1px solid var(--primary-purple-color);
+    border: .5px solid var(--primary-purple-color);
     box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
     font-family: var(--font-main);
     font-size: 1rem;
@@ -31,6 +31,7 @@
         transform: scale(1.01);
         background-color: var(--bg-image-color);
         color: var(--primary-purple-color);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 }
 
@@ -73,7 +74,6 @@
     height: 2rem;
     margin-left: 1rem;
     cursor: pointer;
-    /* color: var(--primary-green-color); */
     color: var(--primary-purple-color);
     transition: all 0.3s ease;
 
@@ -96,10 +96,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* padding: 1rem 16px; */
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-image-color);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     cursor: pointer;
     font-size: 1.2rem;
     font-weight: 500;
@@ -108,9 +107,11 @@
 
     .tag-card-trash {
         color: #858585;
+        background-color: transparent;
+        border: none;
         cursor: pointer;
-        padding: .5rem;
-        margin-right: .5rem;
+        padding: .3rem;
+        margin-right: .3rem;
         border-radius: 50%;
         transition: all 0.3s ease;
     }
@@ -118,8 +119,10 @@
 }
 
 .tag-card-trash:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
     color: var(--primary-purple-color);
+    font-weight: bold;
+    background: rgba(206, 227, 239, 0.258);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
@@ -230,9 +233,6 @@
     }
 
     .tag-card-trash:hover {
-        transform: scale(1.1);
-        color: var(--primary-purple-color);
-        background-color: var(--bg-image-color);
         box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
     }
 
