@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { WordData } from '../types/word';
 import { getAuthConfig } from '../endpoints/api';
@@ -8,6 +8,7 @@ import AudioButton from '../components/AudioButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import ConfirmationModal from '../components/ConfirmationModal';
+import UserExample from "../components/UserExample";
 
 import '../styles/WordDetailPage.css';
 
@@ -23,6 +24,10 @@ const WordDetailPage = () => {
   const [notFound, setNotFound] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [wordToDelete, setWordToDelete] = useState<{ id: number; name: string } | null>(null);
+
+  const handleExamplesUpdate = useCallback((updatedExamples: any[]) => {
+    setWord(prev => prev ? { ...prev, user_examples: updatedExamples } : null);
+  }, []);
 
   useEffect(() => {
     const fetchWord = async () => {
@@ -89,12 +94,22 @@ const WordDetailPage = () => {
           <h1 className='word-detail-title'>{word?.word}</h1>
           {word?.phonetic && <p className="word-detail-phonetic">/{word.phonetic}/</p>}
           {word?.audio && <audio controls src={word.audio} />}
+
           {word && (
             <WordNote
               word={word}
               onUpdated={(updated) => setWord(updated)}
             />
           )}
+
+          {word && (
+            <UserExample 
+              word={word} 
+              initialExamples={word.user_examples || []}
+              onExamplesUpdate={handleExamplesUpdate}
+            />
+          )}
+
           {word?.meanings.map((meaning, idx) => (
             <div key={idx} className='word-detail-meanings'>
               <h2 className='word-detail-subtitle'>{meaning.partOfSpeech}</h2>
