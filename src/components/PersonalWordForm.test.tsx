@@ -171,7 +171,6 @@ test('onSave error shows modal with mapped messages', async () => {
     expect(within(m2).getByText(/this tag already exists/i)).toBeInTheDocument();
     await userEvent.click(within(m2).getByRole('button', { name: /ok/i }));
 
-    // default error
     await fillValid();
     await userEvent.click(screen.getByRole('button', { name: /save word/i }));
     const m3 = await screen.findByTestId('modal');
