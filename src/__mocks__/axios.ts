@@ -1,8 +1,8 @@
-// src/__mocks__/axios.ts
 type AxiosMockType = {
     get: jest.Mock;
     post: jest.Mock;
     put: jest.Mock;
+    patch: jest.Mock;
     delete: jest.Mock;
     create: jest.Mock;
     interceptors: {
@@ -15,8 +15,8 @@ const axios: AxiosMockType = {
     get: jest.fn(),
     post: jest.fn(),
     put: jest.fn(),
+    patch: jest.fn(), //added patch
     delete: jest.fn(),
-    // We'll assign create after defining axios so we can reference it
     create: undefined as unknown as jest.Mock,
     interceptors: {
         request: { use: jest.fn() },
@@ -24,7 +24,6 @@ const axios: AxiosMockType = {
     },
 };
 
-// now assign create to return this axios object
 axios.create = jest.fn(() => axios);
 
 export default axios;
