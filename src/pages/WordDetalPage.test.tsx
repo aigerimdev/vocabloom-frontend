@@ -20,6 +20,7 @@ jest.mock('../endpoints/api', () => ({
 
 jest.mock('../components/WordNote', () => () => <div data-testid="word-note" />);
 jest.mock('../components/AudioButton', () => () => <button>Example Audio</button>);
+jest.mock('../components/UserExample', () => () => <div data-testid="user-example" />);
 
 
 jest.mock('@fortawesome/react-fontawesome', () => ({

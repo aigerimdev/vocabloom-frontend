@@ -9,8 +9,8 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Helpers
 const ok = <T>(data: T) => Promise.resolve({ data } as any);
-const err = (status: number, data: any = {}) =>
-    Promise.reject({ response: { status, data } } as any);
+// const err = (status: number, data: any = {}) =>
+//     Promise.reject({ response: { status, data } } as any);
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -381,7 +381,6 @@ describe('convertTextToSpeech & playAudio', () => {
                 setTimeout(() => this.onended && this.onended(), 0);
                 return Promise.resolve();
             });
-            constructor(_url: string) { }
         }
         // @ts-ignore
         global.Audio = FakeAudio as any;
@@ -401,7 +400,6 @@ describe('convertTextToSpeech & playAudio', () => {
                 setTimeout(() => this.onerror && this.onerror(), 0);
                 return Promise.resolve();
             });
-            constructor(_url: string) { }
         }
         // @ts-ignore
         global.Audio = FakeAudioErr as any;

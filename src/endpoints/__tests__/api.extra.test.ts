@@ -7,8 +7,8 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const ok = <T>(data: T) => Promise.resolve({ data } as any);
-const err = (status: number, data: any = {}) =>
-    Promise.reject({ response: { status, data } } as any);
+// const err = (status: number, data: any = {}) =>
+//     Promise.reject({ response: { status, data } } as any);
 
 beforeEach(() => {
     jest.clearAllMocks();
