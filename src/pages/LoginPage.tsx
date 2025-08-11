@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/useAuth";
 import '../styles/FormPage.css';

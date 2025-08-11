@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { is_authenticated, login, register } from "../endpoints/api";
 import { useNavigate } from "react-router-dom";
 

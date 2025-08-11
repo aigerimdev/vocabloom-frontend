@@ -18,14 +18,11 @@ const HomePage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [wordData, setWordData] = useState<WordData | null>(null);
     const [notFound, setNotFound] = useState(false);
-    // const [savedWords, setSavedWords] = useState<WordData[]>([]);
     const [, setSavedWords] = useState<WordData[]>([]);
     const [tags, setTags] = useState<Tag[]>([]);
 
     const [showPersonalWordForm, setShowPersonalWordForm] = useState(false);
 
-
-    // Load saved words from localStorage
     useEffect(() => {
         const saved = localStorage.getItem('savedWords');
         if (saved) {
@@ -33,7 +30,6 @@ const HomePage = () => {
         }
     }, []);
 
-    // Sync tags to localStorage whenever they change
     useEffect(() => {
         async function fetchTags() {
             const result = await get_tags();
@@ -78,7 +74,6 @@ const HomePage = () => {
         }
     };
 
-        // Add close handler
     const handleCloseWordCard = () => {
         setWordData(null);
         setNotFound(false);

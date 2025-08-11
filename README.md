@@ -4,25 +4,38 @@ Mobile-first vocabulary learning app. Search words, save them, tag by topic, and
 
 ## Goal
 Vocabloom is designed for **English learners**, especially those studying English as a second language (ESL).  
-It helps users build and organize their vocabulary by:
-- **Search powered by an open dictionary API** — when a user types a word, the app retrieves **phonetics**, **audio**, **part of speech**, **meanings**, **definitions**, and **examples**.
-- Saving and tagging words for easy review
-- Adding personal notes
-- Accessing their word collection anytime on mobile, tablet, or desktop
+It helps users build and organize their vocabulary with tools that go beyond a basic dictionary.
+
+## Highlights
+- **Smart Word Search** — Get phonetics, audio, part of speech, meanings, definitions, and examples (dictionary API)
+- **Personal Vocabulary Collection** — Save and tag words for easy review
+- **Custom Word** — Add your own words with personalized meanings, phonetics, and tags  
+- **Personal Notes & Examples** — Keep your own notes and example sentences for each word  
+- **Amazon Polly Audio** — Listen the examples in natural-sounding speech  
+- **AI Examples** — Generate examples with Gemini AI by difficulty and context  
+- **Mobile-First Design** — Works great on phone, tablet, or desktop  
+
 
 ## 🚀 Demo
 - Demo video here: [![Vocabloom Demo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)]
 - Live app: https://vocabloomapp.netlify.app
 - Frontend Repo: https://github.com/aigerimdev/vocabloom-frontend
 
-## Features
-- Search words with phonetics, definitions, part of speach, examples and audio
-- Save words to a personal collection
-- Create a tag
-- Tag words by topic/category
-- Personal notes for each word (add / edit)
-- Protected routes — sign up and log in required
-- Mobile-first & responsive (phone, tablet, desktop)
+## **MVP Features**
+- Search words with phonetics, definitions, part of speech, examples, and audio  
+- Save words to a personal collection and delete them  
+- Create and delete tags  
+- Tag words by topic/category  
+- Protected routes — signup and login required  
+- Mobile-first & responsive design (phone, tablet, desktop)  
+
+## **Additional Features**
+- **Personal Notes** — Add and edit your own notes for any word  
+- **Personal Word Creation** — Create custom word entries with your own meanings, explanations, phonetics, and tags  
+- **My Word List & Tag Browsing** — View saved or created words in your personal list or filter them by tags  
+- **User Examples** — Add your own example sentences for any searched or created word  
+- **Amazon Polly Integration** — Hear your examples read aloud in natural-sounding speech  
+- **AI-Generated Examples** — Use Gemini AI to create example sentences based on difficulty level and context  
 
 ## Tech Stack
 - **Frontend:** React, TypeScript, Vite, React Router, Axios

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import TagWordListPage from './TagWordListPage';
 
+
 const mockUseLocation = jest.fn();
 jest.mock('react-router-dom', () => ({
     useLocation: () => mockUseLocation(),

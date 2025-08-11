@@ -26,7 +26,6 @@ const WordListPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Get saved words
                 const allWords = await get_saved_words();
                 const filtered = tagId !== null
                     ? allWords.filter(word => word.tag === tagId)
@@ -34,7 +33,6 @@ const WordListPage = () => {
 
                 setWords(filtered);
 
-                // Get tag name by ID (if tagId exists)
                 if (tagId !== null) {
                     try {
                         const tag = await get_tag_by_id(tagId);

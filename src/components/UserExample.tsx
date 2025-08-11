@@ -24,17 +24,14 @@ export default function UserExample({ word, initialExamples = [], onExamplesUpda
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [exampleToDelete, setExampleToDelete] = useState<UserExampleType | null>(null);
 
-    // AI options state
     const [aiDifficulty, setAIDifficulty] = useState<"beginner" | "intermediate" | "advanced">("intermediate");
     const [aiContext, setAIContext] = useState<string>("");
 
-    // Initialize examples from props and set initial mode
     useEffect(() => {
         setExamples(initialExamples);
         setMode(initialExamples.length > 0 ? "view" : "empty");
     }, [initialExamples]);
 
-    // Update WordDetailPage component when examples change
     useEffect(() => {
         onExamplesUpdate?.(examples);
     }, [examples, onExamplesUpdate]);
@@ -60,7 +57,6 @@ export default function UserExample({ word, initialExamples = [], onExamplesUpda
                 setExamples(updatedExamples);
                 setDraft("");
                 setMode("view");
-                // Call the callback here when we actually add an example
                 onExamplesUpdate?.(updatedExamples);
             }
         } catch (error) {
@@ -87,7 +83,6 @@ export default function UserExample({ word, initialExamples = [], onExamplesUpda
                 if (updatedExamples.length === 0) {
                     setMode("empty");
                 }
-                // Call the callback here when we actually delete an example
                 onExamplesUpdate?.(updatedExamples);
             }
         } catch (error) {

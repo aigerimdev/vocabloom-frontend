@@ -95,7 +95,6 @@
     transform: scale(1.1);
 }
 
-/* Tablet*/
 @media (min-width: 768px) {
     .word-detail {
         max-width: 650px;
@@ -123,7 +122,6 @@
     }
 }
 
-/* Desktop*/
 @media (min-width: 1024px) {
     .word-detail {
         max-width: 750px;

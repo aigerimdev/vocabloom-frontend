@@ -8,7 +8,6 @@ const RootRedirect = () => {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        // Give it a moment to load from localStorage or cookies
         const timer = setTimeout(() => setReady(true), 100);
         return () => clearTimeout(timer);
     }, []);

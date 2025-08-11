@@ -157,4 +157,3 @@ test('Delete flow -> cancel keeps the tag', async () => {
     expect(delete_tag).not.toHaveBeenCalled();
     expect(screen.getByText(/keepme/i)).toBeInTheDocument();
 });
-

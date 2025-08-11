@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/TagDropdown.css';
-import { create_tag } from '../endpoints/api'; // adjust path if needed
+import { create_tag } from '../endpoints/api';
 
 
 interface Tag {
@@ -35,8 +35,8 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
         try {
             const newTagObj = await create_tag(trimmed);
             if (newTagObj) {
-                setTags((prev) => [...prev, newTagObj]); // update list
-                handleSelect(newTagObj.id, newTagObj.name); // auto-select newly created tag
+                setTags((prev) => [...prev, newTagObj]);
+                handleSelect(newTagObj.id, newTagObj.name);
                 setIsAddingNew(false);
                 setNewTag('');
             }
@@ -81,7 +81,6 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onSelect, tags, setTags }) =>
                                 onChange={(e) => setNewTag(e.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
-                                        // add tag logic here
                                     }
                                 }}
                                 className="new-tag-input"

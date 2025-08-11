@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { useAuth } from "../context/useAuth";
 import { useNavigate } from 'react-router-dom';
 import '../styles/FormPage.css';
@@ -14,7 +14,7 @@ const SignUpPage = () => {
 
     const { register_user } = useAuth();
     const navigate = useNavigate();
-    
+
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -108,19 +108,19 @@ const SignUpPage = () => {
                             autoComplete="new-password"
                             required
                         />
-                    </div>    
-                <button className="form-button" type="submit">Sign up</button>
+                    </div>
+                    <button className="form-button" type="submit">Sign up</button>
                 </form>
                 <p className="form-text">
-                        Already have an account?{" "}
-                        <button
+                    Already have an account?{" "}
+                    <button
                         type="button"
                         className="form-link"
                         onClick={() => navigate('/login')}
                         onKeyDown={handleKeyPress}
-                        >
+                    >
                         Log in
-                        </button>
+                    </button>
                 </p>
             </section>
         </main>

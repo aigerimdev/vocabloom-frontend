@@ -86,20 +86,16 @@ test('validates required fields: definition', async () => {
 test('add/remove meaning & definition works', async () => {
     setup();
 
-    // Add a second definition
     await userEvent.click(screen.getByRole('button', { name: /\+ add definition/i }));
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(2);
 
-    // Remove the most recent definition (last ×)
     const removeDefButtons = screen.getAllByRole('button', { name: '×' });
     await userEvent.click(removeDefButtons[removeDefButtons.length - 1]);
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(1);
 
-    // Add a second meaning
     await userEvent.click(screen.getByRole('button', { name: /\+ add meaning/i }));
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(2);
 
-    // Remove one meaning (first "Remove")
     const removeMeaningButtons = screen.getAllByRole('button', { name: /remove/i });
     await userEvent.click(removeMeaningButtons[0]);
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(1);
@@ -114,7 +110,6 @@ test('successful submit normalizes payload and includes selected tag', async () 
     await userEvent.type(screen.getByPlaceholderText(/enter definition/i), '  greeting  ');
     await userEvent.type(screen.getByPlaceholderText(/enter example/i), '  hi!  ');
 
-    // Click mocked TagDropdown
     await userEvent.click(screen.getByRole('button', { name: /select tag/i }));
 
     await userEvent.click(screen.getByRole('button', { name: /save word/i }));
@@ -199,11 +194,9 @@ test('close button and backdrop click call onClose', async () => {
 
     disableNativeValidation();
 
-    // close button
     await userEvent.click(screen.getByRole('button', { name: '×' }));
     expect(onClose).toHaveBeenCalledTimes(1);
 
-    // open again
     onClose.mockClear();
     rerender(
         <PersonalWordForm
