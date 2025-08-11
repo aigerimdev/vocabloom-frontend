@@ -7,13 +7,13 @@ Vocabloom is designed for **English learners**, especially those studying Englis
 It helps users build and organize their vocabulary with tools that go beyond a basic dictionary.
 
 ## Highlights
-- **Smart Word Search** — Get phonetics, audio, part of speech, meanings, definitions, and examples from an open dictionary API  
-- **Personal Vocabulary Collection** — Save and tag words for easy review anytime  
-- **Custom Word Creation** — Add your own words with personalized meanings, phonetics, and tags  
+- **Smart Word Search** — Get phonetics, audio, part of speech, meanings, definitions, and examples (dictionary API)
+- **Personal Vocabulary Collection** — Save and tag words for easy review
+- **Custom Word** — Add your own words with personalized meanings, phonetics, and tags  
 - **Personal Notes & Examples** — Keep your own notes and example sentences for each word  
-- **Amazon Polly Audio** — Listen to your examples in natural-sounding speech  
-- **AI-Powered Examples** — Generate examples with Gemini AI, tailored to your desired difficulty and context  
-- **Mobile-First Design** — Access your vocabulary seamlessly on phone, tablet, or desktop  
+- **Amazon Polly Audio** — Listen the examples in natural-sounding speech  
+- **AI Examples** — Generate examples with Gemini AI by difficulty and context  
+- **Mobile-First Design** — Works great on phone, tablet, or desktop  
 
 
 ## 🚀 Demo
@@ -25,8 +25,8 @@ It helps users build and organize their vocabulary with tools that go beyond a b
 - Search words with phonetics, definitions, part of speech, examples, and audio  
 - Save words to a personal collection and delete them  
 - Create and delete tags  
-- Tag words by topic or category  
-- Protected routes — sign-up and log-in required  
+- Tag words by topic/category  
+- Protected routes — signup and login required  
 - Mobile-first & responsive design (phone, tablet, desktop)  
 
 ## **Additional Features**
