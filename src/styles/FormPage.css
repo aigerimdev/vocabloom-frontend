@@ -5,7 +5,7 @@
     justify-content: top;
     height: 100vh;
     padding: 6rem 2rem 2rem 2rem;
-    background-image: url('../../assets/bg_mini_welcome1.png');
+    background-image: linear-gradient(0deg,rgba(244, 254, 219, 0.33) 15%, rgba(213, 231, 241, 0.728) 100%), url('../../assets/bg_mini_welcome1.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -114,8 +114,7 @@
 
 @media (min-width: 768px) {
     .form-page {
-        background: 
-            url('../../assets/bg_forms.svg');
+        background-image: linear-gradient(0deg,rgba(244, 254, 219, 0.33) 15%, rgba(213, 231, 241, 0.728) 100%), url('../../assets/bg_forms.svg');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: right bottom;
