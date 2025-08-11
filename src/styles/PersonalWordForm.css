@@ -9,7 +9,6 @@
     padding: 0.5rem;
 }
 
-/* Container */
 .personal-word-form-container {
     background-color: var(--bg-image-color);
     border-radius: 10px;
@@ -21,7 +20,6 @@
     scrollbar-width: thin;
     animation: slideIn 0.4s ease;
     color: var(--primary-purple-color);
-    /* text */
 }
 
 @keyframes slideIn {
@@ -36,7 +34,6 @@
     }
 }
 
-/* Header */
 .personal-word-form-header {
     display: flex;
     flex-direction: column;
@@ -54,7 +51,6 @@
     width: 100%;
 }
 
-/* Close button */
 .close-button {
     background: none;
     border: none;
@@ -79,12 +75,10 @@
     transform: scale(1.1);
 }
 
-/* Form wrapper */
 .personal-word-form {
     padding: 0 1rem 1rem;
 }
 
-/* Form groups */
 .form-group {
     margin-bottom: 1rem;
 }
@@ -117,7 +111,6 @@
     box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
 }
 
-/* Meanings */
 .meanings-header {
     display: flex;
     flex-direction: column;
@@ -138,6 +131,7 @@
     font-weight: bold;
     width: 100%;
 }
+
 .add-meaning-btn:hover {
     background-color: #dcfcf3;
     transform: scale(1.01);
@@ -148,7 +142,6 @@
     transform: translateY(1px);
 }
 
-/* Meaning section */
 .meaning-section {
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -173,10 +166,8 @@
     font-size: 1rem;
 }
 
-/* Remove meaning */
 .remove-meaning-btn {
     color: #dc2626;
-    /* danger */
     border: 1px solid #e5e7eb;
     padding: 0.5rem 1rem;
     border-radius: 6px;
@@ -203,8 +194,6 @@
     font-size: 0.9rem;
 }
 
-
-/* Definitions */
 .definitions-section {
     margin-top: 1rem;
 }
@@ -291,7 +280,6 @@
     margin-bottom: 0;
 }
 
-/* Actions */
 .form-actions {
     display: flex;
     flex-direction: column;
@@ -301,7 +289,6 @@
     border-top: 1px solid #e5e7eb;
 }
 
-/* Cancel/Save */
 .cancel-btn {
     background-color: #f3f4f6;
     color: #111827;

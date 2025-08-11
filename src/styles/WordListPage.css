@@ -70,9 +70,7 @@
 .word-list-item:hover,
 .word-list-item:focus-within {
     background-color: #f0fff4;
-    /* light green background */
     box-shadow: 0 0 0 2px #a5d6a7;
-    /* green outline */
     transform: scale(1.005);
 
     .word-list-icon {
@@ -99,7 +97,6 @@
     text-decoration: none;
 }
 
-/* Tablet */
 @media (min-width: 768px) {
     .word-list-container {
         max-width: 75%;
@@ -122,7 +119,6 @@
     }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
     .word-list-container {
         width: 55%;
