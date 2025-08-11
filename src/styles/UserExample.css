@@ -63,7 +63,7 @@
     transform: scale(1.02);
 }
 
-/* AI Options - Mobile First */
+/* AI Options */
 .ai-options-simple {
     display: flex;
     flex-direction: column;
@@ -212,7 +212,7 @@
     transform: scale(1.05);
 }
 
-/* Textarea - Mobile First */
+/* Textarea */
 .example-block textarea {
     width: 100%;
     outline: none;
@@ -232,7 +232,7 @@
     box-shadow: 0 0 0 3px rgb(212 230 241 / 39%);
 }
 
-/* Actions - Mobile First */
+/* Actions */
 .example-actions {
     display: flex;
     flex-direction: column;
@@ -293,10 +293,6 @@
     border: 1px solid #fecaca;
     border-radius: 0.5rem;
 }
-
-/* ------------------------------------------------------------------ */
-/* Tablet Styles (768px and up) */
-/* ------------------------------------------------------------------ */
 
 @media (min-width: 768px) {
     .example-block {
@@ -396,10 +392,6 @@
         order: 2;
     }
 }
-
-/* ------------------------------------------------------------------ */
-/* Desktop Styles (1024px and up) */
-/* ------------------------------------------------------------------ */
 
 @media (min-width: 1024px) {
     .ai-options-simple {
