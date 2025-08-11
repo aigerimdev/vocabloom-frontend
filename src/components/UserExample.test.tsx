@@ -60,7 +60,10 @@ describe('UserExample', () => {
         expect(saveBtn).toBeEnabled();
 
         // Mock API: create returns a new example
-        const returned: UserExampleType = { id: 101, example_text: 'My first example.' };
+        const returned: UserExampleType = {
+            id: 101, example_text: 'My first example.', created_at: '2025-01-01T00:00:00Z',
+            word: 1,
+        };
         createUserExample.mockResolvedValueOnce(returned);
 
         await user.click(saveBtn);
@@ -111,7 +114,7 @@ describe('UserExample', () => {
         const user = userEvent.setup();
         const onExamplesUpdate = jest.fn();
 
-        const initial: UserExampleType[] = [{ id: 10, example_text: 'Old example' }];
+        const initial: UserExampleType[] = [{ id: 10, example_text: 'Old example', created_at: '2025-01-01T00:00:00Z', word: 1 }];
 
         render(
             <UserExample
@@ -151,7 +154,7 @@ describe('UserExample', () => {
     test('view mode → delete flow (cancel) does not call API and closes modal', async () => {
         const user = userEvent.setup();
 
-        const initial: UserExampleType[] = [{ id: 11, example_text: 'Keep me' }];
+        const initial: UserExampleType[] = [{ id: 11, example_text: 'Keep me', created_at: '2025-01-01T00:00:00Z', word: 1 }];
 
         render(<UserExample word={word} initialExamples={initial} />);
 
