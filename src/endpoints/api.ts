@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { WordData } from "../types/word";
+import { WordData, UserExample, CreateUserExamplePayload, GenerateExampleOptions, GenerateExampleResponse } from "../types/word";
 
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api/';
 // const BASE_URL = 'http://127.0.0.1:8000/api/';
@@ -184,6 +184,10 @@ export const delete_word = async (id: number) => {
   }
 };
 
+///////////////////////////////////////////////////////////
+////////////////////// TAGS VIEWS /////////////////////////
+///////////////////////////////////////////////////////////
+
 export const create_tag = async (name: string) => {
   try {
     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
@@ -317,4 +321,148 @@ export const playAudio = (audioUrl: string): Promise<void> => {
     
     audio.play().catch(reject);
   });
+};
+
+///////////////////////////////////////////////////////////
+///////////////// USER EXAMPLES VIEWS /////////////////////
+///////////////////////////////////////////////////////////
+
+export const getUserExamples = async (wordId: number): Promise<UserExample[] | null> => {
+  try {
+    const { data } = await axios.get<UserExample[]>(`${BASE_URL}/words/${wordId}/examples/`, getAuthConfig());
+    return data;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.get<UserExample[]>(`${WORDS_URL}${wordId}/examples/`, getAuthConfig())
+    );
+    return result === false ? null : (result as UserExample[]);
+  }
+}
+
+export const createUserExample = async (
+  wordId: number, 
+  exampleText: string
+): Promise<UserExample | null> => {
+  const payload: CreateUserExamplePayload = {
+    example_text: exampleText
+  };
+
+  try {
+    const { data } = await axios.post(
+      `${WORDS_URL}${wordId}/examples/create/`, 
+      payload, 
+      getAuthConfig()
+    );
+    return data;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.post(`${WORDS_URL}${wordId}/examples/create/`, payload, getAuthConfig())
+    );
+    return result === false ? null : (result as UserExample);
+  }
+};
+
+export const getUserExample = async (
+  wordId: number, 
+  exampleId: number
+): Promise<UserExample | null> => {
+  try {
+    const { data } = await axios.get(
+      `${WORDS_URL}${wordId}/examples/${exampleId}/`, 
+      getAuthConfig()
+    );
+    return data;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.get(`${WORDS_URL}${wordId}/examples/${exampleId}/`, getAuthConfig())
+    );
+    return result === false ? null : (result as UserExample);
+  }
+};
+
+export const updateUserExample = async (
+  wordId: number, 
+  exampleId: number, 
+  exampleText: string
+): Promise<UserExample | null> => {
+  const payload: CreateUserExamplePayload = {
+    example_text: exampleText
+  };
+
+  try {
+    const { data } = await axios.patch(
+      `${WORDS_URL}${wordId}/examples/${exampleId}/`, 
+      payload, 
+      getAuthConfig()
+    );
+    return data;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.patch(`${WORDS_URL}${wordId}/examples/${exampleId}/`, payload, getAuthConfig())
+    );
+    return result === false ? null : (result as UserExample);
+  }
+};
+
+export const deleteUserExample = async (
+  wordId: number, 
+  exampleId: number
+): Promise<boolean> => {
+  try {
+    await axios.delete(`${WORDS_URL}${wordId}/examples/${exampleId}/`, getAuthConfig());
+    return true;
+  } catch (error: any) {
+    const result = await call_refresh(error, () =>
+      axios.delete(`${WORDS_URL}${wordId}/examples/${exampleId}/`, getAuthConfig())
+    );
+    return result !== false;
+  }
+};
+
+///////////////////////////////////////////////////////////
+////////////////// GEMINI AI EXAMPLES ////////////////////
+///////////////////////////////////////////////////////////
+
+// Generate AI examples for a specific word
+export const generateWordExamples = async (
+  wordId: number, 
+  options: GenerateExampleOptions = {}
+): Promise<string | null> => { 
+  const payload = {
+    context: options.context,
+    difficulty_level: options.difficulty || 'intermediate',
+  };
+
+  try {
+    const { data } = await axios.post<GenerateExampleResponse>(
+      `${WORDS_URL}${wordId}/examples/generate/`, 
+      payload, 
+      getAuthConfig()
+    );
+    
+    if (data && data.success && data.example) {
+      return data.example;
+    }
+    
+    console.error('Gemini API response error:', data);
+    return null;
+  } catch (error: any) {
+    if (error?.response?.status !== 401) {
+      console.error('Generate examples error:', error);
+    }
+    
+    const result = await call_refresh(error, () =>
+      axios.post<GenerateExampleResponse>(`${WORDS_URL}${wordId}/examples/generate/`, payload, getAuthConfig())
+    );
+    
+    if (result === false) {
+      return null;
+    }
+    
+    if (result && result.success && result.example) {
+      return result.example;
+    }
+    
+    return null;
+  }
 };
