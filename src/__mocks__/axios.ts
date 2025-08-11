@@ -15,7 +15,7 @@ const axios: AxiosMockType = {
     get: jest.fn(),
     post: jest.fn(),
     put: jest.fn(),
-    patch: jest.fn(), //added patch
+    patch: jest.fn(),
     delete: jest.fn(),
     create: undefined as unknown as jest.Mock,
     interceptors: {

@@ -58,12 +58,10 @@ test('happy path: converts text, plays audio, toggles playing class', async () =
     await user.click(btn);
 
     expect(convertTextToSpeech).toHaveBeenCalledWith('orchid', 'Joanna');
-    expect(btn).toHaveClass('playing'); // during playback
+    expect(btn).toHaveClass('playing');
 
-    // Finish playback and flush state updates
     await act(async () => { d.resolve(); });
 
-    // ONE assertion per waitFor (lint-safe)
     await waitFor(() =>
         expect(playAudio).toHaveBeenCalledWith('blob:https://audio/url')
     );

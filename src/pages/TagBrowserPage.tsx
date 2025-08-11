@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { get_tags, create_tag, delete_tag } from '../endpoints/api';
-import '../styles/TagBrowserPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import ConfirmationModal from '../components/ConfirmationModal';
+import '../styles/TagBrowserPage.css';
 
 interface Tag {
     id: number;

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { get_words_by_tag } from '../endpoints/api';
 import { WordData } from '../types/word';
 
+
 const TagWordListPage = () => {
     const [words, setWords] = useState<WordData[]>([]);
     const [notFound, setNotFound] = useState(false);

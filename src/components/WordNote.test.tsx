@@ -5,6 +5,7 @@ import WordNote from "./WordNote";
 import { WordData } from "../types/word";
 import { updateWordNote } from "../endpoints/api";
 
+
 jest.mock("../endpoints/api", () => ({
     updateWordNote: jest.fn(),
 }));
@@ -20,7 +21,6 @@ const makeWord = (overrides: Partial<WordData> = {}): WordData => ({
     ...overrides,
 });
 
-// Harness only for first test
 function Harness({ initial }: { initial: WordData }) {
     const [w, setW] = useState<WordData>(initial);
     return <WordNote word={w} onUpdated={setW} />;

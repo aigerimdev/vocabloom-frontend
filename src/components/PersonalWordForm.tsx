@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { WordData } from '../types/word';
 import TagDropdown from './TagDropdown';
 import ConfirmationModal from './ConfirmationModal';

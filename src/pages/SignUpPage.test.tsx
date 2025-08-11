@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SignUpPage from './SingUpPage'; // keep your actual filename
+import SignUpPage from './SingUpPage';
 import { useAuth as mockUseAuth } from '../context/useAuth';
+
 
 const mockRegisterUser = jest.fn();
 const mockNavigate = jest.fn();
 
-// Mock only what the component uses; do NOT requireActual.
 jest.mock('../context/useAuth');
 jest.mock('react-router-dom', () => ({
     useNavigate: () => mockNavigate,

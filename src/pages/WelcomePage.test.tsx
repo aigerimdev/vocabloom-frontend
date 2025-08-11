@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import WelcomePage from './WelcomePage';
 
+
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
@@ -47,4 +48,3 @@ test('clicking "Sign up" navigates to /signup', async () => {
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/signup');
 });
-

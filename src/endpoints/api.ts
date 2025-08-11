@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig } from "axios";
 import { WordData, UserExample, CreateUserExamplePayload, GenerateExampleOptions, GenerateExampleResponse } from "../types/word";
 
 const BASE_URL = "https://vocabloom-backend.onrender.com/api/";
-// const BASE_URL = "http://127.0.0.1:8000/api/";
 
 const LOGIN_URL = `${BASE_URL}token/`;
 const REFRESH_URL = `${BASE_URL}token/refresh/`;
@@ -128,27 +127,16 @@ export const is_authenticated = async (): Promise<boolean> => {
   }
 };
 
-// export const logout = async (): Promise<boolean> => {
-//   try {
-//     await axios.post(LOGOUT_URL, {}, getAuthConfig());
-//   } finally {
-//     localStorage.removeItem("access_token");
-//     localStorage.removeItem("refresh_token");
-//   }
-//   return true;
-// };
 export const logout = async (): Promise<boolean> => {
   try {
     await axios.post(LOGOUT_URL, {}, getAuthConfig());
   } catch {
-    // Swallow the error so logout still resolves
   } finally {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
   }
   return true;
 };
-
 
 export const get_words = async (): Promise<any[] | false> => {
   try {
@@ -195,21 +183,6 @@ export async function save_word(word: WordData): Promise<WordData> {
   }
 }
 
-// export const create_tag = async (name: string) => {
-//   try {
-//     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
-//     return data;
-//   } catch (error: any) {
-//     const dup = classifyDuplicate(error, "TAG");
-//     if (dup) throw new Error(dup);
-//     const result = await call_refresh(error, () =>
-//       axios.post(TAGS_URL, { name }, getAuthConfig())
-//     );
-//     if (result === false) throw error;
-//     return result;
-//   }
-// };
-
 export async function updateWordNote(id: number, note: string | null) {
   try {
     const { data } = await axios.patch(
@@ -226,16 +199,6 @@ export async function updateWordNote(id: number, note: string | null) {
   }
 }
 
-// export const delete_word = async (id: number) => {
-//   try {
-//     await axios.delete(`${WORDS_URL}${id}/`, getAuthConfig());
-//     return true;
-//   } catch (error: any) {
-//     return await call_refresh(error, () =>
-//       axios.delete(`${WORDS_URL}${id}/`, getAuthConfig())
-//     );
-//   }
-// };
 export const delete_word = async (id: number): Promise<boolean> => {
   try {
     await axios.delete(`${WORDS_URL}${id}/`, getAuthConfig());
@@ -251,18 +214,6 @@ export const delete_word = async (id: number): Promise<boolean> => {
 ///////////////////////////////////////////////////////////
 ////////////////////// TAGS VIEWS /////////////////////////
 ///////////////////////////////////////////////////////////
-
-// export const create_tag = async (name: string) => {
-//   try {
-//     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
-//     return data;
-//   } catch (error: any) {
-//     const result = await call_refresh(error, () =>
-//       axios.post(TAGS_URL, { name }, getAuthConfig())
-//     );
-//     return result === false ? null : result;
-//   }
-// };
 export const create_tag = async (name: string) => {
   try {
     const { data } = await axios.post(TAGS_URL, { name }, getAuthConfig());
@@ -280,8 +231,6 @@ export const create_tag = async (name: string) => {
     return result;
   }
 };
-
-
 
 export const get_tags = async () => {
   try {

@@ -3,9 +3,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Logout from './Logout';
 import { useAuth as mockUseAuth } from '../context/useAuth';
 
-jest.mock('react-router-dom');                       // uses __mocks__/react-router-dom.tsx
+jest.mock('react-router-dom');
 jest.mock('../endpoints/api', () => ({ logout: jest.fn().mockResolvedValue(undefined) }));
-jest.mock('../context/useAuth');                     // mock the auth hook
+jest.mock('../context/useAuth');
 
 const nav = () => (RouterDom as any).useNavigate() as jest.Mock;
 

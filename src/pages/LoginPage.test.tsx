@@ -67,7 +67,6 @@ test('pressing Enter/Space on "Sign up" navigates to /signup', async () => {
     await user.keyboard('{Enter}');
     expect(mockNavigate).toHaveBeenCalledWith('/signup');
 
-    // Space too
     jest.clearAllMocks();
     signUpBtn.focus();
     await user.keyboard(' ');

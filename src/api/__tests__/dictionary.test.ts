@@ -25,7 +25,6 @@ describe('getWordData', () => {
             },
         ];
 
-        // make the mocked axios return our fixture
         (axios.get as jest.Mock).mockResolvedValueOnce({ data: sampleResponse });
 
         const result: WordData = await getWordData('test');

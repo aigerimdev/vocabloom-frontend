@@ -1,10 +1,9 @@
-import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PersonalWordForm from './PersonalWordForm';
 import { WordData } from '../types/word';
 
-// Mocks must be declared BEFORE importing the component
+
 jest.mock('./TagDropdown', () => (props: any) => (
     <button type="button" onClick={() => props.onSelect?.(42, 'Selected')}>
         Select Tag
@@ -23,7 +22,6 @@ jest.mock('./ConfirmationModal', () => (props: any) => {
     );
 });
 
-// Disable native HTML form validation globally (no node access)
 const checkValiditySpy = jest
     .spyOn(HTMLFormElement.prototype, 'checkValidity')
     .mockImplementation(() => true);
@@ -90,20 +88,16 @@ test('validates required fields: definition', async () => {
 
 test('add/remove meaning & definition works', async () => {
     setup();
-    // Add a second definition
     await userEvent.click(screen.getByRole('button', { name: /\+ add definition/i }));
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(2);
 
-    // Remove the most recent definition by clicking the last "×" button
     const removeDefButtons = screen.getAllByRole('button', { name: '×' });
     await userEvent.click(removeDefButtons[removeDefButtons.length - 1]);
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(1);
 
-    // Add a second meaning
     await userEvent.click(screen.getByRole('button', { name: /\+ add meaning/i }));
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(2);
 
-    // Remove one meaning by clicking the first visible "Remove" button
     const removeMeaningButtons = screen.getAllByRole('button', { name: /remove/i });
     await userEvent.click(removeMeaningButtons[0]);
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(1);

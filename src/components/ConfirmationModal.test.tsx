@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ConfirmationModal from './ConfirmationModal';
-import React from 'react';
 
 const setup = (overrides: Partial<React.ComponentProps<typeof ConfirmationModal>> = {}) => {
     const onConfirm = jest.fn();

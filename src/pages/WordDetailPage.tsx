@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
 import { WordData } from '../types/word';
 import { getAuthConfig } from '../endpoints/api';
 import WordNote from "../components/WordNote";
@@ -9,11 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import ConfirmationModal from '../components/ConfirmationModal';
 import UserExample from "../components/UserExample";
-
 import '../styles/WordDetailPage.css';
 
+
 const BASE_URL = 'https://vocabloom-backend.onrender.com/api';
-// const BASE_URL = 'http://127.0.0.1:8000/api';
 
 
 const WordDetailPage = () => {
@@ -93,7 +92,6 @@ const WordDetailPage = () => {
         <div className="word-detail-container">
           <h1 className='word-detail-title'>{word?.word}</h1>
           {word?.phonetic && <p className="word-detail-phonetic">/{word.phonetic}/</p>}
-          {/* {word?.audio && <audio controls src={word.audio} />} */}
           {word?.audio && <audio data-testid="word-audio" controls src={word.audio} />}
           {word && (
             <WordNote
@@ -103,8 +101,8 @@ const WordDetailPage = () => {
           )}
 
           {word && (
-            <UserExample 
-              word={word} 
+            <UserExample
+              word={word}
               initialExamples={word.user_examples || []}
               onExamplesUpdate={handleExamplesUpdate}
             />
@@ -142,7 +140,6 @@ const WordDetailPage = () => {
               }
             }}
           ></FontAwesomeIcon>
-          {/* // <button onClick={handleDelete} className="delete-button">Delete Word</button> */}
         </div>
       </div>
       <ConfirmationModal

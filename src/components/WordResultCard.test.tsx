@@ -4,9 +4,9 @@ import WordResultCard from './WordResultCard';
 import { save_word } from '../endpoints/api';
 import { WordData } from '../types/word';
 
+
 jest.mock('../endpoints/api', () => ({ save_word: jest.fn() }));
 
-// Stub TagDropdown: triggers onSelect(1, 'Study')
 jest.mock('./TagDropdown', () => (props: any) => (
     <button onClick={() => props.onSelect(1, 'Study')}>Select Tag</button>
 ));

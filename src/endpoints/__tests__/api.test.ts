@@ -7,10 +7,7 @@ import { WordData } from '../../types/word';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Helpers
 const ok = <T>(data: T) => Promise.resolve({ data } as any);
-// const err = (status: number, data: any = {}) =>
-//     Promise.reject({ response: { status, data } } as any);
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -115,9 +112,9 @@ describe('login / register / auth / logout', () => {
 
     test('is_authenticated tries refresh on 401 then true', async () => {
         mockedAxios.post
-            .mockRejectedValueOnce({ response: { status: 401 } }) // AUTH_URL
-            .mockResolvedValueOnce({ data: { access: 'a2' } } as any) // REFRESH_URL
-            .mockResolvedValueOnce({} as any); // AUTH_URL retry
+            .mockRejectedValueOnce({ response: { status: 401 } })
+            .mockResolvedValueOnce({ data: { access: 'a2' } } as any)
+            .mockResolvedValueOnce({} as any);
         localStorage.setItem('refresh_token', 'r1');
         await expect(api.is_authenticated()).resolves.toBe(true);
     });
@@ -125,7 +122,7 @@ describe('login / register / auth / logout', () => {
     test('logout clears tokens regardless of server', async () => {
         localStorage.setItem('access_token', 'a');
         localStorage.setItem('refresh_token', 'r');
-        mockedAxios.post.mockRejectedValueOnce(new Error('server down')); // LOGOUT_URL
+        mockedAxios.post.mockRejectedValueOnce(new Error('server down'));
         await expect(api.logout()).resolves.toBe(true);
         expect(localStorage.getItem('access_token')).toBeNull();
         expect(localStorage.getItem('refresh_token')).toBeNull();
@@ -142,13 +139,10 @@ describe('words & tags fetching', () => {
         localStorage.clear();
         localStorage.setItem('refresh_token', 'r1');
 
-        // 1st GET -> 401
         mockedAxios.get.mockRejectedValueOnce({ response: { status: 401 } } as any);
 
-        // refresh POST -> returns new access
         mockedAxios.post.mockResolvedValueOnce({ data: { access: 'a2' } } as any);
 
-        // retried GET -> 200
         mockedAxios.get.mockResolvedValueOnce({ data: ['ok'] } as any);
 
         await expect(api.get_words()).resolves.toEqual(['ok']);
@@ -221,13 +215,9 @@ describe('save_word', () => {
     });
 
     test('401 → refresh → retry succeeds', async () => {
-        // Make refresh_token() succeed
         localStorage.setItem('refresh_token', 'r1');
-        // 1st POST (save) -> 401
         mockedAxios.post.mockRejectedValueOnce({ response: { status: 401 } } as any);
-        // Refresh POST -> returns new access
         mockedAxios.post.mockResolvedValueOnce({ data: { access: 'a2' } } as any);
-        // Retried POST (save) -> 200 with server data
         mockedAxios.post.mockResolvedValueOnce({ data: { id: 9, word: 'Bamboo', meanings: [] } } as any);
 
         const out = await api.save_word(base);
@@ -261,16 +251,11 @@ describe('create_tag', () => {
     });
 
     test('401 → refresh → retry ok', async () => {
-        // Make refresh_token() succeed for real
         localStorage.setItem('refresh_token', 'r1');
-
-        // 1) First POST to TAGS_URL -> 401
         mockedAxios.post.mockRejectedValueOnce({ response: { status: 401 } } as any);
 
-        // 2) Refresh POST to REFRESH_URL -> returns new access token
         mockedAxios.post.mockResolvedValueOnce({ data: { access: 'a2' } } as any);
 
-        // 3) Retried POST to TAGS_URL -> success
         mockedAxios.post.mockResolvedValueOnce({ data: { id: 2, name: 'Plants' } } as any);
 
         await expect(api.create_tag('Plants')).resolves.toEqual({ id: 2, name: 'Plants' });
@@ -285,14 +270,10 @@ describe('updateWordNote / delete_word', () => {
     });
 
     test('updateWordNote 401 → refresh → retry → returns data', async () => {
-        // Make refresh_token() succeed
         localStorage.setItem('refresh_token', 'r1');
 
-        // 1) First PATCH -> 401
         mockedAxios.patch.mockRejectedValueOnce({ response: { status: 401 } } as any);
-        // 2) Refresh POST -> returns new access
         mockedAxios.post.mockResolvedValueOnce({ data: { access: 'a2' } } as any);
-        // 3) Retried PATCH -> success
         mockedAxios.patch.mockResolvedValueOnce({ data: { id: 10, note: 'ok' } } as any);
 
         await expect(api.updateWordNote(10, 'ok')).resolves.toEqual({ id: 10, note: 'ok' });
@@ -304,7 +285,6 @@ describe('updateWordNote / delete_word', () => {
     });
 
     test('delete_word 401 → refresh → retry ok', async () => {
-        // Make refresh_token() succeed
         localStorage.setItem('refresh_token', 'r1');
 
         mockedAxios.delete.mockRejectedValueOnce({ response: { status: 401 } } as any);
@@ -317,7 +297,6 @@ describe('updateWordNote / delete_word', () => {
 
 
 describe('convertTextToSpeech & playAudio', () => {
-    // Mock URL methods used by TTS & audio
     const origCreate = URL.createObjectURL;
     const origRevoke = URL.revokeObjectURL;
 
@@ -349,11 +328,8 @@ describe('convertTextToSpeech & playAudio', () => {
 
         const base64 = btoa('xyz');
 
-        // 1) first /audio/ call -> 401
         mockedAxios.post.mockRejectedValueOnce({ response: { status: 401 } } as any);
-        // 2) /token/refresh/ -> returns access
         mockedAxios.post.mockResolvedValueOnce({ data: { access: 'a2' } } as any);
-        // 3) retried /audio/ -> success payload
         mockedAxios.post.mockResolvedValueOnce({
             data: { success: true, audio_data: base64, content_type: 'audio/mpeg' },
         } as any);
@@ -377,16 +353,13 @@ describe('convertTextToSpeech & playAudio', () => {
             onended: (() => void) | null = null;
             onerror: (() => void) | null = null;
             play = jest.fn().mockImplementation(() => {
-                // simulate async then end
                 setTimeout(() => this.onended && this.onended(), 0);
                 return Promise.resolve();
             });
         }
-        // @ts-ignore
         global.Audio = FakeAudio as any;
 
         await expect(api.playAudio('blob:audio')).resolves.toBeUndefined();
-        // revoke called when ended
         await new Promise((r) => setTimeout(r, 1));
         expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:audio');
     });
@@ -401,7 +374,6 @@ describe('convertTextToSpeech & playAudio', () => {
                 return Promise.resolve();
             });
         }
-        // @ts-ignore
         global.Audio = FakeAudioErr as any;
 
         await expect(api.playAudio('blob:oops')).rejects.toThrow('Failed to play audio');
