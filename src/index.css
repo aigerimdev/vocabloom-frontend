@@ -172,12 +172,12 @@ audio {
 }
 
 .protected-main {
-  background: linear-gradient(0deg, rgb(249 249 249 / 0%) 0%, rgb(206 227 239) 100%), url('../assets/bg_protected_main.png');
+  background: linear-gradient(0deg,rgba(254, 255, 252, 0.033) 0%, rgba(244, 254, 219, 0.208) 15%, rgba(213, 231, 241, 1) 100%), url('../assets/bg_protected_main.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom;
   height: 100vh;
-  padding: 8vh 1rem 1rem 1rem; /* Adjust for fixed Navbar */
+  padding: 8vh 1rem 1rem 1rem;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-purple-color) transparent;
