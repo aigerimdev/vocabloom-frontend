@@ -1,57 +1,9 @@
-// import { render, screen, waitFor } from '@testing-library/react';
-// import { MemoryRouter, Routes, Route } from 'react-router-dom';
-// import RootRedirect from './RootRedirect';
-// import { useAuth as mockUseAuth } from '../context/useAuth';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import PersonalWordForm from './PersonalWordForm';
+import { WordData } from '../types/word';
 
-// jest.mock('../context/useAuth');
-// jest.mock('../pages/WelcomePage', () => () => <div>Welcome Page</div>);
 
-// describe('RootRedirect', () => {
-//     it('shows loading initially', () => {
-//         (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: false, loading: true });
-
-//         render(
-//             <MemoryRouter>
-//                 <RootRedirect />
-//             </MemoryRouter>
-//         );
-
-//         expect(screen.getByText(/loading.../i)).toBeInTheDocument();
-//     });
-
-//     it('redirects to /home if authenticated', async () => {
-//         (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: true, loading: false });
-
-//         render(
-//             <MemoryRouter initialEntries={['/']}>
-//                 <Routes>
-//                     <Route path="/" element={<RootRedirect />} />
-//                     <Route path="/home" element={<div>Home Page</div>} />
-//                 </Routes>
-//             </MemoryRouter>
-//         );
-
-//         await waitFor(() => {
-//             expect(screen.getByText(/home page/i)).toBeInTheDocument();
-//         });
-//     });
-
-//     it('shows WelcomePage if not authenticated', async () => {
-//         (mockUseAuth as jest.Mock).mockReturnValue({ isAuthenticated: false, loading: false });
-
-//         render(
-//             <MemoryRouter>
-//                 <RootRedirect />
-//             </MemoryRouter>
-//         );
-
-//         await waitFor(() => {
-//             expect(screen.getByText(/welcome page/i)).toBeInTheDocument();
-//         });
-//     });
-// });
-
-// Mocks must be declared BEFORE importing the component
 jest.mock('./TagDropdown', () => (props: any) => (
     <button type="button" onClick={() => props.onSelect?.(42, 'Selected')}>
         Select Tag
@@ -70,27 +22,16 @@ jest.mock('./ConfirmationModal', () => (props: any) => {
     );
 });
 
-import React from 'react';
-import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import PersonalWordForm from './PersonalWordForm';
-import { WordData } from '../types/word';
-
-// Disable native HTML form validation globally (no node access)
-const checkValiditySpy = jest
-    .spyOn(HTMLFormElement.prototype, 'checkValidity')
-    .mockImplementation(() => true);
-const reportValiditySpy = jest
-    .spyOn(HTMLFormElement.prototype, 'reportValidity')
-    .mockImplementation(() => true);
-
 const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => { });
 
 afterEach(() => {
     jest.clearAllMocks();
-    checkValiditySpy.mockClear();
-    reportValiditySpy.mockClear();
 });
+
+const disableNativeValidation = () => {
+    const form = screen.getByRole('form', { name: /personal word form/i }) as HTMLFormElement;
+    form.noValidate = true;
+};
 
 const setup = (overrides?: Partial<React.ComponentProps<typeof PersonalWordForm>>) => {
     const onClose = jest.fn();
@@ -109,6 +50,7 @@ const setup = (overrides?: Partial<React.ComponentProps<typeof PersonalWordForm>
         />
     );
 
+    disableNativeValidation();
     return { onClose, onSave, setTags };
 };
 
@@ -143,11 +85,12 @@ test('validates required fields: definition', async () => {
 
 test('add/remove meaning & definition works', async () => {
     setup();
+
     // Add a second definition
     await userEvent.click(screen.getByRole('button', { name: /\+ add definition/i }));
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(2);
 
-    // Remove the most recent definition by clicking the last "×" button
+    // Remove the most recent definition (last ×)
     const removeDefButtons = screen.getAllByRole('button', { name: '×' });
     await userEvent.click(removeDefButtons[removeDefButtons.length - 1]);
     expect(screen.getAllByPlaceholderText(/enter definition/i)).toHaveLength(1);
@@ -156,7 +99,7 @@ test('add/remove meaning & definition works', async () => {
     await userEvent.click(screen.getByRole('button', { name: /\+ add meaning/i }));
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(2);
 
-    // Remove one meaning by clicking the first visible "Remove" button
+    // Remove one meaning (first "Remove")
     const removeMeaningButtons = screen.getAllByRole('button', { name: /remove/i });
     await userEvent.click(removeMeaningButtons[0]);
     expect(screen.getAllByText(/meaning \d+/i)).toHaveLength(1);
@@ -171,7 +114,9 @@ test('successful submit normalizes payload and includes selected tag', async () 
     await userEvent.type(screen.getByPlaceholderText(/enter definition/i), '  greeting  ');
     await userEvent.type(screen.getByPlaceholderText(/enter example/i), '  hi!  ');
 
+    // Click mocked TagDropdown
     await userEvent.click(screen.getByRole('button', { name: /select tag/i }));
+
     await userEvent.click(screen.getByRole('button', { name: /save word/i }));
 
     expect(onSave).toHaveBeenCalledTimes(1);
@@ -204,15 +149,15 @@ test('onSave error shows modal with mapped messages', async () => {
         />
     );
 
+    disableNativeValidation();
+
     const fillValid = async () => {
         const word = screen.getByLabelText(/word \*/i);
         const def = screen.getAllByPlaceholderText(/enter definition/i)[0];
 
         await userEvent.clear(word);
         await userEvent.type(word, 'hello');
-
         await userEvent.selectOptions(screen.getByRole('combobox'), 'noun');
-
         await userEvent.clear(def);
         await userEvent.type(def, 'greeting');
     };
@@ -239,10 +184,10 @@ test('onSave error shows modal with mapped messages', async () => {
     await userEvent.click(within(m3).getByRole('button', { name: /ok/i }));
 });
 
-test('close button calls onClose', async () => {
+test('close button and backdrop click call onClose', async () => {
     const onClose = jest.fn();
 
-    render(
+    const { rerender } = render(
         <PersonalWordForm
             isOpen
             onClose={onClose}
@@ -252,6 +197,26 @@ test('close button calls onClose', async () => {
         />
     );
 
+    disableNativeValidation();
+
+    // close button
     await userEvent.click(screen.getByRole('button', { name: '×' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    // open again
+    onClose.mockClear();
+    rerender(
+        <PersonalWordForm
+            isOpen
+            onClose={onClose}
+            onSave={jest.fn()}
+            tags={[]}
+            setTags={jest.fn()}
+        />
+    );
+
+    disableNativeValidation();
+    const backdrop = screen.getByTestId('personal-word-form-backdrop');
+    await userEvent.click(backdrop);
     expect(onClose).toHaveBeenCalledTimes(1);
 });

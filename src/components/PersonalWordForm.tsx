@@ -218,7 +218,9 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="personal-word-form-backdrop" onClick={handleBackdropClick}>
+        <div className="personal-word-form-backdrop"
+            data-testid="personal-word-form-backdrop"
+            onClick={handleBackdropClick}>
             <div className="personal-word-form-container">
                 <div className="personal-word-form-header">
                     <button type="button" className="close-button" onClick={onClose}>
@@ -227,7 +229,9 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                     <h2>Create Your Own Word</h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="personal-word-form">
+                <form onSubmit={handleSubmit}
+                    className="personal-word-form"
+                    aria-label="personal word form">
                     {/* Word Input */}
                     <div className="form-group">
                         <label htmlFor="word">Word *</label>
