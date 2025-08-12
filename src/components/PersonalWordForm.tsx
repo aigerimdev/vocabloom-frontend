@@ -294,7 +294,7 @@ const PersonalWordForm: React.FC<PersonalWordFormProps> = ({
                                         required
                                     >
                                         <option value="">Select part of speech</option>
-                                        <option value="non_applicable">N/A</option>
+                                        <option value="unknown">N/A</option>
                                         <option value="noun">Noun</option>
                                         <option value="verb">Verb</option>
                                         <option value="adjective">Adjective</option>
