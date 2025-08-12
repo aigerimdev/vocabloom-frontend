@@ -18,10 +18,10 @@ It helps users build and organize their vocabulary with tools that go beyond a b
 
 ## 🚀 Demo
 - Demo video here: [![Vocabloom Demo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)]
-- Live app: https://vocabloomapp.netlify.app
-- Backend URL: https://vocabloom-backend.onrender.com/api/schema/swagger-ui/#/Audio/audio_create
-- Frontend Repo: https://github.com/aigerimdev/vocabloom-frontend
-- Frontend Repo: https://github.com/linakl19/vocabloom_backend
+- Live app: [Try the live app](https://vocabloomapp.netlify.app/)
+- Backend URL: [View bakckend url](https://vocabloom-backend.onrender.com/api/schema/swagger-ui/#/Audio/audio_create)
+- Frontend Repo: [View frontend code](https://github.com/aigerimdev/vocabloom-frontend)
+- Backend Repo: [View backend code](https://github.com/linakl19/vocabloom_backend)
 
 ## **MVP Features**
 - Search words with phonetics, definitions, part of speech, examples, and audio  
@@ -76,12 +76,36 @@ Visit: http://localhost:5173
 npm test
 ```
 
-## User Flow
-- Component Relationship Diagram: https://www.canva.com/design/DAGt2jtDDAE/DH_6OfWdCx1uRhStY0j9iA/edit?ui=eyJIIjp7IkEiOnRydWV9fQ
-- User Flow Diagram: https://www.canva.com/design/DAGvhzw1iVE/XuTrizhOCrFZ13kpLiPTog/edit?ui=eyJIIjp7IkEiOnRydWV9fQ
-## Team
-**Ada Developers Academy C23**
-- **Aigerim Kalygulova**
-  - GitHub: https://github.com/aigerimdev
-- **Lina Martines** 
-  - GitHub: https://github.com/linakl19
+## Acknowledgments
+
+### Ada Developers Academy - Cohort 23
+This project is proudly developed as part of **Ada Developers Academy Cohort 23** capstone project. VocaBloom represents the culmination of our intensive full-stack software development journey.
+
+### Team
+- **Aigerim Kalygulova** - [GitHub](https://github.com/aigerimdev/)
+- **Lina Martinez** - [GitHub](https://github.com/linakl19/)
+
+### Special Thanks
+We extend our heartfelt gratitude to:
+
+- **Ada Instructors** - For their expertise, patience, and guidance throughout our learning journey
+- **Ada Volunteers** - For sharing their industry knowledge and providing invaluable mentorship
+- **Ada Staff** - For creating an inclusive and supportive learning environment
+- **Cohort 23 Classmates** - For the collaboration, support, and friendship that made this journey memorable
+
+### Technology Partners
+- **React** for building dynamic user interfaces  
+- **TypeScript** for type-safe and maintainable code  
+- **Vite** for fast development and optimized builds  
+- **React Router** for seamless page navigation  
+- **Axios** for HTTP requests to the backend API  
+- **Font Awesome** for icons and UI enhancements  
+- **Jest** & **React Testing Library** for unit and integration testing  
+- The **open-source community** for excellent documentation and support
+
+### Ada Mission
+This project reflects Ada's mission to diversify the tech industry by preparing women+ and gender-diverse individuals for careers in software development. We're grateful to be part of this transformative program.
+
+---
+
+**Built with ❤️ by Aigerim & Lina | Ada Developers Academy c23 for language learners everywhere!** 🌍📚✨
