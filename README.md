@@ -44,10 +44,6 @@ It helps users build and organize their vocabulary with tools that go beyond a b
 - **Fronted Testing:** Jest, React Testing Library
 
 ## How It Works
-- The frontend talks to the Django API.
-- Authentication uses **access and refresh tokens** for secure login and session management.
-- After login, users can search, save, tag, and write notes.
-## How It Works
 - The React frontend talks to a Django REST API.
 - Authentication uses **access** and **refresh** tokens for secure login and session renewal.
 - After signing in, users can:
