@@ -18,6 +18,8 @@ It helps users build and organize their vocabulary with tools that go beyond a b
 
 ## 🚀 Demo
 - Demo video here: [Vocabloom Demo Video](https://www.youtube.com/watch?v=VhxULgJnfPs)
+  [![Alt text](https://img.youtube.com/vi/VhxULgJnfPs/0.jpg)](https://youtu.be/VhxULgJnfPs)
+  
 - Live app: [Try the live app](https://vocabloomapp.netlify.app/)
 - Backend URL: [View bakckend url](https://vocabloom-backend.onrender.com/api/schema/swagger-ui/#/Audio/audio_create)
 - Frontend Repo: [View frontend code](https://github.com/aigerimdev/vocabloom-frontend)
