@@ -12,6 +12,15 @@
     transition: all 0.3s ease;
 }
 
+.word-not-found {
+    color: red;
+    width: 100%;
+    text-align: center;
+    margin-bottom: .5rem;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
 .create-personal-word-btn:hover {
     background: linear-gradient(0deg, rgba(208, 239, 206, 1) 0%, rgba(250, 250, 250, 1) 100%);
     transform: scale(1.03);

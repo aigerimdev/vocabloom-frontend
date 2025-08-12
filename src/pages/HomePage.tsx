@@ -89,6 +89,7 @@ const HomePage = () => {
                 onChange={setSearchTerm}
                 onSearch={handleSearch}
             />
+            {notFound && <p className='word-not-found'>Sorry! Word not found.</p>}
 
             {wordData && (
                 <WordResultCard
@@ -115,7 +116,6 @@ const HomePage = () => {
                 setTags={setTags}
             />
 
-            {notFound && <p style={{ color: 'red' }}>Sorry! Word not found.</p>}
             <div className="button-wrapper">
                 <div className="bottom-buttons">
                     <button className="action-button" onClick={() => navigate('/my-words')}>
