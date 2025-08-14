@@ -105,6 +105,12 @@ We extend our heartfelt gratitude to:
 - **Jest** & **React Testing Library** for unit and integration testing  
 - The **open-source community** for excellent documentation and support
 
+## Frontend Documentation
+
+- [Frontend Components Documentation](docs/components.md)
+- [User Flow Diagram](https://www.canva.com/design/DAGvhzw1iVE/XuTrizhOCrFZ13kpLiPTog/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0)
+- [Component Relationship Diagram](https://www.canva.com/design/DAGt2jtDDAE/DH_6OfWdCx1uRhStY0j9iA/edit)
+
 ### Ada Mission
 This project reflects Ada's mission to diversify the tech industry by preparing women+ and gender-diverse individuals for careers in software development. We're grateful to be part of this transformative program.
 
